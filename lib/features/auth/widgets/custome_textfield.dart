@@ -17,7 +17,7 @@ TextFormField kTextField({
   return TextFormField(
     controller: controller,
     // cursorColor: cursorColor,
-    style: Theme.of(context).textTheme.bodyMedium,
+    style: Theme.of(context).textTheme.titleLarge,
     cursorHeight: 5,
     textAlign: TextAlign.center,
     keyboardType: textInputType,
@@ -45,7 +45,7 @@ TextFormField kTextField({
       ),
       filled: true,
       hintText: hintText,
-      hintStyle: Theme.of(context).textTheme.bodyMedium,
+      hintStyle: Theme.of(context).textTheme.titleLarge,
       counterText: "",
     ),
     focusNode: focusNode,

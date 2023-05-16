@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tcean/features/home/widgets/image_slider.dart';
 import 'package:tcean/theme/app_colors.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -75,46 +76,60 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
 
-            //TODO: Offer Section
+            16.heightBox,
 
-            Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
+            //TODO: Category Section
+            SizedBox(
+              height: 100,
+              width: context.percentWidth * 100,
               child: Row(
                 children: [
-                  Container(
-                    height: 80,
-                    width: 80,
-                    decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(16)),
-                    child: Icon(
-                      Icons.sell,
-                      size: 50,
-                    ),
-                  ),
-                  16.widthBox,
                   Expanded(
+                    flex: 1,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "50% OFF",
-                          style: GoogleFonts.josefinSans().copyWith(
-                              fontSize: 30, fontWeight: FontWeight.bold),
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Icon(
+                            Icons.category,
+                            size: 30,
+                          ).p(20),
                         ),
-                        Text(
-                          "for all Men's T-shirts",
-                          style: GoogleFonts.poppins(),
-                        )
+                        Text("All"),
                       ],
                     ),
                   ),
-                  IconButton(
-                      onPressed: () {}, icon: Icon(Icons.arrow_forward_ios))
+                  VerticalDivider(
+                    indent: 16,
+                    endIndent: 16,
+                    thickness: 2,
+                  ),
+                  Expanded(
+                      flex: 4,
+                      child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => Column(
+                                children: [
+                                  Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    child: Icon(
+                                      Icons.category,
+                                      size: 30,
+                                    ).p(20),
+                                  ),
+                                  Text("All"),
+                                ],
+                              ),
+                          separatorBuilder: (_, __) => 16.widthBox,
+                          itemCount: 10)),
                 ],
-              ).pOnly(left: 16, top: 16, bottom: 16),
+              ),
             ),
+
             16.heightBox,
 
             //TODO: Special Section
@@ -200,54 +215,117 @@ class HomeScreen extends StatelessWidget {
             ),
             16.heightBox,
 
-            //TODO: Category Section
+            //TODO: Offer Section
+
+            Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16)),
+              child: Row(
+                children: [
+                  Container(
+                    height: 80,
+                    width: 80,
+                    decoration: BoxDecoration(
+                        color: Colors.grey.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(16)),
+                    child: Icon(
+                      Icons.sell,
+                      size: 50,
+                    ),
+                  ),
+                  16.widthBox,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "50% OFF",
+                          style: GoogleFonts.josefinSans().copyWith(
+                              fontSize: 30, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "for all Men's T-shirts",
+                          style: GoogleFonts.poppins(),
+                        )
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                      onPressed: () {}, icon: Icon(Icons.arrow_forward_ios))
+                ],
+              ).pOnly(left: 16, top: 16, bottom: 16),
+            ),
+
+            //TODO: Trendy Section
+            16.heightBox,
             SizedBox(
-              height: 100,
+              height: 160,
+              width: context.percentWidth * 100,
+              child: Row(
+                children: [
+                  RotatedBox(
+                    quarterTurns: 3,
+                    child: Text(
+                      "Trendy",
+                      style: GoogleFonts.poppins()
+                          .copyWith(fontSize: 25, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16)),
+                          child: Image.asset(
+                            Dummy.products[index].productImageUrls.first,
+                          ),
+                        );
+                      },
+                      separatorBuilder: (_, __) => 8.widthBox,
+                      itemCount: Dummy.products.length,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            //TODO: Image Slider
+            16.heightBox,
+            imgSlider(),
+
+            //TODO: Best Selling Section
+            16.heightBox,
+            SizedBox(
+              height: 160,
               width: context.percentWidth * 100,
               child: Row(
                 children: [
                   Expanded(
-                    flex: 1,
-                    child: Column(
-                      children: [
-                        Card(
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Card(
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(16)),
+                          child: Image.asset(
+                            Dummy.products[index].productImageUrls.first,
                           ),
-                          child: Icon(
-                            Icons.category,
-                            size: 30,
-                          ).p(20),
-                        ),
-                        Text("All"),
-                      ],
+                        );
+                      },
+                      separatorBuilder: (_, __) => 8.widthBox,
+                      itemCount: Dummy.products.length,
                     ),
                   ),
-                  VerticalDivider(
-                    indent: 16,
-                    endIndent: 16,
-                    thickness: 2,
+                  RotatedBox(
+                    quarterTurns: 1,
+                    child: Text(
+                      "Best Selling",
+                      style: GoogleFonts.poppins()
+                          .copyWith(fontSize: 25, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                  Expanded(
-                      flex: 4,
-                      child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) => Column(
-                                children: [
-                                  Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    child: Icon(
-                                      Icons.category,
-                                      size: 30,
-                                    ).p(20),
-                                  ),
-                                  Text("All"),
-                                ],
-                              ),
-                          separatorBuilder: (_, __) => 16.widthBox,
-                          itemCount: 10)),
                 ],
               ),
             ),

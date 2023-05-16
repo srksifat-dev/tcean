@@ -36,10 +36,23 @@ class _MainScreenState extends State<MainScreen> {
             ),
             4.widthBox,
             Text(
-              "tcean",
+              "tce",
               style: GoogleFonts.josefinSans()
                   .copyWith(fontWeight: FontWeight.bold, fontSize: 40),
-            )
+            ),
+            RotatedBox(
+              quarterTurns: 2,
+              child: Text(
+                "e",
+                style: GoogleFonts.josefinSans()
+                    .copyWith(fontWeight: FontWeight.bold, fontSize: 40),
+              ),
+            ),
+            Text(
+              "n",
+              style: GoogleFonts.josefinSans()
+                  .copyWith(fontWeight: FontWeight.bold, fontSize: 40),
+            ),
           ],
         ),
         actions: [
