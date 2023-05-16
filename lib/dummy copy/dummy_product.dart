@@ -1,0 +1,392 @@
+
+
+import '../models/availability.dart';
+import '../models/cart.dart';
+import '../models/product.dart';
+
+class Dummy {
+  static List<Product> products = [
+    Product(
+        productName: "productName1",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Favorite"],
+        productCreated: "1-4-2023",
+        productID: 1),
+    Product(
+        productName: "productName2",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 2),
+    Product(
+        productName: "productName3",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Family"],
+        productCreated: "1-4-2023",
+        productID: 3),
+    Product(
+        productName: "productName4",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 4),
+    Product(
+        productName: "productName5",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 5),
+    Product(
+        productName: "productName6",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 6),
+    Product(
+        productName: "productName7",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Family"],
+        productCreated: "1-4-2023",
+        productID: 7),
+    Product(
+        productName: "productName8",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Family"],
+        productCreated: "1-4-2023",
+        productID: 8),
+    Product(
+        productName: "productName9",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Couple"],
+        productCreated: "1-4-2023",
+        productID: 9),
+    Product(
+        productName: "productName10",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Couple"],
+        productCreated: "1-4-2023",
+        productID: 10),
+    Product(
+        productName: "productName11",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Favorite"],
+        productCreated: "1-4-2023",
+        productID: 11),
+    Product(
+        productName: "productName12",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 12),
+    Product(
+        productName: "productName13",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Family"],
+        productCreated: "1-4-2023",
+        productID: 13),
+    Product(
+        productName: "productName14",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 14),
+    Product(
+        productName: "productName15",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 15),
+    Product(
+        productName: "productName16",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 16),
+    Product(
+        productName: "productName17",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Family"],
+        productCreated: "1-4-2023",
+        productID: 17),
+    Product(
+        productName: "productName18",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Family"],
+        productCreated: "1-4-2023",
+        productID: 18),
+    Product(
+        productName: "productName19",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Couple"],
+        productCreated: "1-4-2023",
+        productID: 19),
+    Product(
+        productName: "productName20",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Couple"],
+        productCreated: "1-4-2023",
+        productID: 20),
+    Product(
+        productName: "productName21",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Favorite"],
+        productCreated: "1-4-2023",
+        productID: 21),
+    Product(
+        productName: "productName22",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 22),
+    Product(
+        productName: "productName23",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Family"],
+        productCreated: "1-4-2023",
+        productID: 23),
+    Product(
+        productName: "productName24",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 24),
+    Product(
+        productName: "productName25",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 25),
+    Product(
+        productName: "productName26",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 26),
+    Product(
+        productName: "productName27",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Family"],
+        productCreated: "1-4-2023",
+        productID: 27),
+    Product(
+        productName: "productName28",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Family"],
+        productCreated: "1-4-2023",
+        productID: 28),
+    Product(
+        productName: "productName29",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Couple"],
+        productCreated: "1-4-2023",
+        productID: 29),
+    Product(
+        productName: "productName30",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Couple"],
+        productCreated: "1-4-2023",
+        productID: 30),
+    Product(
+        productName: "productName31",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Favorite"],
+        productCreated: "1-4-2023",
+        productID: 31),
+    Product(
+        productName: "productName32",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 32),
+    Product(
+        productName: "productName33",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Family"],
+        productCreated: "1-4-2023",
+        productID: 33),
+    Product(
+        productName: "productName34",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 34),
+    Product(
+        productName: "productName35",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 35),
+    Product(
+        productName: "productName36",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 36),
+    Product(
+        productName: "productName37",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Family"],
+        productCreated: "1-4-2023",
+        productID: 37),
+    Product(
+        productName: "productName38",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Family"],
+        productCreated: "1-4-2023",
+        productID: 38),
+    Product(
+        productName: "productName39",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Couple"],
+        productCreated: "1-4-2023",
+        productID: 39),
+    Product(
+        productName: "productName40",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Couple"],
+        productCreated: "1-4-2023",
+        productID: 40),
+    Product(
+        productName: "productName41",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Favorite"],
+        productCreated: "1-4-2023",
+        productID: 41),
+    Product(
+        productName: "productName42",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 42),
+    Product(
+        productName: "productName43",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Family"],
+        productCreated: "1-4-2023",
+        productID: 43),
+    Product(
+        productName: "productName44",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 44),
+    Product(
+        productName: "productName45",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 45),
+    Product(
+        productName: "productName46",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 46),
+    Product(
+        productName: "productName47",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Family"],
+        productCreated: "1-4-2023",
+        productID: 47),
+    Product(
+        productName: "productName48",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Family"],
+        productCreated: "1-4-2023",
+        productID: 48),
+    Product(
+        productName: "productName49",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Couple"],
+        productCreated: "1-4-2023",
+        productID: 49),
+    Product(
+        productName: "productName50",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Couple"],
+        productCreated: "1-4-2023",
+        productID: 50),
+    Product(
+        productName: "productName51",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Favorite"],
+        productCreated: "1-4-2023",
+        productID: 51),
+    Product(
+        productName: "productName52",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 52),
+    Product(
+        productName: "productName53",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Family"],
+        productCreated: "1-4-2023",
+        productID: 53),
+    Product(
+        productName: "productName54",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 54),
+    Product(
+        productName: "productName55",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 55),
+    Product(
+        productName: "productName56",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Programming"],
+        productCreated: "1-4-2023",
+        productID: 56),
+    Product(
+        productName: "productName57",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Family"],
+        productCreated: "1-4-2023",
+        productID: 57),
+    Product(
+        productName: "productName58",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Family"],
+        productCreated: "1-4-2023",
+        productID: 58),
+    Product(
+        productName: "productName59",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Couple"],
+        productCreated: "1-4-2023",
+        productID: 59),
+    Product(
+        productName: "productName60",
+        productImageUrls: ["assets/images/tcean-logo.png"],
+        categories: ["All", "Couple"],
+        productCreated: "1-4-2023",
+        productID: 60),
+  ];
+
+  List<Availability> availabilities = [
+    Availability(color: "white", size: "s"),
+    Availability(color: "white", size: "m"),
+    Availability(color: "white", size: "l"),
+    Availability(color: "white", size: "xl"),
+    Availability(color: "black", size: "m"),
+    Availability(color: "white", size: "xl"),
+    Availability(color: "blue", size: "s"),
+    Availability(color: "white", size: "m"),
+    Availability(color: "white", size: "l"),
+    Availability(color: "white", size: "xl"),
+  ];
+
+  List<Cart> carts = [
+    Cart(product: products[0], quantity: 1,color: "white",size: "m"),
+    Cart(product: products[1], quantity: 2,color: "black",size: "l"),
+    Cart(product: products[2], quantity: 3,color: "white",size: "xl"),
+    Cart(product: products[3], quantity: 4,color: "black",size: "xxl"),
+    Cart(product: products[4], quantity: 5,color: "white",size: "xxxl"),
+
+  ];
+}

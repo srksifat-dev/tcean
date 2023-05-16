@@ -1,30 +1,34 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../features/auth/controller/auth_controller.dart';
+import '../features/auth/screens/auth_screen.dart';
+import '../features/auth/screens/otp_screen.dart';
 import '../main.dart';
+import '../main_screen.dart';
 import 'route_const.dart';
 
 class AppRouter {
   GoRouter router = GoRouter(
-      // redirect: (context, state) {
-      //   final loggedIn = loginInfo.isLoggedIn;
-      //   final isLoggingIn = state.location == "/${RouteConst.kAuth}";
+      redirect: (context, state) {
+        final loggedIn = loginInfo.isLoggedIn;
+        final isLoggingIn = state.location == "/${RouteConst.kAuth}";
 
-      //   if (!loggedIn && !isLoggingIn) return "/${RouteConst.kAuth}";
-      //   if (loggedIn && isLoggingIn) return "/";
+        if (!loggedIn && !isLoggingIn) return "/${RouteConst.kAuth}";
+        if (loggedIn && isLoggingIn) return "/";
 
-      //   return null;
-      // },
-      // refreshListenable: loginInfo,
+        return null;
+      },
+      refreshListenable: loginInfo,
       routes: [
-        // GoRoute(
-        //     name: RouteConst.kHomeScreen,
-        //     path: "/",
-        //     pageBuilder: (context, state) => CupertinoPage(
-        //           key: state.pageKey,
-        //             child: MainScreen(),
-        //         ),
-        //     routes: [
+        GoRoute(
+            name: RouteConst.kHomeScreen,
+            path: "/",
+            pageBuilder: (context, state) => CupertinoPage(
+                  key: state.pageKey,
+                  child: MainScreen(),
+                ),
+            routes: [
               // GoRoute(
               //   name: RouteConst.kCart,
               //   path: "cart",
@@ -69,20 +73,20 @@ class AppRouter {
               //         },
               //       ),
               //     ]),
-            // ]),
-        // GoRoute(
-        //     name: RouteConst.kAuth,
-        //     path: "/auth",
-        //     pageBuilder: (context, state) =>
-        //         CupertinoPage(key: state.pageKey, child: AuthScreen()),
-        //     routes: [
-        //       GoRoute(
-        //         name: RouteConst.kOtp,
-        //         path: "otp",
-        //         pageBuilder: (context, state) =>
-        //             CupertinoPage(key: state.pageKey, child: OtpScreen("")),
-        //       ),
-        //     ]),
+            ]),
+        GoRoute(
+            name: RouteConst.kAuth,
+            path: "/auth",
+            pageBuilder: (context, state) =>
+                CupertinoPage(key: state.pageKey, child: AuthScreen()),
+            routes: [
+              GoRoute(
+                name: RouteConst.kOtp,
+                path: "otp",
+                pageBuilder: (context, state) =>
+                    CupertinoPage(key: state.pageKey, child: OtpScreen("")),
+              ),
+            ]),
         // GoRoute(
         //   name: RouteConst.kCategory,
         //   path: "/category/:categoryTitle",
