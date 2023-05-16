@@ -3,8 +3,11 @@ import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tcean/features/customize/screens/customize_screen.dart';
 import 'package:tcean/features/home/widgets/image_slider.dart';
+import 'package:tcean/routes/route_const.dart';
 import 'package:tcean/theme/app_colors.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -18,7 +21,9 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          context.goNamed(RouteConst.kCustomize);
+        },
         label: Text("Custom Your 👕"),
       ),
       body: SingleChildScrollView(
@@ -29,8 +34,9 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(
                   height: context.percentHeight * 5,
                   child: DefaultTextStyle(
-                    style: GoogleFonts.poppins()
-                        .copyWith(fontSize: 30, color: AppColors.kOceanLight),
+                    style: GoogleFonts.poppins().copyWith(
+                        fontSize: 30,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant),
                     child: AnimatedTextKit(
                       repeatForever: true,
                       animatedTexts: [
@@ -52,7 +58,6 @@ class HomeScreen extends StatelessWidget {
             Text(
               "Welcome to the ocean of tees",
               style: GoogleFonts.josefinSans().copyWith(
-                color: AppColors.kBlue,
                 fontSize: 50,
                 fontWeight: FontWeight.bold,
               ),
@@ -61,17 +66,15 @@ class HomeScreen extends StatelessWidget {
             SizedBox(
               height: context.percentHeight * 6,
               width: context.percentWidth * 100,
-              child: Flexible(
-                child: DefaultTextStyle(
-                  style: Theme.of(context).textTheme.bodyLarge!,
-                  child: AnimatedTextKit(
-                    isRepeatingAnimation: false,
-                    animatedTexts: [
-                      TypewriterAnimatedText(
-                          "Fashion is a form of self-expression and we are here for you to help you to express yourself!",
-                          textAlign: TextAlign.start),
-                    ],
-                  ),
+              child: DefaultTextStyle(
+                style: Theme.of(context).textTheme.bodyLarge!,
+                child: AnimatedTextKit(
+                  isRepeatingAnimation: false,
+                  animatedTexts: [
+                    TypewriterAnimatedText(
+                        "Fashion is a form of self-expression and we are here for you to help you to express yourself!",
+                        textAlign: TextAlign.start),
+                  ],
                 ),
               ),
             ),

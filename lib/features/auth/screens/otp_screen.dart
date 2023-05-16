@@ -20,23 +20,10 @@ class _OtpScreenState extends State<OtpScreen> {
   final defaultPinTheme = PinTheme(
     width: 56,
     height: 56,
-    textStyle: GoogleFonts.poppins().copyWith(color: AppColors.kSkyBlue),
+    textStyle: GoogleFonts.poppins().copyWith(fontSize: 20),
     decoration: BoxDecoration(),
   );
 
-  final cursor = Column(
-    mainAxisAlignment: MainAxisAlignment.end,
-    children: [
-      Container(
-        width: 56,
-        height: 3,
-        decoration: BoxDecoration(
-          color: AppColors.kSkyBlue,
-          borderRadius: BorderRadius.circular(8),
-        ),
-      ),
-    ],
-  );
   final preFilledWidget = Column(
     mainAxisAlignment: MainAxisAlignment.end,
     children: [
@@ -44,7 +31,6 @@ class _OtpScreenState extends State<OtpScreen> {
         width: 56,
         height: 3,
         decoration: BoxDecoration(
-          color: AppColors.kSkyBlue.withOpacity(0.3),
           borderRadius: BorderRadius.circular(8),
         ),
       ),
@@ -60,6 +46,20 @@ class _OtpScreenState extends State<OtpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cursor = Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Container(
+          width: 56,
+          height: 3,
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.onBackground,
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      ],
+    );
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Column(
@@ -70,21 +70,20 @@ class _OtpScreenState extends State<OtpScreen> {
               height: context.percentHeight * 40,
               child: Column(
                 children: [
-                  "Verification"
-                      .text
-                      .textStyle(Theme.of(context).textTheme.headlineLarge)
-                      .makeCentered(),
+                  Text(
+                    "Verification",
+                    style: GoogleFonts.josefinSans()
+                        .copyWith(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
                   50.heightBox,
-                  "Enter the code sent to the number"
-                      .text
-                      .textStyle(Theme.of(context).textTheme.titleMedium)
-                      .makeCentered(),
+                  Text(
+                    "Enter the code sent to the number",
+                    style: GoogleFonts.poppins().copyWith(
+                      fontSize: 20,
+                    ),
+                  ),
                   10.heightBox,
-                  widget.phoneNumber.text.xl.bold
-                      .color(AppColors.kSkyBlue)
-                      .textStyle(Theme.of(context).textTheme.bodyMedium)
-                      .xl3
-                      .makeCentered(),
+                  Text(widget.phoneNumber),
                 ],
               ),
             ),
@@ -107,17 +106,20 @@ class _OtpScreenState extends State<OtpScreen> {
                 loginInfo.isLoggedIn = true;
               },
             ).pOnly(bottom: context.percentHeight * 30),
-            "Don't receive code?"
-                .text
-                .textStyle(Theme.of(context).textTheme.bodyLarge)
-                .makeCentered(),
+            Center(
+              child: Text(
+                "Don't receive code?",
+                style: GoogleFonts.poppins().copyWith(fontSize: 20),
+              ),
+            ),
             10.heightBox,
             TextButton(
                 onPressed: () {},
-                child: "Resend Code"
-                    .text
-                    .textStyle(Theme.of(context).textTheme.titleSmall)
-                    .make())
+                child: Text(
+                  "Resend Code",
+                  style: GoogleFonts.poppins()
+                      .copyWith(fontSize: 25, fontWeight: FontWeight.bold),
+                ))
           ]),
     );
   }

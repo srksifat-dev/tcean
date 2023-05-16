@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tcean/features/customize/screens/customize_screen.dart';
 import '../features/auth/controller/auth_controller.dart';
 import '../features/auth/screens/auth_screen.dart';
 import '../features/auth/screens/otp_screen.dart';
@@ -45,14 +46,14 @@ class AppRouter {
               //     child: AccountScreen(),
               //   ),
               // ),
-              // GoRoute(
-              //   name: RouteConst.kCustomize,
-              //   path: "customize",
-              //   pageBuilder: (context, state) {
-              //     return CupertinoPage(
-              //         key: state.pageKey, child: CustomizedScreen());
-              //   },
-              // ),
+              GoRoute(
+                name: RouteConst.kCustomize,
+                path: "customize",
+                pageBuilder: (context, state) {
+                  return CupertinoPage(
+                      key: state.pageKey, child: CustomizeScreen());
+                },
+              ),
               // GoRoute(
               //     name: RouteConst.kProducts,
               //     path: "products",

@@ -9,7 +9,6 @@ TextFormField kTextField({
   // required Color textColor,
   required Color fillColor,
   required String hintText,
-  required Color hintTextColor,
   required int maxLength,
   required TextInputType textInputType,
   required String? Function(String?) validator,
@@ -30,7 +29,7 @@ TextFormField kTextField({
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide(color: AppColors.kBlue, width: 2),
+        borderSide: BorderSide( width: 2),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),

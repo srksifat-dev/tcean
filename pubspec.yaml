@@ -44,6 +44,9 @@ dependencies:
   appinio_swiper: ^2.0.0
   flutter_svg: ^2.0.5
   carousel_slider: ^4.2.1
+  file_picker: ^5.3.0
+  flutter_swipe_button: ^2.1.1+1
+  dynamic_color: ^1.6.5
 
 dev_dependencies:
   flutter_test:

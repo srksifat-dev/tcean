@@ -72,7 +72,6 @@ class _AuthScreenState extends State<AuthScreen> {
                 // textColor: AppColors.kBlue,
                 fillColor: Colors.white,
                 hintText: "01XXXXXXXXX",
-                hintTextColor: AppColors.kSkyBlue.withOpacity(0.5),
                 maxLength: 11,
                 textInputType: TextInputType.phone,
                 validator: (value) {
