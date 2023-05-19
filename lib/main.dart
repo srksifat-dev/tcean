@@ -15,9 +15,9 @@ class MyApp extends StatelessWidget {
     return DynamicColorBuilder(
       builder: (lightDynamic, darkDynamic) {
         return MaterialApp.router(
-          theme: ThemeData(useMaterial3: true, colorScheme: lightDynamic),
+          theme: ThemeData(useMaterial3: true, colorScheme: lightDynamic,textTheme: textTheme),
           darkTheme:
-              ThemeData(useMaterial3: true, colorScheme: darkDynamic),
+              ThemeData(useMaterial3: true, colorScheme: darkDynamic,textTheme: textTheme),
           themeMode: ThemeMode.system,
           routerConfig: AppRouter().router,
         );

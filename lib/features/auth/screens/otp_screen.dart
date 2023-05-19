@@ -72,18 +72,16 @@ class _OtpScreenState extends State<OtpScreen> {
                 children: [
                   Text(
                     "Verification",
-                    style: GoogleFonts.josefinSans()
-                        .copyWith(fontSize: 30, fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   50.heightBox,
-                  Text(
-                    "Enter the code sent to the number",
-                    style: GoogleFonts.poppins().copyWith(
-                      fontSize: 20,
-                    ),
-                  ),
+                  Text("Enter the code sent to the number",
+                      style: Theme.of(context).textTheme.bodyMedium),
                   10.heightBox,
-                  Text(widget.phoneNumber),
+                  Text(
+                    widget.phoneNumber,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
                 ],
               ),
             ),

@@ -1,28 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:tcean/features/account/screens/account_screen.dart';
-import 'package:tcean/features/cart/screens/cart_screen.dart';
-import 'package:tcean/features/favorite/screens/favorites_screen.dart';
-import 'package:tcean/features/home/screens/home_screen.dart';
-import 'package:tcean/features/shop/screens/shop_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  final Widget child;
+  const MainScreen({Key? key, required this.child}) : super(key: key);
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int bottomNavigationIndex = 0;
-  List<Widget> pages = [
-    HomeScreen(),
-    ShopScreen(),
-    FavoritesScreen(),
-    CartScreen(),
-    AccountScreen(),
-  ];
+  int bottomNavigationIndex(BuildContext context) {
+    final GoRouter route = GoRouter.of(context);
+    final String location = route.location;
+    switch (location) {
+      case "/explore":
+        return 0;
+      case "/store":
+        return 1;
+      case "/favorites":
+        return 2;
+      case "/cart":
+        return 3;
+      case "/account":
+        return 4;
+      default:
+        return 0;
+    }
+  }
+
+  void onTap(int value) {
+    switch (value) {
+      case 0:
+        return context.go("/explore");
+      case 1:
+        return context.go("/store");
+      case 2:
+        return context.go("/favorites");
+      case 3:
+        return context.go("/cart");
+      case 4:
+        return context.go("/account");
+      default:
+        return context.go("/explore");
+    }
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,21 +62,18 @@ class _MainScreenState extends State<MainScreen> {
             4.widthBox,
             Text(
               "tce",
-              style: GoogleFonts.josefinSans()
-                  .copyWith(fontWeight: FontWeight.bold, fontSize: 40),
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             RotatedBox(
               quarterTurns: 2,
               child: Text(
                 "e",
-                style: GoogleFonts.josefinSans()
-                    .copyWith(fontWeight: FontWeight.bold, fontSize: 40),
+                style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
             Text(
               "n",
-              style: GoogleFonts.josefinSans()
-                  .copyWith(fontWeight: FontWeight.bold, fontSize: 40),
+              style: Theme.of(context).textTheme.titleLarge,
             ),
           ],
         ),
@@ -69,14 +91,10 @@ class _MainScreenState extends State<MainScreen> {
         ],
         labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
         animationDuration: Duration(milliseconds: 1000),
-        selectedIndex: bottomNavigationIndex,
-        onDestinationSelected: (value) {
-          setState(() {
-            bottomNavigationIndex = value;
-          });
-        },
+        selectedIndex: bottomNavigationIndex(context),
+        onDestinationSelected: onTap,
       ),
-      body: pages[bottomNavigationIndex],
+      body: widget.child,
     );
   }
 }

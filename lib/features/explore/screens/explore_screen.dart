@@ -6,16 +6,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tcean/features/customize/screens/customize_screen.dart';
-import 'package:tcean/features/home/widgets/image_slider.dart';
+import 'package:tcean/features/explore/widgets/image_slider.dart';
 import 'package:tcean/routes/route_const.dart';
 import 'package:tcean/theme/app_colors.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../../../dummy copy/dummy_product.dart';
-import '../../shop/screens/product_details_screen.dart';
+import '../../../dummy/dummy_product.dart';
+import '../../store/screens/product_details_screen.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class ExploreScreen extends StatelessWidget {
+  const ExploreScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class HomeScreen extends StatelessWidget {
               height: context.percentHeight * 6,
               width: context.percentWidth * 100,
               child: DefaultTextStyle(
-                style: Theme.of(context).textTheme.bodyLarge!,
+                style: Theme.of(context).textTheme.bodySmall!,
                 child: AnimatedTextKit(
                   isRepeatingAnimation: false,
                   animatedTexts: [
@@ -79,143 +79,6 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
 
-            16.heightBox,
-
-            //TODO: Category Section
-            SizedBox(
-              height: 100,
-              width: context.percentWidth * 100,
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      children: [
-                        Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Icon(
-                            Icons.category,
-                            size: 30,
-                          ).p(20),
-                        ),
-                        Text("All"),
-                      ],
-                    ),
-                  ),
-                  VerticalDivider(
-                    indent: 16,
-                    endIndent: 16,
-                    thickness: 2,
-                  ),
-                  Expanded(
-                      flex: 4,
-                      child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) => Column(
-                                children: [
-                                  Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    child: Icon(
-                                      Icons.category,
-                                      size: 30,
-                                    ).p(20),
-                                  ),
-                                  Text("All"),
-                                ],
-                              ),
-                          separatorBuilder: (_, __) => 16.widthBox,
-                          itemCount: 10)),
-                ],
-              ),
-            ),
-
-            16.heightBox,
-
-            //TODO: Special Section
-
-            Text(
-              "New Arrival",
-              style: GoogleFonts.josefinSans()
-                  .copyWith(fontSize: 40, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: context.percentHeight * 40,
-              width: context.percentWidth * 80,
-              child: AppinioSwiper(
-                  loop: true,
-                  cardsBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (context) => ProductDetailsScreen(
-                                    productID: Dummy.products[index].productID
-                                        .toString())));
-                      },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16)),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Image.asset(Dummy
-                                      .products[index].productImageUrls.first)
-                                  .p(16),
-                            ),
-                            Divider(thickness: 2),
-                            SizedBox(
-                              width: context.percentWidth * 100,
-                              height: context.percentHeight * 7,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Dummy.products[index].productName.text
-                                          .textStyle(Theme.of(context)
-                                              .textTheme
-                                              .titleMedium)
-                                          .make()
-                                          .pOnly(left: 16),
-                                      Row(
-                                        children: Dummy
-                                            .products[index].categories
-                                            .map((e) => "#$e"
-                                                .text
-                                                .textStyle(Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall)
-                                                .make()
-                                                .pOnly(left: 16))
-                                            .toList(),
-                                      )
-                                    ],
-                                  )),
-                                  SizedBox(
-                                    width: 50,
-                                    height: 50,
-                                    child: IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(Icons.favorite_border)),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                  cardsCount: Dummy.products.length),
-            ),
             16.heightBox,
 
             //TODO: Offer Section
@@ -243,12 +106,11 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         Text(
                           "50% OFF",
-                          style: GoogleFonts.josefinSans().copyWith(
-                              fontSize: 30, fontWeight: FontWeight.bold),
+                          style: Theme.of(context).textTheme.titleSmall,
                         ),
                         Text(
                           "for all Men's T-shirts",
-                          style: GoogleFonts.poppins(),
+                          style: Theme.of(context).textTheme.bodyMedium,
                         )
                       ],
                     ),
@@ -259,10 +121,92 @@ class HomeScreen extends StatelessWidget {
               ).pOnly(left: 16, top: 16, bottom: 16),
             ),
 
+            16.heightBox,
+
+            //TODO: Special Section
+
+            Text(
+              "New Arrival",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            SizedBox(
+              height: context.percentHeight * 40,
+              width: context.percentWidth * 80,
+              child: AppinioSwiper(
+                  loop: true,
+                  cardsBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        context.pushNamed(RouteConst.kProductDetails,
+                            pathParameters: {
+                              "productID":
+                                  Dummy.products[index].productID.toString()
+                            });
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Image.asset(Dummy
+                                      .products[index].productImageUrls.first)
+                                  .p(16),
+                            ),
+                            Divider(thickness: 2),
+                            SizedBox(
+                              width: context.percentWidth * 100,
+                              height: context.percentHeight * 7,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        Dummy.products[index].productName,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall,
+                                      ).pOnly(left: 16),
+                                      Row(
+                                        children:
+                                            Dummy.products[index].categories
+                                                .map((e) => Text(
+                                                      "#$e",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodySmall,
+                                                    ).pOnly(left: 16))
+                                                .toList(),
+                                      )
+                                    ],
+                                  )),
+                                  SizedBox(
+                                    width: 50,
+                                    height: 50,
+                                    child: IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(Icons.favorite_border)),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  cardsCount: Dummy.products.length),
+            ),
+            16.heightBox,
+
             //TODO: Trendy Section
             16.heightBox,
             SizedBox(
-              height: 160,
+              height: context.percentHeight * 23,
               width: context.percentWidth * 100,
               child: Row(
                 children: [
@@ -278,11 +222,40 @@ class HomeScreen extends StatelessWidget {
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        return Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16)),
-                          child: Image.asset(
-                            Dummy.products[index].productImageUrls.first,
+                        return SizedBox(
+                          width: context.percentWidth * 40,
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16)),
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  Dummy.products[index].productImageUrls.first,
+                                  height: context.percentHeight * 15,
+                                ),
+                                Divider(
+                                  thickness: 2,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    8.widthBox,
+                                    Expanded(
+                                      child: Text(
+                                          Dummy.products[index].productName,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
+                                          overflow: TextOverflow.ellipsis),
+                                    ),
+                                    IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(Icons.favorite_border))
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                         );
                       },
@@ -301,7 +274,7 @@ class HomeScreen extends StatelessWidget {
             //TODO: Best Selling Section
             16.heightBox,
             SizedBox(
-              height: 160,
+              height: context.percentHeight * 23,
               width: context.percentWidth * 100,
               child: Row(
                 children: [
@@ -309,11 +282,40 @@ class HomeScreen extends StatelessWidget {
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        return Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16)),
-                          child: Image.asset(
-                            Dummy.products[index].productImageUrls.first,
+                        return SizedBox(
+                          width: context.percentWidth * 40,
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16)),
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  Dummy.products[index].productImageUrls.first,
+                                  height: context.percentHeight * 15,
+                                ),
+                                Divider(
+                                  thickness: 2,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    8.widthBox,
+                                    Expanded(
+                                      child: Text(
+                                          Dummy.products[index].productName,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
+                                          overflow: TextOverflow.ellipsis),
+                                    ),
+                                    IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(Icons.favorite_border))
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                         );
                       },

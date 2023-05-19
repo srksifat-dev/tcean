@@ -368,7 +368,7 @@ class Dummy {
         productID: 60),
   ];
 
-  List<Availability> availabilities = [
+  static List<Availability> availabilities = [
     Availability(color: "white", size: "s"),
     Availability(color: "white", size: "m"),
     Availability(color: "white", size: "l"),
@@ -381,7 +381,7 @@ class Dummy {
     Availability(color: "white", size: "xl"),
   ];
 
-  List<Cart> carts = [
+  static List<Cart> carts = [
     Cart(product: products[0], quantity: 1,color: "white",size: "m"),
     Cart(product: products[1], quantity: 2,color: "black",size: "l"),
     Cart(product: products[2], quantity: 3,color: "white",size: "xl"),

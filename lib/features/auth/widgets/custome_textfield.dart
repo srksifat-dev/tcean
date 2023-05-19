@@ -16,7 +16,7 @@ TextFormField kTextField({
   return TextFormField(
     controller: controller,
     // cursorColor: cursorColor,
-    style: Theme.of(context).textTheme.titleLarge,
+    style: Theme.of(context).textTheme.bodyLarge,
     cursorHeight: 5,
     textAlign: TextAlign.center,
     keyboardType: textInputType,
@@ -29,7 +29,7 @@ TextFormField kTextField({
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide( width: 2),
+        borderSide: BorderSide(width: 2),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),

@@ -53,7 +53,7 @@ class _AuthScreenState extends State<AuthScreen> {
             20.heightBox,
             "Phone Verification"
                 .text
-                .textStyle(Theme.of(context).textTheme.headlineLarge)
+                .textStyle(Theme.of(context).textTheme.titleLarge)
                 .align(TextAlign.center)
                 .makeCentered(),
             "We need to register your phone before getting started!"

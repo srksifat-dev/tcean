@@ -1,102 +1,130 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tcean/features/account/screens/account_screen.dart';
+import 'package:tcean/features/cart/screens/cart_screen.dart';
 import 'package:tcean/features/customize/screens/customize_screen.dart';
+import 'package:tcean/features/explore/screens/explore_screen.dart';
+import 'package:tcean/features/favorite/screens/favorites_screen.dart';
+import 'package:tcean/features/store/screens/store_screen.dart';
 import '../features/auth/controller/auth_controller.dart';
 import '../features/auth/screens/auth_screen.dart';
 import '../features/auth/screens/otp_screen.dart';
-import '../main.dart';
+import '../features/store/screens/product_details_screen.dart';
 import '../main_screen.dart';
 import 'route_const.dart';
 
+final rootNavigatorKey = GlobalKey<NavigatorState>();
+final shellNavigatorKey = GlobalKey<NavigatorState>();
+
 class AppRouter {
   GoRouter router = GoRouter(
-      redirect: (context, state) {
-        final loggedIn = loginInfo.isLoggedIn;
-        final isLoggingIn = state.location == "/${RouteConst.kAuth}";
+    initialLocation: "/explore",
+    navigatorKey: rootNavigatorKey,
+    redirect: (context, state) {
+      final loggedIn = loginInfo.isLoggedIn;
+      final isLoggingIn = state.location == "/${RouteConst.kAuth}";
 
-        if (!loggedIn && !isLoggingIn) return "/${RouteConst.kAuth}";
-        if (loggedIn && isLoggingIn) return "/";
+      if (!loggedIn && !isLoggingIn) return "/${RouteConst.kAuth}";
+      if (loggedIn && isLoggingIn) return "/explore";
 
-        return null;
-      },
-      refreshListenable: loginInfo,
-      routes: [
-        GoRoute(
-            name: RouteConst.kHomeScreen,
-            path: "/",
-            pageBuilder: (context, state) => CupertinoPage(
+      return null;
+    },
+    refreshListenable: loginInfo,
+    routes: [
+      ShellRoute(
+          navigatorKey: shellNavigatorKey,
+          pageBuilder: (context, state, child) {
+            return CupertinoPage(child: MainScreen(child: child));
+          },
+          routes: [
+            GoRoute(
+              path: "/explore",
+              parentNavigatorKey: shellNavigatorKey,
+              name: RouteConst.kExploreScreen,
+              pageBuilder: (context, state) => CupertinoPage(
+                child: ExploreScreen(),
+              ),
+              routes: [
+                GoRoute(
+                  path: "customize",
+                  parentNavigatorKey: rootNavigatorKey,
+                  name: RouteConst.kCustomize,
+                  pageBuilder: (context, state) => CupertinoPage(
+                    child: CustomizeScreen(),
+                  ),
+                )
+              ],
+            ),
+            GoRoute(
+              parentNavigatorKey: shellNavigatorKey,
+              name: RouteConst.kStore,
+              path: "/store",
+              pageBuilder: (context, state) {
+                return CupertinoPage(
                   key: state.pageKey,
-                  child: MainScreen(),
+                  child: StoreScreen(),
+                );
+              },
+              routes: [
+                GoRoute(
+                  parentNavigatorKey: rootNavigatorKey,
+                  name: RouteConst.kProductDetails,
+                  path: ":productID",
+                  pageBuilder: (context, state) {
+                    return CupertinoPage(
+                      key: state.pageKey,
+                      child: ProductDetailsScreen(
+                        productID: state.pathParameters["productID"]!,
+                      ),
+                    );
+                  },
                 ),
-            routes: [
-              // GoRoute(
-              //   name: RouteConst.kCart,
-              //   path: "cart",
-              //   pageBuilder: (context, state) => CupertinoPage(
-              //     key: state.pageKey,
-              //     child: CartScreen(),
-              //   ),
-              // ),
-              // GoRoute(
-              //   name: RouteConst.kAccount,
-              //   path: "Account",
-              //   pageBuilder: (context, state) => CupertinoPage(
-              //     key: state.pageKey,
-              //     child: AccountScreen(),
-              //   ),
-              // ),
-              GoRoute(
-                name: RouteConst.kCustomize,
-                path: "customize",
-                pageBuilder: (context, state) {
-                  return CupertinoPage(
-                      key: state.pageKey, child: CustomizeScreen());
-                },
+              ],
+            ),
+            GoRoute(
+              path: "/favorites",
+              parentNavigatorKey: shellNavigatorKey,
+              name: RouteConst.kFavorites,
+              pageBuilder: (context, state) => CupertinoPage(
+                child: FavoritesScreen(),
               ),
-              // GoRoute(
-              //     name: RouteConst.kProducts,
-              //     path: "products",
-              //     pageBuilder: (context, state) {
-              //       return CupertinoPage(
-              //           key: state.pageKey, child: ProductScreen());
-              //     },
-              //     routes: [
-              //       GoRoute(
-              //         name: RouteConst.kProductDetails,
-              //         path: ":productID",
-              //         pageBuilder: (context, state) {
-              //           return CupertinoPage(
-              //               key: state.pageKey,
-              //               child: ProductDetailsScreen(
-              //                 productID: state.params["productID"]!,
-              //               ));
-              //         },
-              //       ),
-              //     ]),
-            ]),
-        GoRoute(
-            name: RouteConst.kAuth,
-            path: "/auth",
-            pageBuilder: (context, state) =>
-                CupertinoPage(key: state.pageKey, child: AuthScreen()),
-            routes: [
-              GoRoute(
-                name: RouteConst.kOtp,
-                path: "otp",
-                pageBuilder: (context, state) =>
-                    CupertinoPage(key: state.pageKey, child: OtpScreen("")),
+            ),
+            GoRoute(
+              path: "/cart",
+              parentNavigatorKey: shellNavigatorKey,
+              name: RouteConst.kCart,
+              pageBuilder: (context, state) => CupertinoPage(
+                child: CartScreen(),
               ),
-            ]),
-        // GoRoute(
-        //   name: RouteConst.kCategory,
-        //   path: "/category/:categoryTitle",
-        //   pageBuilder: (context, state) {
-        //     return CupertinoPage(
-        //         key: state.pageKey,
-        //         child: CategoryDetails(
-        //             categoryTitle: state.params["categoryTitle"]!));
-        //   },
-        // ),
-      ]);
+            ),
+            GoRoute(
+              path: "/account",
+              parentNavigatorKey: shellNavigatorKey,
+              name: RouteConst.kAccount,
+              pageBuilder: (context, state) => CupertinoPage(
+                child: AccountScreen(),
+              ),
+            ),
+          ]),
+      GoRoute(
+        parentNavigatorKey: rootNavigatorKey,
+        name: RouteConst.kAuth,
+        path: "/auth",
+        pageBuilder: (context, state) => CupertinoPage(
+          key: state.pageKey,
+          child: AuthScreen(),
+        ),
+        routes: [
+          GoRoute(
+            name: RouteConst.kOtp,
+            path: "otp",
+            pageBuilder: (context, state) => CupertinoPage(
+              key: state.pageKey,
+              child: OtpScreen(""),
+            ),
+          ),
+        ],
+      ),
+    ],
+  );
 }
