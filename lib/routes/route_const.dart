@@ -9,5 +9,8 @@ class RouteConst {
   static const String kProductDetails = "productDetails";
   static const String kStore = "store";
   static const String kFavorites = "favorites";
+  static const String kOrders = "orders";
+  static const String kOrderDetails = "orderDetails";
+
 
 }

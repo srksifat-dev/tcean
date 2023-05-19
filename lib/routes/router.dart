@@ -5,6 +5,8 @@ import 'package:tcean/features/cart/screens/cart_screen.dart';
 import 'package:tcean/features/customize/screens/customize_screen.dart';
 import 'package:tcean/features/explore/screens/explore_screen.dart';
 import 'package:tcean/features/favorite/screens/favorites_screen.dart';
+import 'package:tcean/features/order_tracking/screens/order_screen.dart';
+import 'package:tcean/features/order_tracking/screens/order_screen_details.dart';
 import 'package:tcean/features/store/screens/store_screen.dart';
 import '../features/auth/controller/auth_controller.dart';
 import '../features/auth/screens/auth_screen.dart';
@@ -98,13 +100,30 @@ class AppRouter {
               ),
             ),
             GoRoute(
-              path: "/account",
-              parentNavigatorKey: shellNavigatorKey,
-              name: RouteConst.kAccount,
-              pageBuilder: (context, state) => CupertinoPage(
-                child: AccountScreen(),
-              ),
-            ),
+                path: "/account",
+                parentNavigatorKey: shellNavigatorKey,
+                name: RouteConst.kAccount,
+                pageBuilder: (context, state) => CupertinoPage(
+                      child: AccountScreen(),
+                    ),
+                routes: [
+                  GoRoute(
+                      path: RouteConst.kOrders,
+                      parentNavigatorKey: rootNavigatorKey,
+                      name: RouteConst.kOrders,
+                      pageBuilder: (context, state) =>
+                          CupertinoPage(child: OrderScreen()),
+                      routes: [
+                        GoRoute(
+                          path: ":orderID",
+                          name: RouteConst.kOrderDetails,
+                          parentNavigatorKey: rootNavigatorKey,
+                          pageBuilder: (context, state) => CupertinoPage(
+                              child: OrderDetailsScreen(
+                                  orderID: state.pathParameters["orderID"]!)),
+                        )
+                      ])
+                ]),
           ]),
       GoRoute(
         parentNavigatorKey: rootNavigatorKey,

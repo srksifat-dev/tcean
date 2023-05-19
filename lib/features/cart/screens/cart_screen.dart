@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tcean/dummy/dummy_product.dart';
+import 'package:tcean/features/cart/widgets/cart_card.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -19,76 +20,40 @@ class _CartScreenState extends State<CartScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            child: ListView.separated(
-                itemBuilder: (context, index) {
-                  var cart = Dummy.carts[index];
-                  return Dismissible(
-                    key: ValueKey(Dummy.carts[index].product.productID),
-                    background: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16)),
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-                    onDismissed: (_) {
-                      setState(() {
-                        Dummy.carts.remove(Dummy.carts[index]);
-                      });
-                    },
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16)),
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            Dummy.carts[index].product.productImageUrls.first,
-                            height: 100,
+          Dummy.carts.length != 0
+              ? Expanded(
+                  child: ListView.separated(
+                      itemBuilder: (context, index) {
+                        var cart = Dummy.carts[index];
+                        return Dismissible(
+                          key: ValueKey(Dummy.carts[index].product.productID),
+                          background: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16)),
+                            color: Theme.of(context).colorScheme.error,
                           ),
-                          8.widthBox,
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  Dummy.carts[index].product.productName,
-                                  style: Theme.of(context).textTheme.titleSmall,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                ),
-                                Text(
-                                  "Color: ${cart.color}",
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                                Text(
-                                  "Size: ${cart.size}",
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                              ],
-                            ),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              IconButton(
-                                  onPressed: () {}, icon: Icon(Icons.remove)),
-                              Text(
-                                "${cart.quantity.toString()}",
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                              IconButton(
-                                  onPressed: () {}, icon: Icon(Icons.add))
-                            ],
-                          )
-                        ],
-                      ).pOnly(
-                        left: 16,
-                      ),
-                    ),
-                  );
-                },
-                separatorBuilder: (_, __) => 16.heightBox,
-                itemCount: Dummy.carts.length),
-          ),
+                          onDismissed: (_) {
+                            setState(() {
+                              Dummy.carts.remove(Dummy.carts[index]);
+                            });
+                          },
+                          child: cartCard(context: context, cart: cart),
+                        );
+                      },
+                      separatorBuilder: (_, __) => 16.heightBox,
+                      itemCount: Dummy.carts.length),
+                )
+              : Expanded(
+                  child: Center(
+                      child: Icon(
+                    Icons.add_shopping_cart,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onBackground
+                        .withOpacity(0.5),
+                    size: context.percentWidth * 50,
+                  )),
+                ),
           AnimatedContainer(
             height: Dummy.carts.isEmpty ? 0 : 70,
             width: context.percentWidth * 100,
@@ -97,6 +62,7 @@ class _CartScreenState extends State<CartScreen> {
                 borderRadius: BorderRadius.circular(16),
                 color: Theme.of(context).colorScheme.onBackground),
             child: Visibility(
+              maintainState: true,
               maintainAnimation: true,
               visible: Dummy.carts.isEmpty ? false : true,
               child: Row(

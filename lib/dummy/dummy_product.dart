@@ -382,11 +382,11 @@ class Dummy {
   ];
 
   static List<Cart> carts = [
-    Cart(product: products[0], quantity: 1,color: "white",size: "m"),
-    Cart(product: products[1], quantity: 2,color: "black",size: "l"),
-    Cart(product: products[2], quantity: 3,color: "white",size: "xl"),
-    Cart(product: products[3], quantity: 4,color: "black",size: "xxl"),
-    Cart(product: products[4], quantity: 5,color: "white",size: "xxxl"),
+    Cart(product: products[0], quantity: 1,color: "white",size: "m",totalExpense: 300),
+    Cart(product: products[1], quantity: 2,color: "black",size: "l",totalExpense: 300),
+    Cart(product: products[2], quantity: 3,color: "white",size: "xl",totalExpense: 300),
+    Cart(product: products[3], quantity: 4,color: "black",size: "xxl",totalExpense: 300),
+    Cart(product: products[4], quantity: 5,color: "white",size: "xxxl",totalExpense: 300),
 
   ];
 }
