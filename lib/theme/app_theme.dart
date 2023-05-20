@@ -80,3 +80,10 @@ var textTheme = TextTheme(
   titleSmall: GoogleFonts.josefinSans()
       .copyWith(fontSize: 25, fontWeight: FontWeight.bold),
 );
+
+var appBarTheme = AppBarTheme(
+  titleTextStyle: GoogleFonts.josefinSans().copyWith(
+    fontSize: 25,
+    fontWeight: FontWeight.bold,
+  ),
+);

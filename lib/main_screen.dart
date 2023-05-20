@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tcean/dummy/dummy_product.dart';
+import 'package:tcean/features/cart/screens/cart_screen.dart';
+import 'package:tcean/routes/route_const.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class MainScreen extends StatefulWidget {
@@ -45,7 +48,6 @@ class _MainScreenState extends State<MainScreen> {
       default:
         return context.go("/explore");
     }
-    
   }
 
   @override
@@ -78,7 +80,11 @@ class _MainScreenState extends State<MainScreen> {
           ],
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.notifications))
+          IconButton(
+              onPressed: () {
+                context.pushNamed(RouteConst.kNotifications);
+              },
+              icon: Badge(child: Icon(Icons.notifications)))
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -86,7 +92,10 @@ class _MainScreenState extends State<MainScreen> {
           NavigationDestination(icon: Icon(Icons.sell), label: "Explore"),
           NavigationDestination(icon: Icon(Icons.storefront), label: "Store"),
           NavigationDestination(icon: Icon(Icons.favorite), label: "Favorites"),
-          NavigationDestination(icon: Icon(Icons.shopping_bag), label: "Cart"),
+          NavigationDestination(
+              icon: Badge.count(
+                  count: cartCount, child: Icon(Icons.shopping_bag)),
+              label: "Cart"),
           NavigationDestination(icon: Icon(Icons.person), label: "Account"),
         ],
         labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,

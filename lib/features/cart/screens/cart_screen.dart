@@ -4,6 +4,8 @@ import 'package:tcean/features/cart/widgets/cart_card.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+int cartCount = Dummy.carts.length;
+
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
 
@@ -20,7 +22,7 @@ class _CartScreenState extends State<CartScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Dummy.carts.length != 0
+          cartCount != 0
               ? Expanded(
                   child: ListView.separated(
                       itemBuilder: (context, index) {
@@ -35,13 +37,14 @@ class _CartScreenState extends State<CartScreen> {
                           onDismissed: (_) {
                             setState(() {
                               Dummy.carts.remove(Dummy.carts[index]);
+                              cartCount = Dummy.carts.length;
                             });
                           },
                           child: cartCard(context: context, cart: cart),
                         );
                       },
                       separatorBuilder: (_, __) => 16.heightBox,
-                      itemCount: Dummy.carts.length),
+                      itemCount: cartCount),
                 )
               : Expanded(
                   child: Center(
