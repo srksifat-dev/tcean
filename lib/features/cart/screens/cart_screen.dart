@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:tcean/dummy/dummy_product.dart';
 import 'package:tcean/features/cart/widgets/cart_card.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -48,14 +49,7 @@ class _CartScreenState extends State<CartScreen> {
                 )
               : Expanded(
                   child: Center(
-                      child: Icon(
-                    Icons.add_shopping_cart,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onBackground
-                        .withOpacity(0.5),
-                    size: context.percentWidth * 50,
-                  )),
+                      child: Lottie.asset("assets/lotties/empty_cart.json")),
                 ),
           AnimatedContainer(
             height: Dummy.carts.isEmpty ? 0 : 70,

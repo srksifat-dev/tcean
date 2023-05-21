@@ -64,7 +64,7 @@ class ExploreScreen extends StatelessWidget {
             ),
             10.widthBox,
             SizedBox(
-              height: context.percentHeight * 6,
+              height: context.percentHeight * 7,
               width: context.percentWidth * 100,
               child: DefaultTextStyle(
                 style: Theme.of(context).textTheme.bodySmall!,
@@ -206,7 +206,7 @@ class ExploreScreen extends StatelessWidget {
             //TODO: Trendy Section
             16.heightBox,
             SizedBox(
-              height: context.percentHeight * 23,
+              height: context.percentHeight * 24,
               width: context.percentWidth * 100,
               child: Row(
                 children: [
@@ -274,7 +274,7 @@ class ExploreScreen extends StatelessWidget {
             //TODO: Best Selling Section
             16.heightBox,
             SizedBox(
-              height: context.percentHeight * 23,
+              height: context.percentHeight * 24,
               width: context.percentWidth * 100,
               child: Row(
                 children: [

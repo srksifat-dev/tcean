@@ -36,6 +36,9 @@ class OrderDetailsScreen extends StatelessWidget {
                     .map((e) => orderItemCard(context: context, cart: e))
                     .toList()),
             16.heightBox,
+
+            // TODO: Receiver info
+
             Card(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,21 +95,19 @@ class OrderDetailsScreen extends StatelessWidget {
                 ],
               ).p(16),
             ),
-            HeightBox(context.percentWidth * 5),
+
+            // TODO: Order status
+            
             Card(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  HeightBox(context.percentWidth * 5),
-                  "Order Status"
-                      .text
-                      .xl3
-                      .bold
-                      .make()
-                      .px(context.percentWidth * 5),
-                  HeightBox(context.percentWidth * 5),
+                  Text(
+                    "Order Status",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
                   OrderStatus(
                     index: 0,
                     asset: Lottie.asset("assets/lotties/confirmation.json"),
@@ -193,7 +194,7 @@ class OrderDetailsScreen extends StatelessWidget {
                           width: 0,
                         ),
                 ],
-              ),
+              ).p(16),
             ),
           ],
         ).px(16),

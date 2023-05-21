@@ -32,10 +32,11 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
 
   Future selectFrontFile() async {
     final result = await FilePicker.platform.pickFiles();
-    setState(() {
-      frontPickedFile = result!.files.first;
-    });
+    
     if (result != null) {
+      setState(() {
+      frontPickedFile = result.files.first;
+    });
       frontFile = File(frontPickedFile!.path.toString());
     } else {
       return;
@@ -44,10 +45,11 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
 
   Future selectBackFile() async {
     final result = await FilePicker.platform.pickFiles();
-    setState(() {
-      backPickedFile = result!.files.first;
-    });
+    
     if (result != null) {
+    setState(() {
+      backPickedFile = result.files.first;
+    });
       backFile = File(backPickedFile!.path.toString());
     } else {
       return;
@@ -56,10 +58,11 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
 
   Future selectHandFile() async {
     final result = await FilePicker.platform.pickFiles();
-    setState(() {
-      handPickedFile = result!.files.first;
-    });
+    
     if (result != null) {
+    setState(() {
+      handPickedFile = result.files.first;
+    });
       handFile = File(handPickedFile!.path.toString());
     } else {
       return;
@@ -265,10 +268,7 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
                             children: [
                               Text(
                                 "Colors",
-                                style: GoogleFonts.josefinSans().copyWith(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: Theme.of(context).textTheme.titleSmall,
                               ),
                               SizedBox(
                                   height: 30,
@@ -319,13 +319,10 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
                             children: [
                               Text(
                                 "Size",
-                                style: GoogleFonts.josefinSans().copyWith(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: Theme.of(context).textTheme.titleSmall,
                               ),
                               SizedBox(
-                                height: context.percentHeight * 6.5,
+                                height: context.percentHeight * 5,
                                 child: CupertinoPicker(
                                   itemExtent: 25,
                                   onSelectedItemChanged: (selectedSizeIndex) {
@@ -362,10 +359,7 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
                         16.heightBox,
                         Text(
                           "Total Expense",
-                          style: GoogleFonts.josefinSans().copyWith(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.titleSmall,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
