@@ -10,6 +10,7 @@ import 'package:tcean/features/customize/screens/customize_screen.dart';
 import 'package:tcean/features/explore/widgets/image_slider.dart';
 import 'package:tcean/routes/route_const.dart';
 import 'package:tcean/theme/app_colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../dummy/dummy_product.dart';
@@ -357,9 +358,29 @@ class ExploreScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset("assets/images/whatsAppButton.svg"),
+                GestureDetector(
+                    onTap: () async {
+                      if (!await launchUrl(
+                        Uri.parse("https://wa.me/8801930132595"),
+                        mode: LaunchMode.externalApplication,
+                      )) {
+                        throw Exception("can't launch for now");
+                      }
+                    },
+                    child:
+                        SvgPicture.asset("assets/images/whatsAppButton.svg")),
                 16.widthBox,
-                SvgPicture.asset("assets/images/telegramButton.svg"),
+                GestureDetector(
+                    onTap: () async {
+                      if (!await launchUrl(
+                        Uri.parse("https://t.me/tcean"),
+                        mode: LaunchMode.externalApplication,
+                      )) {
+                        throw Exception("can't launch for now");
+                      }
+                    },
+                    child:
+                        SvgPicture.asset("assets/images/telegramButton.svg")),
               ],
             ),
 

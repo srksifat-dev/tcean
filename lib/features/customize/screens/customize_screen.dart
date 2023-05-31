@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../common/t_colors.dart';
@@ -225,13 +226,33 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
                 ),
                 8.heightBox,
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset("assets/images/whatsAppButton.svg"),
-                    16.widthBox,
-                    SvgPicture.asset("assets/images/telegramButton.svg"),
-                  ],
-                ),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                    onTap: () async {
+                      if (!await launchUrl(
+                        Uri.parse("https://wa.me/8801930132595"),
+                        mode: LaunchMode.externalApplication,
+                      )) {
+                        throw Exception("can't launch for now");
+                      }
+                    },
+                    child:
+                        SvgPicture.asset("assets/images/whatsAppButton.svg")),
+                16.widthBox,
+                GestureDetector(
+                    onTap: () async {
+                      if (!await launchUrl(
+                        Uri.parse("https://t.me/tcean"),
+                        mode: LaunchMode.externalApplication,
+                      )) {
+                        throw Exception("can't launch for now");
+                      }
+                    },
+                    child:
+                        SvgPicture.asset("assets/images/telegramButton.svg")),
+              ],
+            ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
