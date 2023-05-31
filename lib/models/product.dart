@@ -1,5 +1,5 @@
 class Product {
-  final int productID;
+  final String productID;
   final String productName;
   final List<String> productImageUrls;
   List<String> categories = ["All"];

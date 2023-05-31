@@ -23,7 +23,7 @@ class FavoritesScreen extends StatelessWidget {
           child: InkWell(
             onTap: () {
               context.pushNamed(RouteConst.kProductDetails, pathParameters: {
-                "productID": Dummy.products[index].productID.toString()
+                "productID": Dummy.products[index].productID
               });
               print(GoRouterState.of(context).fullPath);
             },

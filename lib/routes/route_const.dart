@@ -12,6 +12,5 @@ class RouteConst {
   static const String kOrders = "orders";
   static const String kOrderDetails = "orderDetails";
   static const String kNotifications = "notifications";
-
-
+  static const String kOffer = "offer";
 }

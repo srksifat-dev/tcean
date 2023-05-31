@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tcean/dummy/dummy_offer.dart';
 import 'package:tcean/features/customize/screens/customize_screen.dart';
 import 'package:tcean/features/explore/widgets/image_slider.dart';
 import 'package:tcean/routes/route_const.dart';
@@ -83,42 +84,52 @@ class ExploreScreen extends StatelessWidget {
 
             //TODO: Offer Section
 
-            Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
-              child: Row(
-                children: [
-                  Container(
-                    height: 80,
-                    width: 80,
-                    decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(16)),
-                    child: Icon(
-                      Icons.sell,
-                      size: 50,
+            InkWell(
+              radius: 16,
+              onTap: () {
+                context.pushNamed(RouteConst.kOffer,
+                    pathParameters: {"offerID": dummy_offer.offerID});
+              },
+              child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16)),
+                child: Row(
+                  children: [
+                    Container(
+                      height: 80,
+                      width: 80,
+                      decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(16)),
+                      child: Icon(
+                        Icons.sell,
+                        size: 50,
+                      ),
                     ),
-                  ),
-                  16.widthBox,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "50% OFF",
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
-                        Text(
-                          "for all Men's T-shirts",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        )
-                      ],
+                    16.widthBox,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            dummy_offer.title,
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                          dummy_offer.subtitle.isNotEmptyAndNotNull
+                              ? Text(
+                                  dummy_offer.subtitle!,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  overflow: TextOverflow.ellipsis,
+                                )
+                              : Container()
+                        ],
+                      ),
                     ),
-                  ),
-                  IconButton(
-                      onPressed: () {}, icon: Icon(Icons.arrow_forward_ios))
-                ],
-              ).pOnly(left: 16, top: 16, bottom: 16),
+                    IconButton(
+                        onPressed: () {}, icon: Icon(Icons.arrow_forward_ios))
+                  ],
+                ).pOnly(left: 16, top: 16, bottom: 16),
+              ),
             ),
 
             16.heightBox,
@@ -139,8 +150,7 @@ class ExploreScreen extends StatelessWidget {
                       onTap: () {
                         context.pushNamed(RouteConst.kProductDetails,
                             pathParameters: {
-                              "productID":
-                                  Dummy.products[index].productID.toString()
+                              "productID": Dummy.products[index].productID
                             });
                       },
                       child: Card(

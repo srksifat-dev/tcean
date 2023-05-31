@@ -28,7 +28,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     print(GoRouterState.of(context).fullPath);
     final Product product = Dummy.products
         .where(
-          (element) => element.productID.toString() == widget.productID,
+          (element) => element.productID == widget.productID,
         )
         .first;
     return Scaffold(

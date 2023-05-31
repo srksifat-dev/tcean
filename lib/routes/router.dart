@@ -4,6 +4,7 @@ import 'package:tcean/features/account/screens/account_screen.dart';
 import 'package:tcean/features/cart/screens/cart_screen.dart';
 import 'package:tcean/features/customize/screens/customize_screen.dart';
 import 'package:tcean/features/explore/screens/explore_screen.dart';
+import 'package:tcean/features/explore/screens/offer_screen.dart';
 import 'package:tcean/features/favorite/screens/favorites_screen.dart';
 import 'package:tcean/features/notification/screens/notification_screen.dart';
 import 'package:tcean/features/order_tracking/screens/order_screen.dart';
@@ -55,7 +56,20 @@ class AppRouter {
                 pageBuilder: (context, state) => CupertinoPage(
                   child: CustomizeScreen(),
                 ),
-              )
+              ),
+              GoRoute(
+                parentNavigatorKey: rootNavigatorKey,
+                name: RouteConst.kOffer,
+                path: ":offerID",
+                pageBuilder: (context, state) {
+                  return CupertinoPage(
+                    key: state.pageKey,
+                    child: OfferScreen(
+                      offerID: state.pathParameters["offerID"]!,
+                    ),
+                  );
+                },
+              ),
             ],
           ),
           GoRoute(
