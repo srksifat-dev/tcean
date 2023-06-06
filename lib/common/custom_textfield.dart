@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tcean/theme/app_colors.dart';
 
 TextFormField kTextField({
   required BuildContext context,
@@ -7,11 +6,11 @@ TextFormField kTextField({
   required FocusNode focusNode,
   // required Color cursorColor,
   // required Color textColor,
-  required Color fillColor,
+  // required Color fillColor,
   required String hintText,
   required int maxLength,
   required TextInputType textInputType,
-  required String? Function(String?) validator,
+  String? Function(String?)? validator,
 }) {
   return TextFormField(
     controller: controller,
@@ -44,7 +43,7 @@ TextFormField kTextField({
       ),
       filled: true,
       hintText: hintText,
-      hintStyle: Theme.of(context).textTheme.titleLarge,
+      hintStyle: Theme.of(context).textTheme.bodySmall,
       counterText: "",
     ),
     focusNode: focusNode,

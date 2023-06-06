@@ -14,4 +14,5 @@ class RouteConst {
   static const String kNotifications = "notifications";
   static const String kOffer = "offer";
   static const String kCheckout = "checkout";
+  static const String kPayment = "payment";
 }

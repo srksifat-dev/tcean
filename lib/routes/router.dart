@@ -14,6 +14,7 @@ import 'package:tcean/features/store/screens/store_screen.dart';
 import '../features/auth/controller/auth_controller.dart';
 import '../features/auth/screens/auth_screen.dart';
 import '../features/auth/screens/otp_screen.dart';
+import '../features/payment/screens/payment_screen.dart';
 import '../features/store/screens/product_details_screen.dart';
 import '../main_screen.dart';
 import 'route_const.dart';
@@ -108,23 +109,33 @@ class AppRouter {
             ),
           ),
           GoRoute(
-            path: "/cart",
-            parentNavigatorKey: shellNavigatorKey,
-            name: RouteConst.kCart,
-            pageBuilder: (context, state) => CupertinoPage(
-              child: CartScreen(),
-            ),
-            routes: [
-              GoRoute(
-                path: "checkout",
-                parentNavigatorKey: rootNavigatorKey,
-                name: RouteConst.kCheckout,
-                pageBuilder: (context, state) => CupertinoPage(
-                  child: CheckoutScreen(),
-                ),
-              ),
-            ]
-          ),
+              path: "/cart",
+              parentNavigatorKey: shellNavigatorKey,
+              name: RouteConst.kCart,
+              pageBuilder: (context, state) => CupertinoPage(
+                    child: CartScreen(),
+                  ),
+              routes: [
+                GoRoute(
+                    path: ":orderID",
+                    name: RouteConst.kCheckout,
+                    parentNavigatorKey: rootNavigatorKey,
+                    pageBuilder: (context, state) => CupertinoPage(
+                          child: CheckoutScreen(
+                            orderID: state.pathParameters["orderID"]!,
+                          ),
+                        ),
+                    routes: [
+                      GoRoute(
+                        path: "payment",
+                        parentNavigatorKey: rootNavigatorKey,
+                        name: RouteConst.kPayment,
+                        pageBuilder: (context, state) => CupertinoPage(
+                          child: PaymentScreen(),
+                        ),
+                      ),
+                    ]),
+              ]),
           GoRoute(
             path: "/account",
             parentNavigatorKey: shellNavigatorKey,

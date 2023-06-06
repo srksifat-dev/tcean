@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tcean/routes/route_const.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../widgets/account_card.dart';
+import '../../../common/editable_card.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -13,29 +13,29 @@ class AccountScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          accountCard(
+          editableCard(
               context: context,
               title: "My Name",
               icon: Icons.edit,
               onTap: () {}),
-          accountCard(
+          editableCard(
               context: context,
               title: "Phone Number",
               icon: Icons.phone,
               onTap: () {}),
-          accountCard(
+          editableCard(
               context: context,
               title: "My Balance",
               subtitle: "৳300.00",
               icon: Icons.download,
               onTap: () {}),
-          accountCard(
+          editableCard(
               context: context,
               title: "Addresses",
               subtitle: "Road No., Area, District",
               icon: Icons.location_city,
               onTap: () {}),
-          accountCard(
+          editableCard(
               context: context,
               title: "Orders",
               icon: Icons.shopping_bag,

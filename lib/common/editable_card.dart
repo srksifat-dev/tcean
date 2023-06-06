@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-Widget accountCard(
+Widget editableCard(
     {required BuildContext context,
-    required String title,
+    String? title,
     String? subtitle,
     required IconData icon,
     required void Function() onTap}) {
@@ -17,8 +17,8 @@ Widget accountCard(
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                title,
+              title.isEmptyOrNull ? Container(): Text(
+                title!,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
               subtitle.isEmptyOrNull

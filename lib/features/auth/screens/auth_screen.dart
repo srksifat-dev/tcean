@@ -4,8 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../../../theme/app_colors.dart';
-import '../widgets/custome_textfield.dart';
+import '../../../common/custom_textField.dart';
 import 'otp_screen.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -70,7 +69,6 @@ class _AuthScreenState extends State<AuthScreen> {
                 focusNode: phoneNumberFocusNode,
                 // cursorColor: AppColors.kSkyBlue,
                 // textColor: AppColors.kBlue,
-                fillColor: Colors.white,
                 hintText: "01XXXXXXXXX",
                 maxLength: 11,
                 textInputType: TextInputType.phone,

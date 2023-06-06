@@ -31,6 +31,10 @@ Widget orderItemCard({required BuildContext context, required Cart cart}) {
               "Size: ${cart.size}",
               style: Theme.of(context).textTheme.bodySmall,
             ),
+            Text(
+              "${cart.quantity} pcs",
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
           ],
         ),
       ],

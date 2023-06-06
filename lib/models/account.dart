@@ -7,16 +7,17 @@ class Account {
   final String? email;
   final int balance;
   final List<Address>? addresses;
-  final List<CourierAddress>? courierAddresses;
+  final List<CourierBruch>? courierAddresses;
 
-  Account(
-      {required this.uid,
-      this.name,
-      required this.phoneNumber,
-      this.email,
-      this.balance = 0,
-      this.addresses,
-      this.courierAddresses,});
+  Account({
+    required this.uid,
+    this.name,
+    required this.phoneNumber,
+    this.email,
+    this.balance = 0,
+    this.addresses,
+    this.courierAddresses,
+  });
 }
 
 Account dummyAccount = Account(
@@ -25,4 +26,10 @@ Account dummyAccount = Account(
     phoneNumber: "phoneNumber",
     email: "srksifat.dev@gmail.com",
     balance: 300,
-    addresses: [Address(addressName: "addressName", district: "district", area: "area", detailsAddress: "detailsAddress"),]);
+    addresses: [
+      Address(
+          addressName: "addressName",
+          district: "district",
+          area: "area",
+          detailsAddress: "detailsAddress"),
+    ]);

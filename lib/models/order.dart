@@ -1,3 +1,4 @@
+import 'package:flutter/rendering.dart';
 import 'package:tcean/models/address.dart';
 import 'package:tcean/models/cart.dart';
 import 'package:tcean/models/coupon.dart';
@@ -24,9 +25,12 @@ class Order {
   final bool paymentStatus;
   final DeliveryMethod deliveryMethod;
   final Address? address;
-  final CourierAddress? courierAddress;
+  final CourierBruch? courierBrunch;
   final OrderStep orderStep;
   final String orderTime;
+  final String receiverName;
+  final String receiverContactNumber;
+  final String? receiverEmail;
 
   Order({
     required this.orderID,
@@ -37,8 +41,11 @@ class Order {
     required this.paymentStatus,
     required this.deliveryMethod,
     this.address,
-    this.courierAddress,
+    this.courierBrunch,
     required this.orderStep,
     required this.orderTime,
+    required this.receiverContactNumber,
+    this.receiverEmail,
+    required this.receiverName,
   });
 }

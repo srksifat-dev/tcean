@@ -235,37 +235,46 @@ class ExploreScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return SizedBox(
                           width: context.percentWidth * 40,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16)),
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  Dummy.products[index].productImageUrls.first,
-                                  height: context.percentHeight * 15,
-                                ),
-                                Divider(
-                                  thickness: 2,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    8.widthBox,
-                                    Expanded(
-                                      child: Text(
-                                          Dummy.products[index].productName,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium,
-                                          overflow: TextOverflow.ellipsis),
-                                    ),
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(Icons.favorite_border))
-                                  ],
-                                )
-                              ],
+                          child: GestureDetector(
+                            onTap: () {
+                              context.pushNamed(RouteConst.kProductDetails,
+                                  pathParameters: {
+                                    "productID": Dummy.products[index].productID
+                                  });
+                            },
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16)),
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    Dummy
+                                        .products[index].productImageUrls.first,
+                                    height: context.percentHeight * 15,
+                                  ),
+                                  Divider(
+                                    thickness: 2,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      8.widthBox,
+                                      Expanded(
+                                        child: Text(
+                                            Dummy.products[index].productName,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
+                                            overflow: TextOverflow.ellipsis),
+                                      ),
+                                      IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(Icons.favorite_border))
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );
@@ -295,37 +304,46 @@ class ExploreScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return SizedBox(
                           width: context.percentWidth * 40,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16)),
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  Dummy.products[index].productImageUrls.first,
-                                  height: context.percentHeight * 15,
-                                ),
-                                Divider(
-                                  thickness: 2,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    8.widthBox,
-                                    Expanded(
-                                      child: Text(
-                                          Dummy.products[index].productName,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium,
-                                          overflow: TextOverflow.ellipsis),
-                                    ),
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(Icons.favorite_border))
-                                  ],
-                                )
-                              ],
+                          child: GestureDetector(
+                            onTap: () {
+                              context.pushNamed(RouteConst.kProductDetails,
+                                  pathParameters: {
+                                    "productID": Dummy.products[index].productID
+                                  });
+                            },
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16)),
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    Dummy
+                                        .products[index].productImageUrls.first,
+                                    height: context.percentHeight * 15,
+                                  ),
+                                  Divider(
+                                    thickness: 2,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      8.widthBox,
+                                      Expanded(
+                                        child: Text(
+                                            Dummy.products[index].productName,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
+                                            overflow: TextOverflow.ellipsis),
+                                      ),
+                                      IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(Icons.favorite_border))
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         );

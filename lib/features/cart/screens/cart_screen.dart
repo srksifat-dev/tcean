@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:tcean/dummy/dummy_order.dart';
 import 'package:tcean/dummy/dummy_product.dart';
 import 'package:tcean/features/cart/widgets/cart_card.dart';
 import 'package:tcean/models/cart.dart';
@@ -98,7 +99,10 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   FilledButton(
                       onPressed: () {
-                        context.pushNamed(RouteConst.kCheckout);
+                        context.pushNamed(RouteConst.kCheckout,
+                            pathParameters: {
+                              "orderID": dummyOrders.first.orderID
+                            });
                       },
                       child: Text("Check Out"))
                 ],
