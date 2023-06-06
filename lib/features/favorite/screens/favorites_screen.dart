@@ -44,8 +44,7 @@ class FavoritesScreen extends StatelessWidget {
                           style: Theme.of(context).textTheme.bodyMedium,
                           overflow: TextOverflow.ellipsis),
                     ),
-                    IconButton(
-                        onPressed: () {}, icon: Icon(Icons.favorite_border))
+                    IconButton(onPressed: () {}, icon: Icon(Icons.favorite))
                   ],
                 )
               ],

@@ -94,7 +94,7 @@ class _MainScreenState extends State<MainScreen> {
           NavigationDestination(icon: Icon(Icons.favorite), label: "Favorites"),
           NavigationDestination(
               icon: Badge.count(
-                  count: cartCount, child: Icon(Icons.shopping_bag)),
+                  count: Dummy.carts.length, child: Icon(Icons.shopping_bag)),
               label: "Cart"),
           NavigationDestination(icon: Icon(Icons.person), label: "Account"),
         ],

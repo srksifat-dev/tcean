@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tcean/features/account/screens/account_screen.dart';
 import 'package:tcean/features/cart/screens/cart_screen.dart';
+import 'package:tcean/features/checkout/screens/checkout_screen.dart';
 import 'package:tcean/features/customize/screens/customize_screen.dart';
 import 'package:tcean/features/explore/screens/explore_screen.dart';
 import 'package:tcean/features/explore/screens/offer_screen.dart';
@@ -113,6 +114,16 @@ class AppRouter {
             pageBuilder: (context, state) => CupertinoPage(
               child: CartScreen(),
             ),
+            routes: [
+              GoRoute(
+                path: "checkout",
+                parentNavigatorKey: rootNavigatorKey,
+                name: RouteConst.kCheckout,
+                pageBuilder: (context, state) => CupertinoPage(
+                  child: CheckoutScreen(),
+                ),
+              ),
+            ]
           ),
           GoRoute(
             path: "/account",
