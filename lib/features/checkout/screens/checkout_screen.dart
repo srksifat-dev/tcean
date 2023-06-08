@@ -239,7 +239,74 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         title: "Address",
                         subtitle: dummyAddress.isEmpty
                             ? TextButton.icon(
-                                onPressed: () {},
+                                onPressed: () {
+                                  showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                content: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    CheckoutTextfield(
+                                                      controller:
+                                                          districtController,
+                                                      focusNode:
+                                                          districtFocusNode,
+                                                      hintText: "District",
+                                                      textInputType:
+                                                          TextInputType.text,
+                                                      textCapitalization:
+                                                          TextCapitalization
+                                                              .words,
+                                                    ),
+                                                    16.heightBox,
+                                                    CheckoutTextfield(
+                                                      controller:
+                                                          areaController,
+                                                      focusNode: areaFocusNode,
+                                                      hintText:
+                                                          "Area/Thana/Upozilla",
+                                                      textInputType:
+                                                          TextInputType.text,
+                                                      textCapitalization:
+                                                          TextCapitalization
+                                                              .words,
+                                                    ),
+                                                    16.heightBox,
+                                                    CheckoutTextfield(
+                                                      controller:
+                                                          detailsController,
+                                                      focusNode:
+                                                          detailsFocusNode,
+                                                      hintText:
+                                                          "Details Address",
+                                                      textInputType:
+                                                          TextInputType
+                                                              .multiline,
+                                                      textCapitalization:
+                                                          TextCapitalization
+                                                              .words,
+                                                    ),
+                                                  ],
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        GoRouter.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: Text("cancel")),
+                                                  FilledButton(
+                                                      onPressed: () {
+                                                        GoRouter.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: Text("Update")),
+                                                ],
+                                              );
+                                            });
+                                },
                                 icon: Icon(Icons.add_location_alt),
                                 label: Text("Add Your Address"))
                             : Column(
