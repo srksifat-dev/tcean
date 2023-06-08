@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tcean/common/custom_textField.dart';
 import 'package:tcean/common/editable_card.dart';
+import 'package:tcean/common/phone_number_textfield.dart';
+import 'package:tcean/dummy/dummy_address.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../../../common/checkout_textfield.dart';
 import '../../../dummy/dummy_order.dart';
 import '../../../models/account.dart';
 import '../../../models/order.dart';
@@ -31,12 +33,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   FocusNode contactFocusNode = FocusNode();
   TextEditingController emailController = TextEditingController();
   FocusNode emailFocusNode = FocusNode();
+  TextEditingController districtController = TextEditingController();
+  FocusNode districtFocusNode = FocusNode();
+  TextEditingController areaController = TextEditingController();
+  FocusNode areaFocusNode = FocusNode();
+  TextEditingController detailsController = TextEditingController();
+  FocusNode detailsFocusNode = FocusNode();
   GlobalKey<FormState> contactKey = GlobalKey<FormState>();
   late String name;
   late String contactNumber;
   late String email;
 
   String deliveryMethod = "Home Delivery";
+  String address = dummyAddress.first.addressName;
 
   @override
   void initState() {
@@ -89,48 +98,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               context: context,
                               builder: (context) {
                                 return AlertDialog(
-                                  content: TextField(
+                                  content: CheckoutTextfield(
                                     controller: nameController,
                                     focusNode: nameFocusNode,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(16),
-                                        borderSide: BorderSide(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onBackground,
-                                            width: 2),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(16),
-                                        borderSide: BorderSide(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onBackground,
-                                            width: 2),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(16),
-                                        borderSide: BorderSide(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onBackground,
-                                            width: 1),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(16),
-                                        borderSide: BorderSide(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .error,
-                                          width: 2,
-                                        ),
-                                      ),
-                                    ),
-                                    maxLength: 20,
-                                    keyboardType: TextInputType.text,
                                     textCapitalization:
                                         TextCapitalization.words,
+                                    textInputType: TextInputType.name,
+                                    hintText: "Your Name",
                                   ),
                                   actions: [
                                     TextButton(
@@ -162,66 +136,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               context: context,
                               builder: (context) {
                                 return AlertDialog(
-                                  content: Form(
-                                    key: contactKey,
-                                    child: TextFormField(
+                                  content: PhoneNumberTextfield(
                                       controller: contactController,
                                       focusNode: contactFocusNode,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                          borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onBackground,
-                                              width: 2),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                          borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onBackground,
-                                              width: 2),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                          borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onBackground,
-                                              width: 1),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                          borderSide: BorderSide(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .error,
-                                            width: 2,
-                                          ),
-                                        ),
-                                      ),
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return "Please Enter Mobile Number";
-                                        } else if (value.length != 11 ||
-                                            value.substring(0, 2) != "01" ||
-                                            value.substring(2, 3) == "2" ||
-                                            value.substring(2, 3) == "0" ||
-                                            value.contains(" ")) {
-                                          return "Please Enter valid mobile number";
-                                        }
-                                        return null;
-                                      },
-                                      maxLength: 11,
-                                      keyboardType: TextInputType.phone,
-                                    ),
-                                  ),
+                                      formKey: contactKey),
                                   actions: [
                                     TextButton(
                                         onPressed: () {
@@ -256,46 +174,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               context: context,
                               builder: (context) {
                                 return AlertDialog(
-                                  content: TextField(
+                                  content: CheckoutTextfield(
                                     controller: emailController,
                                     focusNode: emailFocusNode,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(16),
-                                        borderSide: BorderSide(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onBackground,
-                                            width: 2),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(16),
-                                        borderSide: BorderSide(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onBackground,
-                                            width: 2),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(16),
-                                        borderSide: BorderSide(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onBackground,
-                                            width: 1),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(16),
-                                        borderSide: BorderSide(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .error,
-                                          width: 2,
-                                        ),
-                                      ),
-                                    ),
-                                    maxLength: 20,
-                                    keyboardType: TextInputType.emailAddress,
+                                    textCapitalization: TextCapitalization.none,
+                                    textInputType: TextInputType.emailAddress,
+                                    hintText: "Email Address",
                                   ),
                                   actions: [
                                     TextButton(
@@ -348,16 +232,122 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             ),
                           ],
                         ),
-                        icon: Icons.edit,
+                        icon: Icons.local_shipping,
                         onTap: () {}),
                     editableCard(
                         context: context,
                         title: "Address",
-                        subtitle: Text(
-                          "${dummyAccount.addresses!.first.detailsAddress}, ${dummyAccount.addresses!.first.area}, ${dummyAccount.addresses!.first.district}",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        icon: Icons.edit,
+                        subtitle: dummyAddress.isEmpty
+                            ? TextButton.icon(
+                                onPressed: () {},
+                                icon: Icon(Icons.add_location_alt),
+                                label: Text("Add Your Address"))
+                            : Column(
+                                children: [
+                                  SizedBox(
+                                    height: dummyAddress.length * 48,
+                                    child: ListView.builder(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: dummyAddress.length,
+                                        itemBuilder: (context, index) {
+                                          return Row(
+                                            children: [
+                                              Radio(
+                                                  value: dummyAddress[index]
+                                                      .addressName,
+                                                  groupValue: address,
+                                                  onChanged: (val) {
+                                                    setState(() {
+                                                      address = val!;
+                                                    });
+                                                  }),
+                                              Text(dummyAddress[index]
+                                                  .addressName),
+                                              Expanded(
+                                                child: Text(
+                                                  " (${dummyAddress[index].detailsAddress})",
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              )
+                                            ],
+                                          );
+                                        }),
+                                  ),
+                                  TextButton.icon(
+                                      onPressed: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                content: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    CheckoutTextfield(
+                                                      controller:
+                                                          districtController,
+                                                      focusNode:
+                                                          districtFocusNode,
+                                                      hintText: "District",
+                                                      textInputType:
+                                                          TextInputType.text,
+                                                      textCapitalization:
+                                                          TextCapitalization
+                                                              .words,
+                                                    ),
+                                                    16.heightBox,
+                                                    CheckoutTextfield(
+                                                      controller:
+                                                          areaController,
+                                                      focusNode: areaFocusNode,
+                                                      hintText:
+                                                          "Area/Thana/Upozilla",
+                                                      textInputType:
+                                                          TextInputType.text,
+                                                      textCapitalization:
+                                                          TextCapitalization
+                                                              .words,
+                                                    ),
+                                                    16.heightBox,
+                                                    CheckoutTextfield(
+                                                      controller:
+                                                          detailsController,
+                                                      focusNode:
+                                                          detailsFocusNode,
+                                                      hintText:
+                                                          "Details Address",
+                                                      textInputType:
+                                                          TextInputType
+                                                              .multiline,
+                                                      textCapitalization:
+                                                          TextCapitalization
+                                                              .words,
+                                                    ),
+                                                  ],
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        GoRouter.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: Text("cancel")),
+                                                  FilledButton(
+                                                      onPressed: () {
+                                                        GoRouter.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: Text("Update")),
+                                                ],
+                                              );
+                                            });
+                                      },
+                                      icon: Icon(Icons.add_location_alt),
+                                      label: Text("Add Your Address"))
+                                ],
+                              ),
+                        icon: Icons.place,
                         onTap: () {}),
                   ],
                 ),
@@ -366,13 +356,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 //TODO: Discount
 
                 Text("Discount"),
-                kTextField(
-                  context: context,
-                  controller: couponController,
-                  focusNode: couponFocusNode,
-                  hintText: "Enter Coupon Code",
-                  maxLength: 6,
-                  textInputType: TextInputType.text,
+                Row(
+                  children: [
+                    Expanded(
+                      child: CheckoutTextfield(controller: couponController, focusNode: couponFocusNode, textCapitalization: TextCapitalization.none, textInputType: TextInputType.text, hintText: "Enter Coupon Code"),
+                    ),
+                    8.widthBox,
+                    FilledButton(onPressed: () {}, child: Text("Apply"))
+                  ],
                 ),
                 16.heightBox,
 

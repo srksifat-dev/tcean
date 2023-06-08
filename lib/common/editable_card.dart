@@ -12,15 +12,18 @@ Widget editableCard(
     child: Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              title.isEmptyOrNull ? Container(): Text(
-                title!,
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
+              title.isEmptyOrNull
+                  ? Container()
+                  : Text(
+                      title!,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
               subtitle ?? Container()
             ],
           )),

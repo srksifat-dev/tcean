@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:tcean/common/phone_number_textfield.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../../../common/custom_textField.dart';
 import 'otp_screen.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -61,30 +61,36 @@ class _AuthScreenState extends State<AuthScreen> {
                 .textStyle(Theme.of(context).textTheme.bodyMedium)
                 .makeCentered(),
             50.heightBox,
-            Form(
-              key: contactKey,
-              child: kTextField(
-                context: context,
-                controller: phoneNumberController,
-                focusNode: phoneNumberFocusNode,
-                // cursorColor: AppColors.kSkyBlue,
-                // textColor: AppColors.kBlue,
-                hintText: "01XXXXXXXXX",
-                maxLength: 11,
-                textInputType: TextInputType.phone,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please Enter Mobile Number";
-                  } else if (value.length != 11 ||
-                      value.substring(0, 2) != "01" ||
-                      value.substring(2, 3) == "2" ||
-                      value.substring(2, 3) == "0" || value.contains(" ")) {
-                    return "Please Enter valid mobile number";
-                  }
-                  return null;
-                },
-              ).px(50),
-            ),
+            SizedBox(
+                width: context.percentWidth * 50,
+                child: PhoneNumberTextfield(
+                    controller: phoneNumberController,
+                    focusNode: phoneNumberFocusNode,
+                    formKey: contactKey)),
+            // Form(
+            //   key: contactKey,
+            //   child: kTextField(
+            //     context: context,
+            //     controller: phoneNumberController,
+            //     focusNode: phoneNumberFocusNode,
+            //     // cursorColor: AppColors.kSkyBlue,
+            //     // textColor: AppColors.kBlue,
+            //     hintText: "01XXXXXXXXX",
+            //     maxLength: 11,
+            //     textInputType: TextInputType.phone,
+            //     validator: (value) {
+            //       if (value!.isEmpty) {
+            //         return "Please Enter Mobile Number";
+            //       } else if (value.length != 11 ||
+            //           value.substring(0, 2) != "01" ||
+            //           value.substring(2, 3) == "2" ||
+            //           value.substring(2, 3) == "0" || value.contains(" ")) {
+            //         return "Please Enter valid mobile number";
+            //       }
+            //       return null;
+            //     },
+            //   ).px(50),
+            // ),
             20.heightBox,
             FilledButton(
                 onPressed: () {
