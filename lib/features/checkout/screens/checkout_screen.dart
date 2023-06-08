@@ -25,6 +25,28 @@ class CheckoutScreen extends StatefulWidget {
 class _CheckoutScreenState extends State<CheckoutScreen> {
   TextEditingController couponController = TextEditingController();
   FocusNode couponFocusNode = FocusNode();
+  TextEditingController nameController = TextEditingController();
+  FocusNode nameFocusNode = FocusNode();
+  TextEditingController contactController = TextEditingController();
+  FocusNode contactFocusNode = FocusNode();
+  TextEditingController emailController = TextEditingController();
+  FocusNode emailFocusNode = FocusNode();
+  GlobalKey<FormState> contactKey = GlobalKey<FormState>();
+  late String name;
+  late String contactNumber;
+  late String email;
+
+  String deliveryMethod = "Home Delivery";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    name = dummyAccount.name!;
+    contactNumber = dummyAccount.phoneNumber;
+    email = dummyAccount.email!;
+  }
+
   @override
   Widget build(BuildContext context) {
     int total = 500;
@@ -57,29 +79,284 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   children: [
                     editableCard(
                         context: context,
-                        subtitle: "${dummyAccount.name}",
+                        subtitle: Text(
+                          name,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
                         icon: Icons.edit,
-                        onTap: () {}),
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: TextField(
+                                    controller: nameController,
+                                    focusNode: nameFocusNode,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                        borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground,
+                                            width: 2),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                        borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground,
+                                            width: 2),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                        borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground,
+                                            width: 1),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                        borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .error,
+                                          width: 2,
+                                        ),
+                                      ),
+                                    ),
+                                    maxLength: 20,
+                                    keyboardType: TextInputType.text,
+                                    textCapitalization:
+                                        TextCapitalization.words,
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          GoRouter.of(context).pop();
+                                        },
+                                        child: Text("cancel")),
+                                    FilledButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            name = nameController.text;
+                                          });
+                                          GoRouter.of(context).pop();
+                                        },
+                                        child: Text("Update")),
+                                  ],
+                                );
+                              });
+                        }),
                     editableCard(
                         context: context,
-                        subtitle: "${dummyAccount.phoneNumber}",
+                        subtitle: Text(
+                          contactNumber,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
                         icon: Icons.edit,
-                        onTap: () {}),
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: Form(
+                                    key: contactKey,
+                                    child: TextFormField(
+                                      controller: contactController,
+                                      focusNode: contactFocusNode,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onBackground,
+                                              width: 2),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onBackground,
+                                              width: 2),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onBackground,
+                                              width: 1),
+                                        ),
+                                        errorBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .error,
+                                            width: 2,
+                                          ),
+                                        ),
+                                      ),
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return "Please Enter Mobile Number";
+                                        } else if (value.length != 11 ||
+                                            value.substring(0, 2) != "01" ||
+                                            value.substring(2, 3) == "2" ||
+                                            value.substring(2, 3) == "0" ||
+                                            value.contains(" ")) {
+                                          return "Please Enter valid mobile number";
+                                        }
+                                        return null;
+                                      },
+                                      maxLength: 11,
+                                      keyboardType: TextInputType.phone,
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          GoRouter.of(context).pop();
+                                        },
+                                        child: Text("cancel")),
+                                    FilledButton(
+                                        onPressed: () {
+                                          if (contactKey.currentState!
+                                              .validate()) {
+                                            setState(() {
+                                              contactNumber =
+                                                  contactController.text;
+                                            });
+                                            GoRouter.of(context).pop();
+                                          }
+                                        },
+                                        child: Text("Update")),
+                                  ],
+                                );
+                              });
+                        }),
                     editableCard(
                         context: context,
-                        subtitle: "${dummyAccount.email}",
+                        subtitle: Text(
+                          email,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
                         icon: Icons.edit,
-                        onTap: () {}),
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: TextField(
+                                    controller: emailController,
+                                    focusNode: emailFocusNode,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                        borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground,
+                                            width: 2),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                        borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground,
+                                            width: 2),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                        borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground,
+                                            width: 1),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                        borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .error,
+                                          width: 2,
+                                        ),
+                                      ),
+                                    ),
+                                    maxLength: 20,
+                                    keyboardType: TextInputType.emailAddress,
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          GoRouter.of(context).pop();
+                                        },
+                                        child: Text("cancel")),
+                                    FilledButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            email = emailController.text;
+                                          });
+                                          GoRouter.of(context).pop();
+                                        },
+                                        child: Text("Update")),
+                                  ],
+                                );
+                              });
+                        }),
                     editableCard(
                         context: context,
                         title: "Delivery Method",
+                        subtitle: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Radio(
+                                    value: "Home Delivery",
+                                    groupValue: deliveryMethod,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        deliveryMethod = val!;
+                                      });
+                                    }),
+                                Text("Home Delivery"),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Radio(
+                                    value: "Sundarban Courier",
+                                    groupValue: deliveryMethod,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        deliveryMethod = val!;
+                                      });
+                                    }),
+                                Text("Sundarban Courier")
+                              ],
+                            ),
+                          ],
+                        ),
                         icon: Icons.edit,
                         onTap: () {}),
                     editableCard(
                         context: context,
                         title: "Address",
-                        subtitle:
-                            "${dummyAccount.addresses!.first.detailsAddress}, ${dummyAccount.addresses!.first.area}, ${dummyAccount.addresses!.first.district}",
+                        subtitle: Text(
+                          "${dummyAccount.addresses!.first.detailsAddress}, ${dummyAccount.addresses!.first.area}, ${dummyAccount.addresses!.first.district}",
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
                         icon: Icons.edit,
                         onTap: () {}),
                   ],
@@ -236,10 +513,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
                 FilledButton(
                     onPressed: () {
-                      context.pushNamed(RouteConst.kPayment,
-                            pathParameters: {
-                              "orderID": dummyOrders.first.orderID
-                            });
+                      context.pushNamed(RouteConst.kPayment, pathParameters: {
+                        "orderID": dummyOrders.first.orderID
+                      });
                     },
                     child: Text("Pay Now"))
               ],

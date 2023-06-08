@@ -4,7 +4,7 @@ import 'package:velocity_x/velocity_x.dart';
 Widget editableCard(
     {required BuildContext context,
     String? title,
-    String? subtitle,
+    Widget? subtitle,
     required IconData icon,
     required void Function() onTap}) {
   return GestureDetector(
@@ -21,12 +21,7 @@ Widget editableCard(
                 title!,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
-              subtitle.isEmptyOrNull
-                  ? Container()
-                  : Text(
-                      subtitle!,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
+              subtitle ?? Container()
             ],
           )),
           Icon(

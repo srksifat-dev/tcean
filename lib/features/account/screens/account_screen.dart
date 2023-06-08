@@ -26,13 +26,13 @@ class AccountScreen extends StatelessWidget {
           editableCard(
               context: context,
               title: "My Balance",
-              subtitle: "৳300.00",
+              subtitle: Text("৳300.00",style: Theme.of(context).textTheme.bodyMedium,),
               icon: Icons.download,
               onTap: () {}),
           editableCard(
               context: context,
               title: "Addresses",
-              subtitle: "Road No., Area, District",
+              subtitle: Text("Road No., Area, District",style: Theme.of(context).textTheme.bodyMedium,),
               icon: Icons.location_city,
               onTap: () {}),
           editableCard(

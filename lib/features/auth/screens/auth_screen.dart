@@ -78,7 +78,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   } else if (value.length != 11 ||
                       value.substring(0, 2) != "01" ||
                       value.substring(2, 3) == "2" ||
-                      value.substring(2, 3) == "0") {
+                      value.substring(2, 3) == "0" || value.contains(" ")) {
                     return "Please Enter valid mobile number";
                   }
                   return null;
