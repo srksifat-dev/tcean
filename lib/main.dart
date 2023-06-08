@@ -4,7 +4,8 @@ import 'package:tcean/theme/app_theme.dart';
 
 import 'routes/router.dart';
 
-void main() {
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
