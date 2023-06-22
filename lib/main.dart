@@ -1,11 +1,19 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tcean/theme/app_theme.dart';
 
+import 'features/account/controller/customer_active_controller.dart';
 import 'routes/router.dart';
 
-Future<void> main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final observer = AppLifecycleObserver();
+  WidgetsBinding.instance.addObserver(observer);
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const MyApp());
 }
 

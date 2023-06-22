@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flutter/material.dart';
@@ -13,35 +15,58 @@ import 'package:velocity_x/velocity_x.dart';
 
 import '../../../dummy/dummy_product.dart';
 
-class ExploreScreen extends StatelessWidget {
+class ExploreScreen extends StatefulWidget {
   const ExploreScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    DateTime? lastPressed;
-    return WillPopScope(
-      onWillPop: () async {
-        final now = DateTime.now();
-        final maxDuration = Duration(seconds: 2);
-        final isWarning =
-            lastPressed == null || now.difference(lastPressed!) > maxDuration;
+  State<ExploreScreen> createState() => _ExploreScreenState();
+}
 
-        if (isWarning) {
-          lastPressed = DateTime.now();
+class _ExploreScreenState extends State<ExploreScreen> {
+  bool _isBackPressed = false;
+  Timer? _backButtonTimer;
 
-          Fluttertoast.showToast(
-              msg: "Press back again to close the app",
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _backButtonTimer?.cancel();
+    super.dispose();
+  }
+
+  Future<bool> _onWillPop() async {
+    if (_isBackPressed) {
+      // If already pressed once, exit the app
+      return true;
+    }
+
+    _isBackPressed = true;
+    _showSnackBar('Press back again to exit');
+
+    _backButtonTimer = Timer(Duration(seconds: 2), () {
+      // Reset the flag after 2 seconds
+      _isBackPressed = false;
+    });
+
+    return false;
+  }
+
+  void _showSnackBar(String message) {
+    Fluttertoast.showToast(
+              msg: message,
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
               timeInSecForIosWeb: 1,
               textColor: Colors.white,
               fontSize: 16.0);
-
-          return false;
-        } else {
-          return true;
-        }
-      },
+  }
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: _onWillPop,
       child: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {

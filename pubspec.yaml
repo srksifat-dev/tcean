@@ -52,6 +52,7 @@ dependencies:
   timeline_tile: ^2.0.0
   fluttertoast: ^8.2.1
   url_launcher: ^6.1.11
+  flutter_quill: ^7.2.8
 
 dev_dependencies:
   flutter_test:

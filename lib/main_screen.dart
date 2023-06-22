@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tcean/dummy/dummy_product.dart';
-import 'package:tcean/features/cart/screens/cart_screen.dart';
 import 'package:tcean/routes/route_const.dart';
 import 'package:velocity_x/velocity_x.dart';
 

@@ -9,6 +9,8 @@ import 'package:velocity_x/velocity_x.dart';
 
 import '../../../common/t_colors.dart';
 import '../../../common/t_sizes.dart';
+import '../../../models/t_color.dart';
+import '../../../models/t_size.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final String productID;
@@ -114,7 +116,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                             });
                                           },
                                           child: Tooltip(
-                                            message: kTColors[index].toString(),
+                                            message: kColors[index].colorName,
                                             child: Container(
                                               height: 30,
                                               width: 30,
@@ -122,7 +124,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                   border: Border.all(
                                                       width: 2,
                                                       color: colorIndex != index
-                                                          ? kTColors[index]
+                                                          ? Color(kColors[index]
+                                                              .colorCode)
                                                           : Colors.transparent),
                                                   borderRadius:
                                                       BorderRadius.circular(50),
@@ -166,9 +169,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       },
                                     );
                                   },
-                                  children: kTSizes
+                                  children: kSizes
                                       .map(
-                                        (e) => e.text.make(),
+                                        (e) => e.sizeName.text.make(),
                                       )
                                       .toList(),
                                 ),

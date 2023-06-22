@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class PhoneNumberTextfield extends StatelessWidget {
-  PhoneNumberTextfield({Key? key, required this.controller,required this.focusNode,required this.formKey}) : super(key: key);
+  PhoneNumberTextfield(
+      {Key? key,
+      required this.controller,
+      required this.focusNode,
+      required this.formKey})
+      : super(key: key);
   final GlobalKey<FormState> formKey;
   TextEditingController controller;
   FocusNode focusNode;
@@ -15,34 +20,39 @@ class PhoneNumberTextfield extends StatelessWidget {
         child: TextFormField(
           controller: controller,
           focusNode: focusNode,
+          style: Theme.of(context).textTheme.bodySmall,
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.only(
-              left: 16,
-              bottom: 8,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.onBackground, width: 2),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.onBackground, width: 2),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.onBackground, width: 1),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.error,
-                width: 2,
+              contentPadding: EdgeInsets.only(
+                left: 16,
+                bottom: 0,
               ),
-            ),hintText: "01XXXXXXXXX"
-          ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.onBackground,
+                    width: 2),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.onBackground,
+                    width: 2),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.onBackground,
+                    width: 1),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide(
+                  color: Theme.of(context).colorScheme.error,
+                  width: 2,
+                ),
+              ),
+              hintText: "01XXXXXXXXX",
+              hintStyle: Theme.of(context).textTheme.bodySmall),
           validator: (value) {
             if (value!.isEmpty) {
               return "Please Enter Mobile Number";

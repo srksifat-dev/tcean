@@ -1,5 +1,8 @@
 import 'package:tcean/models/address.dart';
 
+import '../dummy/dummy_chats.dart';
+import 'chat.dart';
+
 class Account {
   final String uid;
   final String? name;
@@ -8,6 +11,9 @@ class Account {
   final int balance;
   final List<Address>? addresses;
   final List<CourierBruch>? courierAddresses;
+  final List<Chat>? chats;
+  final String? liveActivity;
+  final bool isActive;
 
   Account({
     required this.uid,
@@ -17,6 +23,9 @@ class Account {
     this.balance = 0,
     this.addresses,
     this.courierAddresses,
+    this.chats,
+    this.liveActivity,
+    required this.isActive,
   });
 }
 
@@ -32,4 +41,7 @@ Account dummyAccount = Account(
           district: "district",
           area: "area",
           detailsAddress: "detailsAddress"),
-    ]);
+          
+    ],liveActivity: "Explore screen",
+    isActive: true,
+    chats: dummyChats,);

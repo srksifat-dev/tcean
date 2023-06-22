@@ -16,8 +16,12 @@ class StoreScreen extends StatefulWidget {
 
 class _StoreScreenState extends State<StoreScreen> {
   int selectedCategory = 0;
+  List<bool> selectedCategories = [];
   @override
   Widget build(BuildContext context) {
+    for (int i = 0; i < dummyCategories.length; i++) {
+      selectedCategories.add(false);
+    }
     return Scaffold(
       body: Column(
         children: [
@@ -29,14 +33,14 @@ class _StoreScreenState extends State<StoreScreen> {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) => FilterChip(
                     label: Text(dummyCategories[index].label),
-                    selected: dummyCategories[index].isSelected,
+                    selected: selectedCategories[index],
                     onSelected: (val) {
                       setState(() {
-                        dummyCategories[index].isSelected = val;
+                        selectedCategories[index] = val;
                       });
                     }),
                 separatorBuilder: (_, __) => 16.widthBox,
-                itemCount: dummyCategories.length),
+                itemCount: selectedCategories.length),
           ),
           Expanded(
             child: MasonryGridView.builder(
@@ -49,10 +53,10 @@ class _StoreScreenState extends State<StoreScreen> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    context
-                        .pushNamed(RouteConst.kProductDetails, pathParameters: {
-                      "productID": Dummy.products[index].productID
-                    });
+                    context.pushNamed(RouteConst.kProductDetails,
+                        pathParameters: {
+                          "productID": Dummy.products[index].productID
+                        });
                     print(GoRouterState.of(context).fullPath);
                   },
                   child: Column(
