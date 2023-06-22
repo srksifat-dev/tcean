@@ -1,19 +1,23 @@
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tcean/theme/app_theme.dart';
 
 import 'features/account/controller/customer_active_controller.dart';
+import 'firebase_options.dart';
 import 'routes/router.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final observer = AppLifecycleObserver();
   WidgetsBinding.instance.addObserver(observer);
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

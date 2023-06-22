@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "978596249741",
+    "project_id": "tcean-878ef",
+    "storage_bucket": "tcean-878ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:978596249741:android:d888692e3a9b17123aa2c4",
+        "android_client_info": {
+          "package_name": "software.headlost.tcean"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "978596249741-c4im3010m597gmmlhk4vco8n17ke25j3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8D4WRsZsUtxwdghSrAEbBS_FlFfYEqCI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "978596249741-c4im3010m597gmmlhk4vco8n17ke25j3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
