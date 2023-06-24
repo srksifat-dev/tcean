@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tcean/features/account/screens/account_screen.dart';
 import 'package:tcean/features/cart/screens/cart_screen.dart';
 import 'package:tcean/features/checkout/screens/checkout_screen.dart';
@@ -27,7 +28,12 @@ class AppRouter {
     initialLocation: "/explore",
     navigatorKey: rootNavigatorKey,
     redirect: (context, state) {
-      final loggedIn = loginInfo.isLoggedIn;
+      bool loggedIn = false;
+      if (gUser != null) {
+        loggedIn = true;
+      } else {
+        loggedIn = false;
+      }
       final isLoggingIn = state.location == "/${RouteConst.kAuth}";
 
       if (!loggedIn && !isLoggingIn) return "/${RouteConst.kAuth}";

@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
+import 'package:tcean/features/auth/controller/auth_controller.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class AuthScreen extends StatelessWidget {
+class AuthScreen extends StatefulWidget {
   const AuthScreen({Key? key}) : super(key: key);
 
+  @override
+  State<AuthScreen> createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends State<AuthScreen> {
+  bool isTapped = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,35 +42,36 @@ class AuthScreen extends StatelessWidget {
             ),
           ),
           64.heightBox,
-          Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                FaIcon(
-                  FontAwesomeIcons.google,
-                  size: 32,
-                ),
-                8.widthBox,
-                Text("Sign in with Google"),
-              ],
-            ).p(16),
-          ),
-          Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                FaIcon(
-                  FontAwesomeIcons.facebook,
-                  size: 32,
-                ),
-                8.widthBox,
-                Text("Sign in with Facebook")
-              ],
-            ).p(16),
+          InkWell(
+            onTap: () {
+              setState(() {
+                isTapped = true;
+              });
+              AuthController.signInWithGoogle().then((_) {
+                setState(() {
+                  isTapped = false;
+                });
+              });
+            },
+            child: Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16)),
+              child: isTapped
+                  ? CircularProgressIndicator(
+                      strokeWidth: 5,
+                    ).p(16)
+                  : Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.google,
+                          size: 32,
+                        ),
+                        8.widthBox,
+                        Text("Sign in with Google"),
+                      ],
+                    ).p(16),
+            ),
           ),
         ],
       ).px(16),

@@ -2,6 +2,8 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:tcean/features/auth/controller/auth_controller.dart';
 import 'package:tcean/theme/app_theme.dart';
 
 import 'features/account/controller/customer_active_controller.dart';
@@ -18,6 +20,7 @@ Future<void> main() async {
     DeviceOrientation.portraitDown,
   ]);
   await Firebase.initializeApp();
+  gUser = await GoogleSignIn().signIn();
   runApp(const MyApp());
 }
 
