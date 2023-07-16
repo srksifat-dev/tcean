@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tcean/dummy/dummy_offer.dart';
 import 'package:tcean/dummy/dummy_product.dart';
 import 'package:tcean/models/offer.dart';
-import 'package:tcean/models/product.dart';
+import 'package:tcean/models/product_model.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../routes/route_const.dart';
@@ -24,9 +24,10 @@ class OfferScreen extends StatelessWidget {
         gridDelegate:
             SliverSimpleGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         itemBuilder: (context, index) {
-          Product product = Dummy.products
+          ProductModel product = Dummy.products
               .where(
-                (element) => element.productID == dummy_offer.productsID![index],
+                (element) =>
+                    element.productID == dummy_offer.productsID![index],
               )
               .first;
           return Card(

@@ -1,4 +1,5 @@
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tcean/core/common/error_text.dart';
 import 'package:tcean/core/common/loader.dart';
 import 'package:tcean/features/auth/controller/auth_controller.dart';
+import 'package:tcean/models/user.dart';
 import 'package:tcean/routes/route_const.dart';
 import 'package:tcean/theme/app_theme.dart';
 
@@ -28,10 +30,28 @@ Future<void> main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  UserModel? userModel;
+
+  void getData(WidgetRef ref, User user) async {
+    userModel = await ref
+        .watch(authControllerProvider.notifier)
+        .getUserData(user.uid)
+        .first;
+
+    ref.read(userProvider.notifier).update((state) => userModel);
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return ref.watch(authStateChangeProvider).when(
         data: (data) => DynamicColorBuilder(
               builder: (lightDynamic, darkDynamic) {
@@ -50,25 +70,33 @@ class MyApp extends ConsumerWidget {
                   ),
                   themeMode: ThemeMode.system,
                   routerConfig: GoRouter(
-                    initialLocation: "/explore",
-    navigatorKey: rootNavigatorKey,
-    redirect: (context, state) {
-      bool loggedIn = false;
-      if (data != null) {
-        loggedIn = true;
-      } else {
-        loggedIn = false;
-      }
-      final isLoggingIn = state.location == "/${RouteConst.kAuth}";
+                      initialLocation: "/explore",
+                      navigatorKey: rootNavigatorKey,
+                      redirect: (context, state) {
+                        bool loggedIn = false;
+                        if (data != null) {
+                          getData(ref, data);
+                          if (userModel != null) {
+                            loggedIn = true;
+                          }
+                        } else {
+                          loggedIn = false;
+                        }
+                        final isLoggingIn =
+                            state.location == "/${RouteConst.kAuth}";
 
-      if (!loggedIn && !isLoggingIn) return "/${RouteConst.kAuth}";
-      if (loggedIn && isLoggingIn) return "/explore";
+                        if (!loggedIn && !isLoggingIn) {
+                          return "/${RouteConst.kAuth}";
+                        }
+                        if (loggedIn && isLoggingIn) return "/explore";
 
-      return null;
-    },
-                    routes: routes),
+                        return null;
+                      },
+                      routes: routes),
                 );
               },
-            ),error: (error, stackTrace) => ErrorText(error: error.toString()),loading: ()=> const Loader());
+            ),
+        error: (error, stackTrace) => ErrorText(error: error.toString()),
+        loading: () => const Loader());
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tcean/dummy/dummy_product.dart';
-import 'package:tcean/models/product.dart';
+import 'package:tcean/models/product_model.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/common/t_colors.dart';
@@ -28,7 +28,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     print(GoRouterState.of(context).fullPath);
-    final Product product = Dummy.products
+    final ProductModel product = Dummy.products
         .where(
           (element) => element.productID == widget.productID,
         )
