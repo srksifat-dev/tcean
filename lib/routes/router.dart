@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:tcean/features/account/screens/account_screen.dart';
+import 'package:tcean/features/user/screens/user_screen.dart';
 import 'package:tcean/features/cart/screens/cart_screen.dart';
 import 'package:tcean/features/checkout/screens/checkout_screen.dart';
 import 'package:tcean/features/customize/screens/customize_screen.dart';
@@ -14,7 +14,6 @@ import 'package:tcean/features/order_tracking/screens/order_screen_details.dart'
 import 'package:tcean/features/store/screens/store_screen.dart';
 import '../features/auth/controller/auth_controller.dart';
 import '../features/auth/screens/auth_screen.dart';
-import '../features/auth/screens/otp_screen.dart';
 import '../features/payment/screens/payment_screen.dart';
 import '../features/store/screens/product_details_screen.dart';
 import '../main_screen.dart';
@@ -23,27 +22,7 @@ import 'route_const.dart';
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 final shellNavigatorKey = GlobalKey<NavigatorState>();
 
-class AppRouter {
-  GoRouter router = GoRouter(
-    initialLocation: "/explore",
-    navigatorKey: rootNavigatorKey,
-    redirect: (context, state) {
-      bool loggedIn = false;
-      if (gUser != null) {
-        loggedIn = true;
-      } else {
-        loggedIn = false;
-      }
-      final isLoggingIn = state.location == "/${RouteConst.kAuth}";
-
-      if (!loggedIn && !isLoggingIn) return "/${RouteConst.kAuth}";
-      if (loggedIn && isLoggingIn) return "/explore";
-
-      return null;
-    },
-    refreshListenable: loginInfo,
-    routes: [
-      ShellRoute(
+List<RouteBase> routes = [ShellRoute(
         navigatorKey: shellNavigatorKey,
         pageBuilder: (context, state, child) {
           return CupertinoPage(child: MainScreen(child: child));
@@ -189,17 +168,4 @@ class AppRouter {
           key: state.pageKey,
           child: AuthScreen(),
         ),
-        routes: [
-          GoRoute(
-            name: RouteConst.kOtp,
-            path: "otp",
-            pageBuilder: (context, state) => CupertinoPage(
-              key: state.pageKey,
-              child: OtpScreen(""),
-            ),
-          ),
-        ],
-      ),
-    ],
-  );
-}
+      ),];

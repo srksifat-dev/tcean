@@ -5,7 +5,8 @@ class Offer {
   final int? percentage;
   final int? money;
   final List<String>? productsID;
-  final String? couponID;
+  final List<String>? categoriesID;
+  final String couponID;
 
   Offer(
       {required this.offerID,
@@ -14,5 +15,6 @@ class Offer {
       this.percentage,
       this.money,
       this.productsID,
-      this.couponID});
+      this.categoriesID,
+      required this.couponID,});
 }

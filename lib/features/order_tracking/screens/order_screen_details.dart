@@ -4,7 +4,7 @@ import 'package:tcean/dummy/dummy_order.dart';
 import 'package:tcean/features/explore/widgets/image_slider.dart';
 import 'package:tcean/features/order_tracking/widgets/order_item_card.dart';
 import 'package:tcean/features/order_tracking/widgets/order_item_slider.dart';
-import 'package:tcean/models/account.dart';
+import 'package:tcean/models/user.dart';
 import 'package:tcean/models/order.dart';
 import 'package:velocity_x/velocity_x.dart';
 

@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tcean/dummy/dummy_offer.dart';
+import 'package:tcean/features/auth/controller/auth_controller.dart';
 import 'package:tcean/features/explore/widgets/image_slider.dart';
 import 'package:tcean/routes/route_const.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -15,27 +17,10 @@ import 'package:velocity_x/velocity_x.dart';
 
 import '../../../dummy/dummy_product.dart';
 
-class ExploreScreen extends StatefulWidget {
-  const ExploreScreen({Key? key}) : super(key: key);
+class ExploreScreen extends ConsumerWidget {
+  ExploreScreen({Key? key}) : super(key: key);
 
-  @override
-  State<ExploreScreen> createState() => _ExploreScreenState();
-}
-
-class _ExploreScreenState extends State<ExploreScreen> {
   bool _isBackPressed = false;
-  Timer? _backButtonTimer;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _backButtonTimer?.cancel();
-    super.dispose();
-  }
 
   Future<bool> _onWillPop() async {
     if (_isBackPressed) {
@@ -46,7 +31,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     _isBackPressed = true;
     _showSnackBar('Press back again to exit');
 
-    _backButtonTimer = Timer(Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 2), () {
       // Reset the flag after 2 seconds
       _isBackPressed = false;
     });
@@ -56,15 +41,17 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
   void _showSnackBar(String message) {
     Fluttertoast.showToast(
-              msg: message,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 1,
-              textColor: Colors.white,
-              fontSize: 16.0);
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(userProvider);
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(

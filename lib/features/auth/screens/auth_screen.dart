@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
+import 'package:tcean/core/providers/firebase_providers.dart';
 import 'package:tcean/features/auth/controller/auth_controller.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class AuthScreen extends StatefulWidget {
+class AuthScreen extends ConsumerWidget {
   const AuthScreen({Key? key}) : super(key: key);
 
-  @override
-  State<AuthScreen> createState() => _AuthScreenState();
-}
+  void signInWithGoogle(BuildContext context, WidgetRef ref) {
+    ref.read(authControllerProvider.notifier).signInWithGoogle(context);
+  }
 
-class _AuthScreenState extends State<AuthScreen> {
-  bool isTapped = false;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isLoading = ref.watch(authControllerProvider);
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -43,34 +44,21 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
           64.heightBox,
           InkWell(
-            onTap: () {
-              setState(() {
-                isTapped = true;
-              });
-              AuthController.signInWithGoogle().then((_) {
-                setState(() {
-                  isTapped = false;
-                });
-              });
-            },
+            onTap: () => signInWithGoogle(context, ref),
             child: Card(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16)),
-              child: isTapped
-                  ? CircularProgressIndicator(
-                      strokeWidth: 5,
-                    ).p(16)
-                  : Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        FaIcon(
-                          FontAwesomeIcons.google,
-                          size: 32,
-                        ),
-                        8.widthBox,
-                        Text("Sign in with Google"),
-                      ],
-                    ).p(16),
+              child: isLoading ? Center(child: CircularProgressIndicator()) : Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  FaIcon(
+                    FontAwesomeIcons.google,
+                    size: 32,
+                  ),
+                  8.widthBox,
+                  Text("Sign in with Google"),
+                ],
+              ).p(16),
             ),
           ),
         ],

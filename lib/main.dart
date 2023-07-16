@@ -2,11 +2,16 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:tcean/core/common/error_text.dart';
+import 'package:tcean/core/common/loader.dart';
 import 'package:tcean/features/auth/controller/auth_controller.dart';
+import 'package:tcean/routes/route_const.dart';
 import 'package:tcean/theme/app_theme.dart';
 
-import 'features/account/controller/customer_active_controller.dart';
+import 'features/user/controller/user_active_controller.dart';
 import 'firebase_options.dart';
 import 'routes/router.dart';
 
@@ -20,33 +25,50 @@ Future<void> main() async {
     DeviceOrientation.portraitDown,
   ]);
   await Firebase.initializeApp();
-  gUser = await GoogleSignIn().signIn();
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
   @override
-  Widget build(BuildContext context) {
-    return DynamicColorBuilder(
-      builder: (lightDynamic, darkDynamic) {
-        return MaterialApp.router(
-          theme: ThemeData(
-            useMaterial3: true,
-            colorScheme: lightDynamic,
-            textTheme: textTheme,
-            appBarTheme: appBarTheme,
-          ),
-          darkTheme: ThemeData(
-            useMaterial3: true,
-            colorScheme: darkDynamic,
-            textTheme: textTheme,
-            appBarTheme: appBarTheme,
-          ),
-          themeMode: ThemeMode.system,
-          routerConfig: AppRouter().router,
-        );
-      },
-    );
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ref.watch(authStateChangeProvider).when(
+        data: (data) => DynamicColorBuilder(
+              builder: (lightDynamic, darkDynamic) {
+                return MaterialApp.router(
+                  theme: ThemeData(
+                    useMaterial3: true,
+                    colorScheme: lightDynamic,
+                    textTheme: textTheme,
+                    appBarTheme: appBarTheme,
+                  ),
+                  darkTheme: ThemeData(
+                    useMaterial3: true,
+                    colorScheme: darkDynamic,
+                    textTheme: textTheme,
+                    appBarTheme: appBarTheme,
+                  ),
+                  themeMode: ThemeMode.system,
+                  routerConfig: GoRouter(
+                    initialLocation: "/explore",
+    navigatorKey: rootNavigatorKey,
+    redirect: (context, state) {
+      bool loggedIn = false;
+      if (data != null) {
+        loggedIn = true;
+      } else {
+        loggedIn = false;
+      }
+      final isLoggingIn = state.location == "/${RouteConst.kAuth}";
+
+      if (!loggedIn && !isLoggingIn) return "/${RouteConst.kAuth}";
+      if (loggedIn && isLoggingIn) return "/explore";
+
+      return null;
+    },
+                    routes: routes),
+                );
+              },
+            ),error: (error, stackTrace) => ErrorText(error: error.toString()),loading: ()=> const Loader());
   }
 }

@@ -7,8 +7,8 @@ import 'package:tcean/dummy/dummy_product.dart';
 import 'package:tcean/models/product.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../../../common/t_colors.dart';
-import '../../../common/t_sizes.dart';
+import '../../../core/common/t_colors.dart';
+import '../../../core/common/t_sizes.dart';
 import '../../../models/t_color.dart';
 import '../../../models/t_size.dart';
 

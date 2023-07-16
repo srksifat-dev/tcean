@@ -9,8 +9,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../../../common/t_colors.dart';
-import '../../../common/t_sizes.dart';
+import '../../../core/common/t_colors.dart';
+import '../../../core/common/t_sizes.dart';
 import '../../../theme/app_colors.dart';
 
 class CustomizeScreen extends StatefulWidget {

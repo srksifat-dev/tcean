@@ -1,5 +1,5 @@
 import 'package:tcean/dummy/dummy_product.dart';
-import 'package:tcean/models/account.dart';
+import 'package:tcean/models/user.dart';
 import 'package:tcean/models/address.dart';
 
 import '../models/order.dart';

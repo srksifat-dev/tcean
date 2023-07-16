@@ -12,4 +12,6 @@ Offer dummy_offer = Offer(
     "4",
     "5",
   ],
+  couponID: "couponID",
+  
 );

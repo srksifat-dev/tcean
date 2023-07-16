@@ -18,10 +18,10 @@ Widget editableCard(
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              title.isEmptyOrNull
+              title == null
                   ? Container()
                   : Text(
-                      title!,
+                      title,
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
               subtitle ?? Container()

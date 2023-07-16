@@ -57,7 +57,10 @@ dependencies:
   firebase_auth: ^4.6.3
   google_sign_in: ^6.1.4
   font_awesome_flutter: ^10.4.0
-  flutter_facebook_auth: ^6.0.0
+  cloud_firestore: ^4.8.2
+  flutter_riverpod: ^2.3.6
+  firebase_storage: ^11.2.5
+  fpdart: ^0.6.0
 
 dev_dependencies:
   flutter_test:

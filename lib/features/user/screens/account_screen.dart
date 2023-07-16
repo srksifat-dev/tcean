@@ -4,8 +4,8 @@ import 'package:tcean/dummy/dummy_address.dart';
 import 'package:tcean/routes/route_const.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../../../common/checkout_textfield.dart';
-import '../../../common/editable_card.dart';
+import '../../../core/common/checkout_textfield.dart';
+import '../../../core/common/editable_card.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);

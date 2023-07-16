@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tcean/common/editable_card.dart';
-import 'package:tcean/common/phone_number_textfield.dart';
+import 'package:tcean/core/common/editable_card.dart';
+import 'package:tcean/core/common/phone_number_textfield.dart';
 import 'package:tcean/dummy/dummy_address.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../../../common/checkout_textfield.dart';
+import '../../../core/common/checkout_textfield.dart';
 import '../../../dummy/dummy_order.dart';
-import '../../../models/account.dart';
+import '../../../models/user.dart';
 import '../../../models/order.dart';
 import '../../../routes/route_const.dart';
 import '../../order_tracking/widgets/order_item_card.dart';
