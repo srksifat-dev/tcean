@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tcean/core/common/main_appBar.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../dummy/dummy_product.dart';
-import '../../../routes/route_const.dart';
+import '../../../core/constants/route_const.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({Key? key}) : super(key: key);
@@ -12,8 +13,9 @@ class FavoritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: mainAppBar(context: context),
       body: MasonryGridView.builder(
-        itemCount: Dummy.products.length,
+        itemCount: dummyProducts.length,
         gridDelegate:
             SliverSimpleGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         itemBuilder: (context, index) => Card(
@@ -23,14 +25,14 @@ class FavoritesScreen extends StatelessWidget {
           child: InkWell(
             onTap: () {
               context.pushNamed(RouteConst.kProductDetails, pathParameters: {
-                "productID": Dummy.products[index].productID
+                "productID": dummyProducts[index].productID
               });
-              print(GoRouterState.of(context).fullPath);
+              // print(GoRouterState.of(context).fullPath);
             },
             child: Column(
               children: [
                 Image.asset(
-                  Dummy.products[index].productImageUrls.first,
+                  dummyProducts[index].productImageUrls.first,
                 ),
                 Divider(
                   thickness: 2,
@@ -40,7 +42,7 @@ class FavoritesScreen extends StatelessWidget {
                   children: [
                     8.widthBox,
                     Expanded(
-                      child: Text(Dummy.products[index].productName,
+                      child: Text(dummyProducts[index].productName,
                           style: Theme.of(context).textTheme.bodyMedium,
                           overflow: TextOverflow.ellipsis),
                     ),

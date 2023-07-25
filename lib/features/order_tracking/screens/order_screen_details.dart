@@ -5,7 +5,7 @@ import 'package:tcean/features/explore/widgets/image_slider.dart';
 import 'package:tcean/features/order_tracking/widgets/order_item_card.dart';
 import 'package:tcean/features/order_tracking/widgets/order_item_slider.dart';
 import 'package:tcean/models/user.dart';
-import 'package:tcean/models/order.dart';
+import 'package:tcean/models/order_model.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../widgets/order_status.dart';
@@ -116,7 +116,7 @@ class OrderDetailsScreen extends StatelessWidget {
                         ? Theme.of(context).colorScheme.onBackground
                         : Theme.of(context).colorScheme.surfaceVariant,
                     orderTime: order.orderStep == OrderStep.confirmed
-                        ? order.orderTime
+                        ? order.orderTime.toString()
                         : "",
                     orderTimeColor: order.orderStep == OrderStep.confirmed
                         ? Theme.of(context).colorScheme.onBackground
@@ -137,7 +137,7 @@ class OrderDetailsScreen extends StatelessWidget {
                         ? Theme.of(context).colorScheme.onBackground
                         : Theme.of(context).colorScheme.surfaceVariant,
                     orderTime: order.orderStep == OrderStep.packed
-                        ? order.orderTime
+                        ? order.orderTime.toString()
                         : "",
                     orderTimeColor: order.orderStep == OrderStep.packed
                         ? Theme.of(context).colorScheme.onBackground
@@ -158,7 +158,7 @@ class OrderDetailsScreen extends StatelessWidget {
                         ? Theme.of(context).colorScheme.onBackground
                         : Theme.of(context).colorScheme.surfaceVariant,
                     orderTime: order.orderStep == OrderStep.shipped
-                        ? order.orderTime
+                        ? order.orderTime.toString()
                         : "",
                     orderTimeColor: order.orderStep == OrderStep.shipped
                         ? Theme.of(context).colorScheme.onBackground
@@ -181,7 +181,7 @@ class OrderDetailsScreen extends StatelessWidget {
                               ? Theme.of(context).colorScheme.onBackground
                               : Theme.of(context).colorScheme.surfaceVariant,
                           orderTime: order.orderStep == OrderStep.delivered
-                              ? order.orderTime
+                              ? order.orderTime.toString()
                               : "",
                           orderTimeColor: order.orderStep == OrderStep.delivered
                               ? Theme.of(context).colorScheme.onBackground

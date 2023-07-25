@@ -1,7 +1,6 @@
-import 'package:flutter/rendering.dart';
-import 'package:tcean/models/address.dart';
-import 'package:tcean/models/cart.dart';
-import 'package:tcean/models/coupon.dart';
+import 'address.dart';
+import 'cart.dart';
+import 'coupon.dart';
 
 enum OrderStep {
   confirmed,
@@ -27,7 +26,7 @@ class Order {
   final Address? address;
   final CourierBruch? courierBrunch;
   final OrderStep orderStep;
-  final String orderTime;
+  final DateTime orderTime;
   final String receiverName;
   final String receiverContactNumber;
   final String? receiverEmail;

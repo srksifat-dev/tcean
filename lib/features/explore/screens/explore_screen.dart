@@ -8,10 +8,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tcean/core/common/main_appBar.dart';
 import 'package:tcean/dummy/dummy_offer.dart';
 import 'package:tcean/features/auth/controller/auth_controller.dart';
 import 'package:tcean/features/explore/widgets/image_slider.dart';
-import 'package:tcean/routes/route_const.dart';
+import 'package:tcean/core/constants/route_const.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -55,6 +56,7 @@ class ExploreScreen extends ConsumerWidget {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
+        appBar: mainAppBar(context: context),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             context.goNamed(RouteConst.kCustomize);
@@ -186,7 +188,7 @@ class ExploreScreen extends ConsumerWidget {
                         onTap: () {
                           context.pushNamed(RouteConst.kProductDetails,
                               pathParameters: {
-                                "productID": Dummy.products[index].productID
+                                "productID": dummyProducts[index].productID
                               });
                         },
                         child: Card(
@@ -196,8 +198,7 @@ class ExploreScreen extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Expanded(
-                                child: Image.asset(Dummy
-                                        .products[index].productImageUrls.first)
+                                child: Image.asset(dummyProducts[index].productImageUrls.first)
                                     .p(16),
                               ),
                               Divider(thickness: 2),
@@ -212,14 +213,14 @@ class ExploreScreen extends ConsumerWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          Dummy.products[index].productName,
+                                          dummyProducts[index].productName,
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleSmall,
                                         ).pOnly(left: 16),
                                         Row(
                                           children:
-                                              Dummy.products[index].categories
+                                              dummyProducts[index].categories
                                                   .map((e) => Text(
                                                         "#$e",
                                                         style: Theme.of(context)
@@ -245,7 +246,7 @@ class ExploreScreen extends ConsumerWidget {
                         ),
                       );
                     },
-                    cardsCount: Dummy.products.length),
+                    cardsCount: dummyProducts.length),
               ),
               16.heightBox,
 
@@ -275,7 +276,7 @@ class ExploreScreen extends ConsumerWidget {
                                 context.pushNamed(RouteConst.kProductDetails,
                                     pathParameters: {
                                       "productID":
-                                          Dummy.products[index].productID
+                                          dummyProducts[index].productID
                                     });
                               },
                               child: Card(
@@ -284,7 +285,7 @@ class ExploreScreen extends ConsumerWidget {
                                 child: Column(
                                   children: [
                                     Image.asset(
-                                      Dummy.products[index].productImageUrls
+                                      dummyProducts[index].productImageUrls
                                           .first,
                                       height: context.percentHeight * 15,
                                     ),
@@ -298,7 +299,7 @@ class ExploreScreen extends ConsumerWidget {
                                         8.widthBox,
                                         Expanded(
                                           child: Text(
-                                              Dummy.products[index].productName,
+                                              dummyProducts[index].productName,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyMedium,
@@ -316,7 +317,7 @@ class ExploreScreen extends ConsumerWidget {
                           );
                         },
                         separatorBuilder: (_, __) => 8.widthBox,
-                        itemCount: Dummy.products.length,
+                        itemCount: dummyProducts.length,
                       ),
                     ),
                   ],
@@ -345,7 +346,7 @@ class ExploreScreen extends ConsumerWidget {
                                 context.pushNamed(RouteConst.kProductDetails,
                                     pathParameters: {
                                       "productID":
-                                          Dummy.products[index].productID
+                                          dummyProducts[index].productID
                                     });
                               },
                               child: Card(
@@ -354,7 +355,7 @@ class ExploreScreen extends ConsumerWidget {
                                 child: Column(
                                   children: [
                                     Image.asset(
-                                      Dummy.products[index].productImageUrls
+                                      dummyProducts[index].productImageUrls
                                           .first,
                                       height: context.percentHeight * 15,
                                     ),
@@ -368,7 +369,7 @@ class ExploreScreen extends ConsumerWidget {
                                         8.widthBox,
                                         Expanded(
                                           child: Text(
-                                              Dummy.products[index].productName,
+                                              dummyProducts[index].productName,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyMedium,
@@ -386,7 +387,7 @@ class ExploreScreen extends ConsumerWidget {
                           );
                         },
                         separatorBuilder: (_, __) => 8.widthBox,
-                        itemCount: Dummy.products.length,
+                        itemCount: dummyProducts.length,
                       ),
                     ),
                     RotatedBox(

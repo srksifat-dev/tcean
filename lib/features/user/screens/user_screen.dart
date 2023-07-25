@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tcean/core/common/main_appBar.dart';
 import 'package:tcean/dummy/dummy_address.dart';
-import 'package:tcean/routes/route_const.dart';
+import 'package:tcean/core/constants/route_const.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/common/checkout_textfield.dart';
 import '../../../core/common/editable_card.dart';
 
-class AccountScreen extends StatefulWidget {
-  const AccountScreen({Key? key}) : super(key: key);
+class UserScreen extends StatefulWidget {
+  const UserScreen({Key? key}) : super(key: key);
 
   @override
-  State<AccountScreen> createState() => _AccountScreenState();
+  State<UserScreen> createState() => _UserScreenState();
 }
 
-class _AccountScreenState extends State<AccountScreen> {
+class _UserScreenState extends State<UserScreen> {
   TextEditingController nameController = TextEditingController();
   FocusNode nameFocusNode = FocusNode();
   TextEditingController districtController = TextEditingController();
@@ -27,6 +28,7 @@ class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: mainAppBar(context: context),
       body: Column(
         children: [
           editableCard(

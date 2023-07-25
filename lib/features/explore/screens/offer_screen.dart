@@ -7,7 +7,7 @@ import 'package:tcean/models/offer.dart';
 import 'package:tcean/models/product_model.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../../../routes/route_const.dart';
+import '../../../core/constants/route_const.dart';
 
 class OfferScreen extends StatelessWidget {
   const OfferScreen({Key? key, required this.offerID}) : super(key: key);
@@ -24,7 +24,7 @@ class OfferScreen extends StatelessWidget {
         gridDelegate:
             SliverSimpleGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         itemBuilder: (context, index) {
-          ProductModel product = Dummy.products
+          ProductModel product = dummyProducts
               .where(
                 (element) =>
                     element.productID == dummy_offer.productsID![index],

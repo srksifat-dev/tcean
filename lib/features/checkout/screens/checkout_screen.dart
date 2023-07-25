@@ -8,8 +8,8 @@ import 'package:velocity_x/velocity_x.dart';
 import '../../../core/common/checkout_textfield.dart';
 import '../../../dummy/dummy_order.dart';
 import '../../../models/user.dart';
-import '../../../models/order.dart';
-import '../../../routes/route_const.dart';
+import '../../../models/order_model.dart';
+import '../../../core/constants/route_const.dart';
 import '../../order_tracking/widgets/order_item_card.dart';
 import '../../order_tracking/widgets/order_item_slider.dart';
 

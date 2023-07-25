@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:tcean/core/common/main_appBar.dart';
 import 'package:tcean/dummy/dummy_order.dart';
 import 'package:tcean/dummy/dummy_product.dart';
 import 'package:tcean/features/cart/widgets/cart_card.dart';
 import 'package:tcean/models/cart.dart';
-import 'package:tcean/routes/route_const.dart';
+import 'package:tcean/core/constants/route_const.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+import '../../../dummy/dummy_cart.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -23,16 +26,17 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: mainAppBar(context: context),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Dummy.carts.isNotEmpty
+          carts.isNotEmpty
               ? Expanded(
                   child: ListView.separated(
                     itemBuilder: (context, index) {
-                      var cart = Dummy.carts[index];
+                      var cart = carts[index];
                       return Dismissible(
-                        key: ValueKey(Dummy.carts[index].product.productID),
+                        key: ValueKey(carts[index].product.productID),
                         background: Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16)),
@@ -40,14 +44,14 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                         onDismissed: (_) {
                           setState(() {
-                            Dummy.carts.remove(Dummy.carts[index]);
+                            carts.remove(carts[index]);
                           });
                         },
                         child: cartCard(context: context, cart: cart),
                       );
                     },
                     separatorBuilder: (_, __) => 16.heightBox,
-                    itemCount: Dummy.carts.length,
+                    itemCount: carts.length,
                   ),
                 )
               : Expanded(
@@ -55,7 +59,7 @@ class _CartScreenState extends State<CartScreen> {
                       child: Lottie.asset("assets/lotties/empty_cart.json")),
                 ),
           AnimatedContainer(
-            height: Dummy.carts.isEmpty ? 0 : 80,
+            height: carts.isEmpty ? 0 : 80,
             width: context.percentWidth * 100,
             duration: Duration(milliseconds: 300),
             decoration: BoxDecoration(
@@ -64,7 +68,7 @@ class _CartScreenState extends State<CartScreen> {
             child: Visibility(
               maintainState: true,
               maintainAnimation: true,
-              visible: Dummy.carts.isEmpty ? false : true,
+              visible: carts.isEmpty ? false : true,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [

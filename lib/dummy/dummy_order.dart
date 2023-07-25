@@ -1,13 +1,12 @@
-import 'package:tcean/dummy/dummy_product.dart';
-import 'package:tcean/models/user.dart';
-import 'package:tcean/models/address.dart';
-
-import '../models/order.dart';
+import '../models/user.dart';
+import '../models/address.dart';
+import '../models/order_model.dart';
+import 'dummy_cart.dart';
 
 List<Order> dummyOrders = [
   Order(
     orderID: "orderID",
-    carts: Dummy.carts,
+    carts: carts,
     paymentStatus: true,
     deliveryMethod: DeliveryMethod.cod,
     address: Address(
@@ -16,16 +15,16 @@ List<Order> dummyOrders = [
         area: "area",
         detailsAddress: "detailsAddress"),
     orderStep: OrderStep.confirmed,
-    orderTime: DateTime.now().toString(),
+    orderTime: DateTime.now(),
     orderExpense: 300,
     deliveryCharge: 60,
-    receiverContactNumber: dummyAccount.phoneNumber,
-    receiverEmail: dummyAccount.email,
-    receiverName: dummyAccount.name!,
+    receiverContactNumber: "dummyAccount[0].phoneNumber",
+    receiverEmail: "dummyAccount[0].email",
+    receiverName: "dummyAccount[0].name!",
   ),
   Order(
     orderID: "orderID",
-    carts: Dummy.carts,
+    carts: carts,
     paymentStatus: true,
     deliveryMethod: DeliveryMethod.scs,
     address: Address(
@@ -34,11 +33,11 @@ List<Order> dummyOrders = [
         area: "area",
         detailsAddress: "detailsAddress"),
     orderStep: OrderStep.processing,
-    orderTime: DateTime.now().toString(),
+    orderTime: DateTime.now(),
     orderExpense: 300,
     deliveryCharge: 60,
-    receiverContactNumber: dummyAccount.phoneNumber,
-    receiverEmail: dummyAccount.email,
-    receiverName: dummyAccount.name!,
+    receiverContactNumber: "dummyAccount[0].phoneNumber",
+    receiverEmail: "dummyAccount[0].email",
+    receiverName: "dummyAccount[0].name!",
   ),
 ];

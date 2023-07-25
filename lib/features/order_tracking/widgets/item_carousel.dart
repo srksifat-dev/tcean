@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:tcean/features/order_tracking/widgets/order_item_card.dart';
-import 'package:tcean/models/order.dart';
+import 'package:tcean/models/order_model.dart';
 import 'package:tcean/models/product_model.dart';
 import 'package:velocity_x/velocity_x.dart';
 
