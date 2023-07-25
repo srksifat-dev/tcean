@@ -21,438 +21,408 @@ import '../../../dummy/dummy_product.dart';
 class ExploreScreen extends ConsumerWidget {
   ExploreScreen({Key? key}) : super(key: key);
 
-  bool _isBackPressed = false;
-
-  Future<bool> _onWillPop() async {
-    if (_isBackPressed) {
-      // If already pressed once, exit the app
-      return true;
-    }
-
-    _isBackPressed = true;
-    _showSnackBar('Press back again to exit');
-
-    Timer(const Duration(seconds: 2), () {
-      // Reset the flag after 2 seconds
-      _isBackPressed = false;
-    });
-
-    return false;
-  }
-
-  void _showSnackBar(String message) {
-    Fluttertoast.showToast(
-        msg: message,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        textColor: Colors.white,
-        fontSize: 16.0);
-  }
+  
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider);
-    return WillPopScope(
-      onWillPop: _onWillPop,
-      child: Scaffold(
-        appBar: mainAppBar(context: context),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            // context.goNamed(RouteConst.kCustomize);
-            if (user != null) {
-              print(user.email);
-            } else {
-              print("null");
-            }
-          },
-          label: Text("Custom Your 👕"),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  SizedBox(
-                    height: context.percentHeight * 5,
-                    child: DefaultTextStyle(
-                      style: GoogleFonts.poppins().copyWith(
-                          fontSize: 30,
-                          color:
-                              Theme.of(context).colorScheme.onSurfaceVariant),
-                      child: AnimatedTextKit(
-                        repeatForever: true,
-                        animatedTexts: [
-                          RotateAnimatedText(
-                            'Trendy✨',
+    return Scaffold(
+      appBar: mainAppBar(context: context),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          // context.goNamed(RouteConst.kCustomize);
+          if (user != null) {
+            print(user.email);
+          } else {
+            print("null");
+          }
+        },
+        label: Text("Custom Your 👕"),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                  height: context.percentHeight * 5,
+                  child: DefaultTextStyle(
+                    style: GoogleFonts.poppins().copyWith(
+                        fontSize: 30,
+                        color:
+                            Theme.of(context).colorScheme.onSurfaceVariant),
+                    child: AnimatedTextKit(
+                      repeatForever: true,
+                      animatedTexts: [
+                        RotateAnimatedText(
+                          'Trendy✨',
+                        ),
+                        RotateAnimatedText(
+                          'Smart😎',
+                        ),
+                        RotateAnimatedText(
+                          'Customized✏',
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Text(
+              "Welcome to the ocean of tees",
+              style: GoogleFonts.josefinSans().copyWith(
+                fontSize: 50,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            10.widthBox,
+            SizedBox(
+              height: context.percentHeight * 7,
+              width: context.percentWidth * 100,
+              child: DefaultTextStyle(
+                style: Theme.of(context).textTheme.bodySmall!,
+                child: AnimatedTextKit(
+                  isRepeatingAnimation: false,
+                  animatedTexts: [
+                    TypewriterAnimatedText(
+                        "Fashion is a form of self-expression and we are here for you to help you to express yourself!",
+                        textAlign: TextAlign.start),
+                  ],
+                ),
+              ),
+            ),
+
+            16.heightBox,
+
+            //TODO: Offer Section
+
+            InkWell(
+              radius: 16,
+              onTap: () {
+                context.pushNamed(RouteConst.kOffer,
+                    pathParameters: {"offerID": dummy_offer.offerID});
+              },
+              child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16)),
+                child: Row(
+                  children: [
+                    Container(
+                      height: 80,
+                      width: 80,
+                      decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(16)),
+                      child: Icon(
+                        Icons.sell,
+                        size: 50,
+                      ),
+                    ),
+                    16.widthBox,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            dummy_offer.title,
+                            style: Theme.of(context).textTheme.titleSmall,
                           ),
-                          RotateAnimatedText(
-                            'Smart😎',
-                          ),
-                          RotateAnimatedText(
-                            'Customized✏',
-                          ),
+                          dummy_offer.subtitle.isNotEmptyAndNotNull
+                              ? Text(
+                                  dummy_offer.subtitle!,
+                                  style:
+                                      Theme.of(context).textTheme.bodyMedium,
+                                  overflow: TextOverflow.ellipsis,
+                                )
+                              : Container()
                         ],
                       ),
                     ),
-                  ),
-                ],
+                    IconButton(
+                        onPressed: () {}, icon: Icon(Icons.arrow_forward_ios))
+                  ],
+                ).pOnly(left: 16, top: 16, bottom: 16),
               ),
-              Text(
-                "Welcome to the ocean of tees",
-                style: GoogleFonts.josefinSans().copyWith(
-                  fontSize: 50,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              10.widthBox,
-              SizedBox(
-                height: context.percentHeight * 7,
-                width: context.percentWidth * 100,
-                child: DefaultTextStyle(
-                  style: Theme.of(context).textTheme.bodySmall!,
-                  child: AnimatedTextKit(
-                    isRepeatingAnimation: false,
-                    animatedTexts: [
-                      TypewriterAnimatedText(
-                          "Fashion is a form of self-expression and we are here for you to help you to express yourself!",
-                          textAlign: TextAlign.start),
-                    ],
-                  ),
-                ),
-              ),
+            ),
 
-              16.heightBox,
+            16.heightBox,
 
-              //TODO: Offer Section
+            //TODO: Special Section
 
-              InkWell(
-                radius: 16,
-                onTap: () {
-                  context.pushNamed(RouteConst.kOffer,
-                      pathParameters: {"offerID": dummy_offer.offerID});
-                },
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16)),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 80,
-                        width: 80,
-                        decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.2),
+            Text(
+              "New Arrival",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            SizedBox(
+              height: context.percentHeight * 40,
+              width: context.percentWidth * 80,
+              child: AppinioSwiper(
+                  loop: true,
+                  cardsBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        context.pushNamed(RouteConst.kProductDetails,
+                            pathParameters: {
+                              "productID": dummyProducts[index].productID
+                            });
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16)),
-                        child: Icon(
-                          Icons.sell,
-                          size: 50,
-                        ),
-                      ),
-                      16.widthBox,
-                      Expanded(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              dummy_offer.title,
-                              style: Theme.of(context).textTheme.titleSmall,
+                            Expanded(
+                              child: Image.asset(dummyProducts[index]
+                                      .productImageUrls
+                                      .first)
+                                  .p(16),
                             ),
-                            dummy_offer.subtitle.isNotEmptyAndNotNull
-                                ? Text(
-                                    dummy_offer.subtitle!,
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                    overflow: TextOverflow.ellipsis,
+                            Divider(thickness: 2),
+                            SizedBox(
+                              width: context.percentWidth * 100,
+                              height: context.percentHeight * 7,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        dummyProducts[index].productName,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall,
+                                      ).pOnly(left: 16),
+                                      Row(
+                                        children: dummyProducts[index]
+                                            .categories
+                                            .map((e) => Text(
+                                                  "#$e",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodySmall,
+                                                ).pOnly(left: 16))
+                                            .toList(),
+                                      )
+                                    ],
+                                  )),
+                                  SizedBox(
+                                    width: 50,
+                                    height: 50,
+                                    child: IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(Icons.favorite_border)),
                                   )
-                                : Container()
+                                ],
+                              ),
+                            )
                           ],
                         ),
                       ),
-                      IconButton(
-                          onPressed: () {}, icon: Icon(Icons.arrow_forward_ios))
-                    ],
-                  ).pOnly(left: 16, top: 16, bottom: 16),
-                ),
-              ),
+                    );
+                  },
+                  cardsCount: dummyProducts.length),
+            ),
+            16.heightBox,
 
-              16.heightBox,
-
-              //TODO: Special Section
-
-              Text(
-                "New Arrival",
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              SizedBox(
-                height: context.percentHeight * 40,
-                width: context.percentWidth * 80,
-                child: AppinioSwiper(
-                    loop: true,
-                    cardsBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          context.pushNamed(RouteConst.kProductDetails,
-                              pathParameters: {
-                                "productID": dummyProducts[index].productID
-                              });
-                        },
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16)),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Image.asset(dummyProducts[index]
-                                        .productImageUrls
-                                        .first)
-                                    .p(16),
-                              ),
-                              Divider(thickness: 2),
-                              SizedBox(
-                                width: context.percentWidth * 100,
-                                height: context.percentHeight * 7,
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                        child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          dummyProducts[index].productName,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleSmall,
-                                        ).pOnly(left: 16),
-                                        Row(
-                                          children: dummyProducts[index]
-                                              .categories
-                                              .map((e) => Text(
-                                                    "#$e",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodySmall,
-                                                  ).pOnly(left: 16))
-                                              .toList(),
-                                        )
-                                      ],
-                                    )),
-                                    SizedBox(
-                                      width: 50,
-                                      height: 50,
-                                      child: IconButton(
-                                          onPressed: () {},
-                                          icon: Icon(Icons.favorite_border)),
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                    cardsCount: dummyProducts.length),
-              ),
-              16.heightBox,
-
-              //TODO: Trendy Section
-              16.heightBox,
-              SizedBox(
-                height: context.percentHeight * 24,
-                width: context.percentWidth * 100,
-                child: Row(
-                  children: [
-                    RotatedBox(
-                      quarterTurns: 3,
-                      child: Text(
-                        "Trendy",
-                        style: GoogleFonts.poppins().copyWith(
-                            fontSize: 25, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Expanded(
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return SizedBox(
-                            width: context.percentWidth * 40,
-                            child: GestureDetector(
-                              onTap: () {
-                                context.pushNamed(RouteConst.kProductDetails,
-                                    pathParameters: {
-                                      "productID":
-                                          dummyProducts[index].productID
-                                    });
-                              },
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16)),
-                                child: Column(
-                                  children: [
-                                    Image.asset(
-                                      dummyProducts[index]
-                                          .productImageUrls
-                                          .first,
-                                      height: context.percentHeight * 15,
-                                    ),
-                                    Divider(
-                                      thickness: 2,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        8.widthBox,
-                                        Expanded(
-                                          child: Text(
-                                              dummyProducts[index].productName,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium,
-                                              overflow: TextOverflow.ellipsis),
-                                        ),
-                                        IconButton(
-                                            onPressed: () {},
-                                            icon: Icon(Icons.favorite_border))
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                        separatorBuilder: (_, __) => 8.widthBox,
-                        itemCount: dummyProducts.length,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              //TODO: Image Slider
-              16.heightBox,
-              imgSlider(),
-
-              //TODO: Best Selling Section
-              16.heightBox,
-              SizedBox(
-                height: context.percentHeight * 24,
-                width: context.percentWidth * 100,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return SizedBox(
-                            width: context.percentWidth * 40,
-                            child: GestureDetector(
-                              onTap: () {
-                                context.pushNamed(RouteConst.kProductDetails,
-                                    pathParameters: {
-                                      "productID":
-                                          dummyProducts[index].productID
-                                    });
-                              },
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16)),
-                                child: Column(
-                                  children: [
-                                    Image.asset(
-                                      dummyProducts[index]
-                                          .productImageUrls
-                                          .first,
-                                      height: context.percentHeight * 15,
-                                    ),
-                                    Divider(
-                                      thickness: 2,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        8.widthBox,
-                                        Expanded(
-                                          child: Text(
-                                              dummyProducts[index].productName,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium,
-                                              overflow: TextOverflow.ellipsis),
-                                        ),
-                                        IconButton(
-                                            onPressed: () {},
-                                            icon: Icon(Icons.favorite_border))
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                        separatorBuilder: (_, __) => 8.widthBox,
-                        itemCount: dummyProducts.length,
-                      ),
-                    ),
-                    RotatedBox(
-                      quarterTurns: 1,
-                      child: Text(
-                        "Best Selling",
-                        style: GoogleFonts.poppins().copyWith(
-                            fontSize: 25, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              //TODO: Contact Section
-              Divider(
-                thickness: 2,
-              ),
-              Text(
-                "Contact With Us",
-                style: GoogleFonts.poppins().copyWith(fontSize: 20),
-              ),
-              16.heightBox,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+            //TODO: Trendy Section
+            16.heightBox,
+            SizedBox(
+              height: context.percentHeight * 24,
+              width: context.percentWidth * 100,
+              child: Row(
                 children: [
-                  GestureDetector(
-                      onTap: () async {
-                        if (!await launchUrl(
-                          Uri.parse("https://wa.me/8801930132595"),
-                          mode: LaunchMode.externalApplication,
-                        )) {
-                          throw Exception("can't launch for now");
-                        }
+                  RotatedBox(
+                    quarterTurns: 3,
+                    child: Text(
+                      "Trendy",
+                      style: GoogleFonts.poppins().copyWith(
+                          fontSize: 25, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                          width: context.percentWidth * 40,
+                          child: GestureDetector(
+                            onTap: () {
+                              context.pushNamed(RouteConst.kProductDetails,
+                                  pathParameters: {
+                                    "productID":
+                                        dummyProducts[index].productID
+                                  });
+                            },
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16)),
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    dummyProducts[index]
+                                        .productImageUrls
+                                        .first,
+                                    height: context.percentHeight * 15,
+                                  ),
+                                  Divider(
+                                    thickness: 2,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      8.widthBox,
+                                      Expanded(
+                                        child: Text(
+                                            dummyProducts[index].productName,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
+                                            overflow: TextOverflow.ellipsis),
+                                      ),
+                                      IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(Icons.favorite_border))
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
                       },
-                      child:
-                          SvgPicture.asset("assets/images/whatsAppButton.svg")),
-                  16.widthBox,
-                  GestureDetector(
-                      onTap: () async {
-                        if (!await launchUrl(
-                          Uri.parse("https://t.me/tcean"),
-                          mode: LaunchMode.externalApplication,
-                        )) {
-                          throw Exception("can't launch for now");
-                        }
-                      },
-                      child:
-                          SvgPicture.asset("assets/images/telegramButton.svg")),
+                      separatorBuilder: (_, __) => 8.widthBox,
+                      itemCount: dummyProducts.length,
+                    ),
+                  ),
                 ],
               ),
+            ),
 
-              80.heightBox,
-            ],
-          ).px(16),
-        ),
+            //TODO: Image Slider
+            16.heightBox,
+            imgSlider(),
+
+            //TODO: Best Selling Section
+            16.heightBox,
+            SizedBox(
+              height: context.percentHeight * 24,
+              width: context.percentWidth * 100,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                          width: context.percentWidth * 40,
+                          child: GestureDetector(
+                            onTap: () {
+                              context.pushNamed(RouteConst.kProductDetails,
+                                  pathParameters: {
+                                    "productID":
+                                        dummyProducts[index].productID
+                                  });
+                            },
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16)),
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    dummyProducts[index]
+                                        .productImageUrls
+                                        .first,
+                                    height: context.percentHeight * 15,
+                                  ),
+                                  Divider(
+                                    thickness: 2,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      8.widthBox,
+                                      Expanded(
+                                        child: Text(
+                                            dummyProducts[index].productName,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
+                                            overflow: TextOverflow.ellipsis),
+                                      ),
+                                      IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(Icons.favorite_border))
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (_, __) => 8.widthBox,
+                      itemCount: dummyProducts.length,
+                    ),
+                  ),
+                  RotatedBox(
+                    quarterTurns: 1,
+                    child: Text(
+                      "Best Selling",
+                      style: GoogleFonts.poppins().copyWith(
+                          fontSize: 25, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            //TODO: Contact Section
+            Divider(
+              thickness: 2,
+            ),
+            Text(
+              "Contact With Us",
+              style: GoogleFonts.poppins().copyWith(fontSize: 20),
+            ),
+            16.heightBox,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                    onTap: () async {
+                      if (!await launchUrl(
+                        Uri.parse("https://wa.me/8801930132595"),
+                        mode: LaunchMode.externalApplication,
+                      )) {
+                        throw Exception("can't launch for now");
+                      }
+                    },
+                    child:
+                        SvgPicture.asset("assets/images/whatsAppButton.svg")),
+                16.widthBox,
+                GestureDetector(
+                    onTap: () async {
+                      if (!await launchUrl(
+                        Uri.parse("https://t.me/tcean"),
+                        mode: LaunchMode.externalApplication,
+                      )) {
+                        throw Exception("can't launch for now");
+                      }
+                    },
+                    child:
+                        SvgPicture.asset("assets/images/telegramButton.svg")),
+              ],
+            ),
+
+            80.heightBox,
+          ],
+        ).px(16),
       ),
     );
   }

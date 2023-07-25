@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tcean/features/auth/controller/auth_controller.dart';
 import 'package:tcean/features/user/screens/user_screen.dart';
+import 'package:tcean/models/cart.dart';
+import 'package:tcean/models/product_model.dart';
 
 import '../../features/auth/screens/auth_screen.dart';
 import '../../features/cart/screens/cart_screen.dart';
@@ -42,7 +44,7 @@ class RouterNotifier extends ChangeNotifier {
     final loginState = _ref.watch(authStateChangeProvider);
 
     final isInCheckoutScreen =
-        state.uri.toString() == "/${RouteConst.kCheckout}";
+        state.uri.toString() == "/${RouteConst.kCart}/${RouteConst.kCheckout}";
 
     UserModel? userModel;
 
@@ -127,6 +129,7 @@ class RouterNotifier extends ChangeNotifier {
                           key: state.pageKey,
                           child: ProductDetailsScreen(
                             productID: state.pathParameters["productID"]!,
+                            product: state.extra as ProductModel,
                           ),
                         );
                       },
@@ -158,16 +161,16 @@ class RouterNotifier extends ChangeNotifier {
                   ),
                   routes: [
                     GoRoute(
-                      path: ":orderID",
+                      path: RouteConst.kCheckout,
                       name: RouteConst.kCheckout,
                       pageBuilder: (context, state) => CupertinoPage(
                         child: CheckoutScreen(
-                          orderID: state.pathParameters["orderID"]!,
+                          carts: state.extra as List<Cart>,
                         ),
                       ),
                       routes: [
                         GoRoute(
-                          path: "payment",
+                          path: RouteConst.kPayment,
                           name: RouteConst.kPayment,
                           pageBuilder: (context, state) => CupertinoPage(
                             child: PaymentScreen(),

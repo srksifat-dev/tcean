@@ -66,7 +66,7 @@ class _StoreScreenState extends ConsumerState<StoreScreen> {
                               context.pushNamed(RouteConst.kProductDetails,
                                   pathParameters: {
                                     "productID": data[index].productID
-                                  });
+                                  },extra: data[index]);
                             },
                             child: Column(
                               children: [

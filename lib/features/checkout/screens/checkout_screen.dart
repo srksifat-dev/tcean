@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tcean/core/common/editable_card.dart';
 import 'package:tcean/core/common/phone_number_textfield.dart';
 import 'package:tcean/dummy/dummy_address.dart';
+import 'package:tcean/models/cart.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/common/checkout_textfield.dart';
@@ -19,9 +20,9 @@ import '../../order_tracking/widgets/order_item_slider.dart';
 class CheckoutScreen extends ConsumerStatefulWidget {
   const CheckoutScreen({
     Key? key,
-    required this.orderID,
+    required this.carts,
   }) : super(key: key);
-  final String orderID;
+  final List<Cart> carts;
 
   @override
   ConsumerState<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -74,8 +75,6 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     int total = 500;
-    Order order =
-        dummyOrders.where((element) => element.orderID == widget.orderID).first;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Checkout"),
@@ -91,7 +90,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 //Todo: All ordered products
                 Text("Ordered Products"),
                 orderItemSlider(
-                    orderItemCards: order.carts
+                    orderItemCards: widget.carts
                         .map((e) => orderItemCard(context: context, cart: e))
                         .toList()),
                 16.heightBox,

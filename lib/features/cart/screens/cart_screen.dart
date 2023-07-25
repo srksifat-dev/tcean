@@ -103,10 +103,7 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   FilledButton(
                       onPressed: () {
-                        context.pushNamed(RouteConst.kCheckout,
-                            pathParameters: {
-                              "orderID": dummyOrders.first.orderID
-                            });
+                        context.pushNamed(RouteConst.kCheckout,extra: carts,);
                       },
                       child: Text("Check Out"))
                 ],
