@@ -2,15 +2,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tcean/features/products/repository/products_repository.dart';
 import 'package:tcean/models/product_model.dart';
 
-final getProductsProvider = StreamProvider((ref) {
+final getProductsProvider = StreamProvider<List<ProductModel>>((ref) {
   final productController = ref.watch(productControllerProvider);
   return productController.getProductsData();
 });
 
-final getProductProvider = FutureProvider.family<ProductModel,String>((ref, productID) async {
-  final productController = ref.watch(productControllerProvider);
-  return productController.getProduct(productID);
-});
+// final getProductProvider = StreamProvider.family<ProductModel,String>((ref, productID) {
+//   final productController = ref.watch(productControllerProvider);
+//   return productController.getProduct(productID);
+// });
 
 final productControllerProvider = Provider<ProductsController>((ref) {
   return ProductsController(
@@ -32,7 +32,7 @@ class ProductsController {
     return _productsRepository.getProductsData();
   }
 
-  Future<ProductModel> getProduct(String productID) {
+  Stream<ProductModel> getProduct(String productID) {
     return _productsRepository.getProduct(productID);
   }
 }

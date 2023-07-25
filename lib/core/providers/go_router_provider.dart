@@ -38,6 +38,7 @@ class RouterNotifier extends ChangeNotifier {
   RouterNotifier({required Ref ref}) : _ref = ref;
 
   String? _redirectLogic(GoRouterState state) {
+    print("Redirect called");
     final loginState = _ref.watch(authStateChangeProvider);
 
     final isInCheckoutScreen =
@@ -134,17 +135,19 @@ class RouterNotifier extends ChangeNotifier {
                 ),
               ],
             ),
-            StatefulShellBranch(
-              routes: [
-                GoRoute(
-                  path: "/${RouteConst.kFavorites}",
-                  name: RouteConst.kFavorites,
-                  pageBuilder: (context, state) => CupertinoPage(
-                    child: FavoritesScreen(),
-                  ),
-                ),
-              ],
-            ),
+
+            //TODO: Favorite screen
+            // StatefulShellBranch(
+            //   routes: [
+            //     GoRoute(
+            //       path: "/${RouteConst.kFavorites}",
+            //       name: RouteConst.kFavorites,
+            //       pageBuilder: (context, state) => CupertinoPage(
+            //         child: FavoritesScreen(),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             StatefulShellBranch(
               routes: [
                 GoRoute(

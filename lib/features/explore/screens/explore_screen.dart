@@ -59,7 +59,12 @@ class ExploreScreen extends ConsumerWidget {
         appBar: mainAppBar(context: context),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            context.goNamed(RouteConst.kCustomize);
+            // context.goNamed(RouteConst.kCustomize);
+            if (user != null) {
+              print(user.email);
+            } else {
+              print("null");
+            }
           },
           label: Text("Custom Your 👕"),
         ),
@@ -198,7 +203,9 @@ class ExploreScreen extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Expanded(
-                                child: Image.asset(dummyProducts[index].productImageUrls.first)
+                                child: Image.asset(dummyProducts[index]
+                                        .productImageUrls
+                                        .first)
                                     .p(16),
                               ),
                               Divider(thickness: 2),
@@ -219,15 +226,15 @@ class ExploreScreen extends ConsumerWidget {
                                               .titleSmall,
                                         ).pOnly(left: 16),
                                         Row(
-                                          children:
-                                              dummyProducts[index].categories
-                                                  .map((e) => Text(
-                                                        "#$e",
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .bodySmall,
-                                                      ).pOnly(left: 16))
-                                                  .toList(),
+                                          children: dummyProducts[index]
+                                              .categories
+                                              .map((e) => Text(
+                                                    "#$e",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall,
+                                                  ).pOnly(left: 16))
+                                              .toList(),
                                         )
                                       ],
                                     )),
@@ -285,7 +292,8 @@ class ExploreScreen extends ConsumerWidget {
                                 child: Column(
                                   children: [
                                     Image.asset(
-                                      dummyProducts[index].productImageUrls
+                                      dummyProducts[index]
+                                          .productImageUrls
                                           .first,
                                       height: context.percentHeight * 15,
                                     ),
@@ -355,7 +363,8 @@ class ExploreScreen extends ConsumerWidget {
                                 child: Column(
                                   children: [
                                     Image.asset(
-                                      dummyProducts[index].productImageUrls
+                                      dummyProducts[index]
+                                          .productImageUrls
                                           .first,
                                       height: context.percentHeight * 15,
                                     ),

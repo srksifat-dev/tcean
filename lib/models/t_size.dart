@@ -1,19 +1,14 @@
 class TSize {
-  final String sizeName;
-  final String sizeCode;
+  final String size;
 
   TSize({
-    required this.sizeName,
-    required this.sizeCode,
+    required this.size,
   });
 }
 
 List<TSize> kSizes = [
-  TSize(sizeName: "Small", sizeCode: "s"),
-  TSize(sizeName: "Medium", sizeCode: "m"),
-  TSize(sizeName: "Large", sizeCode: "l"),
-  TSize(sizeName: "Extra Large", sizeCode: "xl"),
-  TSize(sizeName: "Double Extra Large", sizeCode: "xxl"),
-  TSize(sizeName: "Triple Extra Large", sizeCode: "xxxl"),
-
+  TSize(size: "m"),
+  TSize(size: "l"),
+  TSize(size: "xl"),
+  TSize(size: "xxl"),
 ];

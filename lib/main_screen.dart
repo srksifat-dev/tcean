@@ -22,7 +22,8 @@ class MainScreen extends StatelessWidget {
         destinations: [
           NavigationDestination(icon: Icon(Icons.sell), label: "Explore"),
           NavigationDestination(icon: Icon(Icons.storefront), label: "Store"),
-          NavigationDestination(icon: Icon(Icons.favorite), label: "Favorites"),
+          //TODO: Implement Favorite Screen
+          // NavigationDestination(icon: Icon(Icons.favorite), label: "Favorites"),
           NavigationDestination(
               icon: Badge.count(
                   count: carts.length, child: Icon(Icons.shopping_bag)),

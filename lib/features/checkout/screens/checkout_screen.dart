@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tcean/core/common/editable_card.dart';
 import 'package:tcean/core/common/phone_number_textfield.dart';
@@ -10,10 +12,11 @@ import '../../../dummy/dummy_order.dart';
 import '../../../models/user.dart';
 import '../../../models/order_model.dart';
 import '../../../core/constants/route_const.dart';
+import '../../auth/controller/auth_controller.dart';
 import '../../order_tracking/widgets/order_item_card.dart';
 import '../../order_tracking/widgets/order_item_slider.dart';
 
-class CheckoutScreen extends StatefulWidget {
+class CheckoutScreen extends ConsumerStatefulWidget {
   const CheckoutScreen({
     Key? key,
     required this.orderID,
@@ -21,10 +24,10 @@ class CheckoutScreen extends StatefulWidget {
   final String orderID;
 
   @override
-  State<CheckoutScreen> createState() => _CheckoutScreenState();
+  ConsumerState<CheckoutScreen> createState() => _CheckoutScreenState();
 }
 
-class _CheckoutScreenState extends State<CheckoutScreen> {
+class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   TextEditingController couponController = TextEditingController();
   FocusNode couponFocusNode = FocusNode();
   TextEditingController nameController = TextEditingController();
@@ -46,6 +49,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   String deliveryMethod = "Home Delivery";
   String address = dummyAddress.first.addressName;
+
+  UserModel? userModel;
+
+  void getData(WidgetRef ref, User user) async {
+    userModel = await ref
+        .watch(authControllerProvider.notifier)
+        .getUserData(user.uid)
+        .first;
+
+    ref.read(userProvider.notifier).update((state) => userModel);
+    setState(() {});
+  }
 
   @override
   void initState() {

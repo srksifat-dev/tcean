@@ -25,18 +25,17 @@ class ProductsRepository {
     return _products.snapshots().map((event) {
       List<ProductModel> products = [];
       for (var doc in event.docs) {
-        print("doc: ${doc.data()}");
         products.add(ProductModel.fromMap(doc.data() as Map<String, dynamic>));
       }
-      print("products: $products");
       return products;
     });
   }
 
-  Future<ProductModel> getProduct(String productID) async {
+  Stream<ProductModel> getProduct(String productID) {
+    
     return _products
         .doc(productID)
-        .get()
-        .then((value) => ProductModel.fromMap(value as Map<String, dynamic>));
+        .snapshots().map((event) => ProductModel.fromMap(event.data() as Map<String,dynamic>));
+        
   }
 }

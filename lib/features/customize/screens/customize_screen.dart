@@ -9,9 +9,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../../../core/common/t_colors.dart';
-import '../../../core/common/t_sizes.dart';
-import '../../../theme/app_colors.dart';
+import '../../../models/t_color.dart';
+import '../../../models/t_size.dart';
+
 
 class CustomizeScreen extends StatefulWidget {
   const CustomizeScreen({Key? key}) : super(key: key);
@@ -304,7 +304,7 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
                                             });
                                           },
                                           child: Tooltip(
-                                            message: kTColors[index].toString(),
+                                            message: kColors[index].colorName,
                                             child: Container(
                                               height: 30,
                                               width: 30,
@@ -312,19 +312,19 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
                                                   border: Border.all(
                                                       width: 2,
                                                       color: colorIndex != index
-                                                          ? kTColors[index]
+                                                          ? Color(kColors[index].colorCode)
                                                           : Colors.transparent),
                                                   borderRadius:
                                                       BorderRadius.circular(50),
                                                   color: colorIndex == index
-                                                      ? kTColors[index]
+                                                      ? Color(kColors[index].colorCode)
                                                       : null),
                                             ),
                                           ),
                                         );
                                       },
                                       separatorBuilder: (_, __) => 10.widthBox,
-                                      itemCount: kTColors.length))
+                                      itemCount: kColors.length))
                             ],
                           ).p(16),
                         ),
@@ -353,9 +353,9 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
                                       },
                                     );
                                   },
-                                  children: kTSizes
+                                  children: kSizes
                                       .map(
-                                        (e) => e.text.make(),
+                                        (e) => e.size.text.make(),
                                       )
                                       .toList(),
                                 ),

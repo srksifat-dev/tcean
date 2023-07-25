@@ -38,43 +38,39 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
-  UserModel? userModel;
+  // UserModel? userModel;
 
-  void getData(WidgetRef ref, User user) async {
-    userModel = await ref
-        .watch(authControllerProvider.notifier)
-        .getUserData(user.uid)
-        .first;
+  // void getData(WidgetRef ref, User user) async {
+  //   userModel = await ref
+  //       .watch(authControllerProvider.notifier)
+  //       .getUserData(user.uid)
+  //       .first;
 
-    ref.read(userProvider.notifier).update((state) => userModel);
-    setState(() {});
-  }
+  //   ref.read(userProvider.notifier).update((state) => userModel);
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
     final goRouter = ref.watch(goRouterProvider);
-    return ref.watch(authStateChangeProvider).when(
-        data: (data) => DynamicColorBuilder(
-              builder: (lightDynamic, darkDynamic) {
-                return MaterialApp.router(
-                  theme: ThemeData(
-                    useMaterial3: true,
-                    colorScheme: lightDynamic,
-                    textTheme: textTheme,
-                    appBarTheme: appBarTheme,
-                  ),
-                  darkTheme: ThemeData(
-                    useMaterial3: true,
-                    colorScheme: darkDynamic,
-                    textTheme: textTheme,
-                    appBarTheme: appBarTheme,
-                  ),
-                  themeMode: ThemeMode.system,
-                  routerConfig: goRouter
-                );
-              },
+    return DynamicColorBuilder(
+      builder: (lightDynamic, darkDynamic) {
+        return MaterialApp.router(
+            theme: ThemeData(
+              useMaterial3: true,
+              colorScheme: lightDynamic,
+              textTheme: textTheme,
+              appBarTheme: appBarTheme,
             ),
-        error: (error, stackTrace) => ErrorText(error: error.toString()),
-        loading: () => const Loader());
+            darkTheme: ThemeData(
+              useMaterial3: true,
+              colorScheme: darkDynamic,
+              textTheme: textTheme,
+              appBarTheme: appBarTheme,
+            ),
+            themeMode: ThemeMode.system,
+            routerConfig: goRouter);
+      },
+    );
   }
 }
