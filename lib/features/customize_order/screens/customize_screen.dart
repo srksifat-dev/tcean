@@ -13,14 +13,14 @@ import '../../../models/t_color.dart';
 import '../../../models/t_size.dart';
 
 
-class CustomizeScreen extends StatefulWidget {
-  const CustomizeScreen({Key? key}) : super(key: key);
+class CustomizeOrderScreen extends StatefulWidget {
+  const CustomizeOrderScreen({Key? key}) : super(key: key);
 
   @override
-  _CustomizeScreenState createState() => _CustomizeScreenState();
+  _CustomizeOrderScreenState createState() => _CustomizeOrderScreenState();
 }
 
-class _CustomizeScreenState extends State<CustomizeScreen> {
+class _CustomizeOrderScreenState extends State<CustomizeOrderScreen> {
   PlatformFile? frontPickedFile;
   File? frontFile;
   PlatformFile? backPickedFile;

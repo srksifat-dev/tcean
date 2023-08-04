@@ -9,11 +9,11 @@ class PaymentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Payment"),
+        title: const Text("Payment"),
       ),
       body: Column(
         children: [
-          Text("Pay in your suitable payment method"),
+          const Text("Pay in your suitable payment method"),
           InkWell(
             radius: 16,
             onTap: () {},

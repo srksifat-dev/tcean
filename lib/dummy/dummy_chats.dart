@@ -1,4 +1,3 @@
-import '../models/chat.dart';
+import '../models/chat_model.dart';
 
-List<Chat> dummyChats = [
-];
+List<ChatModel> dummyChats = [];

@@ -1,39 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 Widget editableCard(
     {required BuildContext context,
-    String? title,
+    String? sectionTitle,
+    TextStyle? sectionTileTextStyle,
+    Widget? title,
     Widget? subtitle,
-    required IconData icon,
-    required void Function() onTap}) {
-  return GestureDetector(
-    onTap: onTap,
-    child: Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              title == null
-                  ? Container()
-                  : Text(
-                      title,
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-              subtitle ?? Container()
-            ],
-          )),
-          Icon(
-            icon,
-          )
-        ],
-      ).p(
-        16,
+    Widget? trailing,
+    IconData? additionalButtonIcon,
+    String? additionalButtonLabel,
+    void Function()? onTap}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      sectionTitle != null
+          ? Text(
+              sectionTitle,
+              style: sectionTileTextStyle ?? Theme.of(context).textTheme.bodySmall,
+            )
+          : Container(),
+      Card(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Column(
+          children: [
+            ListTile(
+              title: title,
+              trailing: trailing,
+              subtitle: subtitle,
+            ),
+           additionalButtonIcon != null ? TextButton.icon(onPressed: onTap, icon: Icon(additionalButtonIcon), label:Text( additionalButtonLabel!),) : Container()
+          ],
+        ),
       ),
-    ),
+    ],
   );
 }

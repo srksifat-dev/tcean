@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -10,10 +11,7 @@ AppBar mainAppBar({required BuildContext context}) {
     centerTitle: true,
     title: Row(
       children: [
-        Image.asset(
-          "assets/images/tcean-logo.png",
-          height: 30,
-        ),
+        SvgPicture.asset("assets/images/tcean.svg",height: 30,),
         4.widthBox,
         Text(
           "tce",
@@ -37,7 +35,7 @@ AppBar mainAppBar({required BuildContext context}) {
           onPressed: () {
             context.pushNamed(RouteConst.kNotifications);
           },
-          icon: Badge(child: Icon(Icons.notifications)))
+          icon: const Badge(child: Icon(Icons.notifications)))
     ],
   );
 }

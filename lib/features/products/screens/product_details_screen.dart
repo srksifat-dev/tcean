@@ -1,12 +1,14 @@
+import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tcean/dummy/dummy_product.dart';
-import 'package:tcean/features/products/controller/products_controller.dart';
+import 'package:tcean/features/cart/controller/cart_controller.dart';
+import 'package:tcean/models/cart_model.dart';
 import 'package:tcean/models/product_model.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -32,30 +34,63 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   int sizeIndex = 0;
   int quantity = 1;
 
+  quill.QuillController _controller = quill.QuillController.basic();
+
+  @override
+  void initState() {
+    _controller.document = quill.Document.fromDelta(widget.product.description);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Product Details"),
+          title: const Text("Product Details"),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: Icon(Icons.add_shopping_cart),
+          onPressed: () async {
+            ref.watch(addCartProvider(CartModel()
+              ..color = kColors[colorIndex].colorName
+              ..productID = widget.productID
+              ..quantity = quantity
+              ..size = kSizes[sizeIndex].size
+              ..totalExpense = widget.product.price * quantity));
+          },
+          child: const Icon(Icons.add_shopping_cart),
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
               Card(
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16)),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(32),
-                  child: CachedNetworkImage(
-                    key: UniqueKey(),
-                    imageUrl: widget.product.productImageUrls.first,
-                    placeholder: (context, url) => Text("tcean.store"),
-                    errorWidget: (context, url, error) => Text("tcean.store"),
+                    borderRadius: BorderRadius.circular(32)),
+                child: CarouselSlider(
+                  options: CarouselOptions(
+                    viewportFraction: 1,
+                    aspectRatio: 1,
+                    autoPlay: true,
+                    autoPlayInterval: const Duration(seconds: 5),
                   ),
+                  items: widget.product.productImageUrls
+                      .map((item) => Center(
+                              child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(32),
+                              child: CachedNetworkImage(
+                                key: UniqueKey(),
+                                imageUrl: item,
+                                fit: BoxFit.fitHeight,
+                                height: double.infinity,
+                                placeholder: (context, url) =>
+                                    const Text("tcean.store"),
+                                errorWidget: (context, url, error) =>
+                                    const Text("tcean.store"),
+                              ),
+                            ),
+                          )))
+                      .toList(),
                 ),
               ).px(16),
               Card(
@@ -69,8 +104,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                       children: [
                         Text(
                           widget.product.productName,
-                          style: GoogleFonts.josefinSans().copyWith(
-                              fontSize: 30, fontWeight: FontWeight.bold),
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
                         Row(
                           children: widget.product.categories
@@ -90,6 +124,31 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                   ],
                 ),
               ).pSymmetric(h: 16, v: 8),
+              Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16)),
+                child: Theme(
+                  data: ThemeData().copyWith(dividerColor: Colors.transparent),
+                  child: ExpansionTile(
+                    title: Text(
+                      "Product Info",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    childrenPadding:
+                        const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                    collapsedIconColor:
+                        Theme.of(context).colorScheme.onBackground,
+                    iconColor: Theme.of(context).colorScheme.onBackground,
+                    children: [
+                      quill.QuillEditor.basic(
+                        controller: _controller,
+                        readOnly: true,
+                        autoFocus: false,
+                      ),
+                    ],
+                  ),
+                ),
+              ).px(16),
               SizedBox(
                 height: context.percentHeight * 30,
                 child: Row(
@@ -224,7 +283,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("(৳ 300",
+                                Text("(৳ ${widget.product.price}",
                                     style: GoogleFonts.poppins().copyWith(
                                       fontSize: 20,
                                     )),
@@ -232,28 +291,48 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                     style: GoogleFonts.poppins().copyWith(
                                       fontSize: 20,
                                     )),
-                                Text("1)",
-                                    style: GoogleFonts.poppins().copyWith(
-                                      fontSize: 20,
-                                    )),
+                                AnimatedFlipCounter(
+                                  value: quantity,
+                                  suffix: ")",
+                                )
                               ],
                             ),
-                            Text("৳ 300",
-                                style: GoogleFonts.josefinSans().copyWith(
-                                  fontSize: 40,
-                                  fontWeight: FontWeight.bold,
-                                )),
+                            AnimatedFlipCounter(
+                              value: widget.product.price * quantity,
+                              prefix: "৳ ",
+                              textStyle:
+                                  Theme.of(context).textTheme.titleMedium,
+                              padding: const EdgeInsets.only(right: 2),
+                            ),
+                            // Text("৳ ${widget.product.price * quantity}",
+                            //     style: GoogleFonts.josefinSans().copyWith(
+                            //       fontSize: 40,
+                            //       fontWeight: FontWeight.bold,
+                            //     )),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 IconButton(
-                                    onPressed: () {}, icon: Icon(Icons.remove)),
-                                Text(
-                                  quantity.toString(),
-                                  style: GoogleFonts.poppins(),
-                                ),
+                                    onPressed: () {
+                                      if (quantity > 1) {
+                                        setState(() {
+                                          quantity--;
+                                        });
+                                      }
+                                    },
+                                    icon: const Icon(Icons.remove)),
+                                AnimatedFlipCounter(value: quantity),
+                                // Text(
+                                //   quantity.toString(),
+                                //   style: GoogleFonts.poppins(),
+                                // ),
                                 IconButton(
-                                    onPressed: () {}, icon: Icon(Icons.add)),
+                                    onPressed: () {
+                                      setState(() {
+                                        quantity++;
+                                      });
+                                    },
+                                    icon: const Icon(Icons.add)),
                               ],
                             ).px(16),
                             SwipeButton(

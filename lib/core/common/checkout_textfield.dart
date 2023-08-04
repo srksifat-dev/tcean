@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class CheckoutTextfield extends StatelessWidget {
-  const CheckoutTextfield({
+  CheckoutTextfield({
     super.key,
     required this.controller,
     required this.focusNode,
     required this.textCapitalization,
     required this.textInputType,
     required this.hintText,
+    this.autoFocus,
+    this.readOnly,
   });
 
   final TextEditingController controller;
@@ -15,6 +17,8 @@ class CheckoutTextfield extends StatelessWidget {
   final TextInputType textInputType;
   final TextCapitalization textCapitalization;
   final String hintText;
+  final bool? autoFocus;
+  bool? readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,7 @@ class CheckoutTextfield extends StatelessWidget {
       height: 56,
       child: TextField(
         controller: controller,
-        focusNode: focusNode,
+        focusNode: focusNode,readOnly: readOnly ?? false,
         style: Theme.of(context).textTheme.bodySmall,
         decoration: InputDecoration(
           hintText: hintText,
@@ -53,6 +57,7 @@ class CheckoutTextfield extends StatelessWidget {
             ),
           ),
         ),
+        autofocus: autoFocus ?? false,
         keyboardType: textInputType,
         textCapitalization: textCapitalization,
       ),

@@ -1,28 +1,31 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tcean/core/common/editable_card.dart';
 import 'package:tcean/core/common/phone_number_textfield.dart';
-import 'package:tcean/dummy/dummy_address.dart';
-import 'package:tcean/models/cart.dart';
+import 'package:tcean/models/cart_model.dart';
+import 'package:tcean/models/product_model.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/common/checkout_textfield.dart';
-import '../../../dummy/dummy_order.dart';
-import '../../../models/user.dart';
+import '../../../core/common/error_text.dart';
+import '../../../core/common/loader.dart';
+import '../../../main.dart';
+import '../../../models/address_model.dart';
+import '../../../models/coupon_model.dart';
 import '../../../models/order_model.dart';
 import '../../../core/constants/route_const.dart';
 import '../../auth/controller/auth_controller.dart';
-import '../../order_tracking/widgets/order_item_card.dart';
-import '../../order_tracking/widgets/order_item_slider.dart';
+import '../../explore/controller/offer_controller.dart';
+import '../../order/widgets/order_item_card.dart';
+import '../../order/widgets/order_item_slider.dart';
 
 class CheckoutScreen extends ConsumerStatefulWidget {
   const CheckoutScreen({
     Key? key,
     required this.carts,
   }) : super(key: key);
-  final List<Cart> carts;
+  final List<CartModel> carts;
 
   @override
   ConsumerState<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -37,6 +40,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   FocusNode contactFocusNode = FocusNode();
   TextEditingController emailController = TextEditingController();
   FocusNode emailFocusNode = FocusNode();
+  TextEditingController addressNameController = TextEditingController();
+  FocusNode addressNameFocusNode = FocusNode();
   TextEditingController districtController = TextEditingController();
   FocusNode districtFocusNode = FocusNode();
   TextEditingController areaController = TextEditingController();
@@ -48,33 +53,37 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   late String contactNumber;
   late String email;
 
-  String deliveryMethod = "Home Delivery";
-  String address = dummyAddress.first.addressName;
+  List<AddressModel> _addressList = [];
 
-  UserModel? userModel;
+  int deliveryMethodIndex = 0;
 
-  void getData(WidgetRef ref, User user) async {
-    userModel = await ref
-        .watch(authControllerProvider.notifier)
-        .getUserData(user.uid)
-        .first;
+  List<AddressModel> reversedList = [];
+  int selectedAddressIndex = 0;
+  int total = 0;
+  int discountedTotal = 0;
+  int deliveryCharge = 60;
 
-    ref.read(userProvider.notifier).update((state) => userModel);
-    setState(() {});
-  }
+  bool isTotalExpenseDiscounted = false;
+  bool isDeliveryChargeDiscounted = false;
+  bool isQuantityDiscounted = false;
 
+  bool readOnly = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    name = dummyAccount.name!;
-    contactNumber = dummyAccount.phoneNumber;
-    email = dummyAccount.email!;
+    name = userModel!.name ?? "Receiver Name";
+    contactNumber = userModel!.phoneNumber ?? "01XXXXXXXXX";
+    email = userModel!.email!;
+    int t = 0;
+    for (CartModel cart in widget.carts) {
+      t = t + (cart.totalExpense);
+    }
+    total = t;
   }
 
   @override
   Widget build(BuildContext context) {
-    int total = 500;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Checkout"),
@@ -88,7 +97,10 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //Todo: All ordered products
-                Text("Ordered Products"),
+                Text(
+                  "Ordered Products",
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
                 orderItemSlider(
                     orderItemCards: widget.carts
                         .map((e) => orderItemCard(context: context, cart: e))
@@ -96,18 +108,23 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 16.heightBox,
 
                 //TODO: Receiver info
-                Text("Receiver Information"),
+                Text(
+                  "Receiver Information",
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     editableCard(
-                        context: context,
-                        subtitle: Text(
-                          name,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        icon: Icons.edit,
-                        onTap: () {
+                      context: context,
+                      sectionTitle: "Name",
+                      title: Text(
+                        name,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
                           showDialog(
                               context: context,
                               builder: (context) {
@@ -125,7 +142,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                         onPressed: () {
                                           GoRouter.of(context).pop();
                                         },
-                                        child: Text("cancel")),
+                                        child: const Text("cancel")),
                                     FilledButton(
                                         onPressed: () {
                                           setState(() {
@@ -133,19 +150,23 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                           });
                                           GoRouter.of(context).pop();
                                         },
-                                        child: Text("Update")),
+                                        child: const Text("Update")),
                                   ],
                                 );
                               });
-                        }),
+                        },
+                      ),
+                    ),
                     editableCard(
-                        context: context,
-                        subtitle: Text(
-                          contactNumber,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        icon: Icons.edit,
-                        onTap: () {
+                      context: context,
+                      sectionTitle: "Contact Number",
+                      title: Text(
+                        contactNumber,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
                           showDialog(
                               context: context,
                               builder: (context) {
@@ -159,7 +180,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                         onPressed: () {
                                           GoRouter.of(context).pop();
                                         },
-                                        child: Text("cancel")),
+                                        child: const Text("cancel")),
                                     FilledButton(
                                         onPressed: () {
                                           if (contactKey.currentState!
@@ -171,19 +192,23 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                             GoRouter.of(context).pop();
                                           }
                                         },
-                                        child: Text("Update")),
+                                        child: const Text("Update")),
                                   ],
                                 );
                               });
-                        }),
+                        },
+                      ),
+                    ),
                     editableCard(
-                        context: context,
-                        subtitle: Text(
-                          email,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        icon: Icons.edit,
-                        onTap: () {
+                      context: context,
+                      sectionTitle: "Email Address",
+                      title: Text(
+                        email,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
                           showDialog(
                               context: context,
                               builder: (context) {
@@ -200,7 +225,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                         onPressed: () {
                                           GoRouter.of(context).pop();
                                         },
-                                        child: Text("cancel")),
+                                        child: const Text("cancel")),
                                     FilledButton(
                                         onPressed: () {
                                           setState(() {
@@ -208,248 +233,408 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                           });
                                           GoRouter.of(context).pop();
                                         },
-                                        child: Text("Update")),
+                                        child: const Text("Update")),
                                   ],
                                 );
                               });
-                        }),
+                        },
+                      ),
+                    ),
+                    16.heightBox,
                     editableCard(
-                        context: context,
-                        title: "Delivery Method",
-                        subtitle: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Radio(
-                                    value: "Home Delivery",
-                                    groupValue: deliveryMethod,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        deliveryMethod = val!;
-                                      });
-                                    }),
-                                Text("Home Delivery"),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Radio(
-                                    value: "Sundarban Courier",
-                                    groupValue: deliveryMethod,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        deliveryMethod = val!;
-                                      });
-                                    }),
-                                Text("Sundarban Courier")
-                              ],
-                            ),
-                          ],
+                      context: context,
+                      sectionTitle: "Choice Delivery Method",
+                      sectionTileTextStyle:
+                          Theme.of(context).textTheme.titleSmall,
+                      subtitle: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Radio(
+                                  value: deliveryMethods[0],
+                                  groupValue:
+                                      deliveryMethods[deliveryMethodIndex],
+                                  onChanged: (val) {
+                                    setState(() {
+                                      deliveryMethodIndex = deliveryMethods
+                                          .indexOf(val.toString());
+                                    });
+                                  }),
+                              const Text("Home Delivery"),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Radio(
+                                  value: deliveryMethods[1],
+                                  groupValue:
+                                      deliveryMethods[deliveryMethodIndex],
+                                  onChanged: (val) {
+                                    setState(() {
+                                      deliveryMethodIndex = deliveryMethods
+                                          .indexOf(val.toString());
+                                    });
+                                  }),
+                              const Text("Sundarban Courier")
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    16.heightBox,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Choice Shipping Address",
+                          style: Theme.of(context).textTheme.titleSmall,
                         ),
-                        icon: Icons.local_shipping,
-                        onTap: () {}),
-                    editableCard(
-                        context: context,
-                        title: "Address",
-                        subtitle: dummyAddress.isEmpty
-                            ? TextButton.icon(
-                                onPressed: () {
-                                  showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return AlertDialog(
-                                                content: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    CheckoutTextfield(
-                                                      controller:
-                                                          districtController,
-                                                      focusNode:
-                                                          districtFocusNode,
-                                                      hintText: "District",
-                                                      textInputType:
-                                                          TextInputType.text,
-                                                      textCapitalization:
-                                                          TextCapitalization
-                                                              .words,
-                                                    ),
-                                                    16.heightBox,
-                                                    CheckoutTextfield(
-                                                      controller:
-                                                          areaController,
-                                                      focusNode: areaFocusNode,
-                                                      hintText:
-                                                          "Area/Thana/Upozilla",
-                                                      textInputType:
-                                                          TextInputType.text,
-                                                      textCapitalization:
-                                                          TextCapitalization
-                                                              .words,
-                                                    ),
-                                                    16.heightBox,
-                                                    CheckoutTextfield(
-                                                      controller:
-                                                          detailsController,
-                                                      focusNode:
-                                                          detailsFocusNode,
-                                                      hintText:
-                                                          "Details Address",
-                                                      textInputType:
-                                                          TextInputType
-                                                              .multiline,
-                                                      textCapitalization:
-                                                          TextCapitalization
-                                                              .words,
-                                                    ),
-                                                  ],
-                                                ),
-                                                actions: [
-                                                  TextButton(
-                                                      onPressed: () {
-                                                        GoRouter.of(context)
-                                                            .pop();
-                                                      },
-                                                      child: Text("cancel")),
-                                                  FilledButton(
-                                                      onPressed: () {
-                                                        GoRouter.of(context)
-                                                            .pop();
-                                                      },
-                                                      child: Text("Update")),
-                                                ],
-                                              );
-                                            });
-                                },
-                                icon: Icon(Icons.add_location_alt),
-                                label: Text("Add Your Address"))
-                            : Column(
-                                children: [
-                                  SizedBox(
-                                    height: dummyAddress.length * 48,
-                                    child: ListView.builder(
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount: dummyAddress.length,
-                                        itemBuilder: (context, index) {
-                                          return Row(
-                                            children: [
-                                              Radio(
-                                                  value: dummyAddress[index]
-                                                      .addressName,
-                                                  groupValue: address,
-                                                  onChanged: (val) {
-                                                    setState(() {
-                                                      address = val!;
-                                                    });
-                                                  }),
-                                              Text(dummyAddress[index]
-                                                  .addressName),
-                                              Expanded(
-                                                child: Text(
-                                                  " (${dummyAddress[index].detailsAddress})",
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              )
-                                            ],
-                                          );
-                                        }),
-                                  ),
-                                  TextButton.icon(
-                                      onPressed: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return AlertDialog(
-                                                content: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    CheckoutTextfield(
-                                                      controller:
-                                                          districtController,
-                                                      focusNode:
-                                                          districtFocusNode,
-                                                      hintText: "District",
-                                                      textInputType:
-                                                          TextInputType.text,
-                                                      textCapitalization:
-                                                          TextCapitalization
-                                                              .words,
-                                                    ),
-                                                    16.heightBox,
-                                                    CheckoutTextfield(
-                                                      controller:
-                                                          areaController,
-                                                      focusNode: areaFocusNode,
-                                                      hintText:
-                                                          "Area/Thana/Upozilla",
-                                                      textInputType:
-                                                          TextInputType.text,
-                                                      textCapitalization:
-                                                          TextCapitalization
-                                                              .words,
-                                                    ),
-                                                    16.heightBox,
-                                                    CheckoutTextfield(
-                                                      controller:
-                                                          detailsController,
-                                                      focusNode:
-                                                          detailsFocusNode,
-                                                      hintText:
-                                                          "Details Address",
-                                                      textInputType:
-                                                          TextInputType
-                                                              .multiline,
-                                                      textCapitalization:
-                                                          TextCapitalization
-                                                              .words,
-                                                    ),
-                                                  ],
-                                                ),
-                                                actions: [
-                                                  TextButton(
-                                                      onPressed: () {
-                                                        GoRouter.of(context)
-                                                            .pop();
-                                                      },
-                                                      child: Text("cancel")),
-                                                  FilledButton(
-                                                      onPressed: () {
-                                                        GoRouter.of(context)
-                                                            .pop();
-                                                      },
-                                                      child: Text("Update")),
-                                                ],
-                                              );
-                                            });
-                                      },
-                                      icon: Icon(Icons.add_location_alt),
-                                      label: Text("Add Your Address"))
-                                ],
+                        TextButton.icon(
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        CheckoutTextfield(
+                                          controller: addressNameController,
+                                          focusNode: addressNameFocusNode,
+                                          hintText: "Address Name(Ex. Home)",
+                                          textInputType: TextInputType.text,
+                                          textCapitalization:
+                                              TextCapitalization.words,
+                                        ),
+                                        16.heightBox,
+                                        CheckoutTextfield(
+                                          controller: districtController,
+                                          focusNode: districtFocusNode,
+                                          hintText: "District",
+                                          textInputType: TextInputType.text,
+                                          textCapitalization:
+                                              TextCapitalization.words,
+                                        ),
+                                        16.heightBox,
+                                        CheckoutTextfield(
+                                          controller: areaController,
+                                          focusNode: areaFocusNode,
+                                          hintText: "Area/Thana/Upozilla",
+                                          textInputType: TextInputType.text,
+                                          textCapitalization:
+                                              TextCapitalization.words,
+                                        ),
+                                        16.heightBox,
+                                        CheckoutTextfield(
+                                          controller: detailsController,
+                                          focusNode: detailsFocusNode,
+                                          hintText: "Details Address",
+                                          textInputType:
+                                              TextInputType.multiline,
+                                          textCapitalization:
+                                              TextCapitalization.words,
+                                        ),
+                                      ],
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            GoRouter.of(context).pop();
+                                          },
+                                          child: const Text("cancel")),
+                                      FilledButton(
+                                          onPressed: () {
+                                            ref
+                                                .watch(authControllerProvider
+                                                    .notifier)
+                                                .addAddress(
+                                                  uid: userModel!.uid,
+                                                  address: AddressModel(
+                                                    addressName:
+                                                        addressNameController
+                                                            .text,
+                                                    district:
+                                                        districtController.text,
+                                                    area: areaController.text,
+                                                    detailsAddress:
+                                                        detailsController.text,
+                                                    defaultIndex:
+                                                        _addressList.length,
+                                                  ),
+                                                );
+                                            GoRouter.of(context).pop();
+                                          },
+                                          child: const Text("Add")),
+                                    ],
+                                  );
+                                });
+                          },
+                          icon: const Icon(Icons.add_location_alt),
+                          label: const Text("Add"),
+                        )
+                      ],
+                    ),
+                    ref.watch(getAddressesProvider(userModel!.uid)).when(
+                          data: (addresses) {
+                            reversedList = addresses.reversed.toList();
+                            return Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16)),
+                              child: Column(
+                                children: reversedList
+                                    .map((e) => Card(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(16)),
+                                          child: RadioListTile(
+                                            title: Text(
+                                              e.addressName!,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleSmall,
+                                            ),
+                                            subtitle: Text(
+                                              "${e.detailsAddress}, ${e.area}, ${e.district}",
+                                            ),
+                                            value: reversedList.indexOf(e),
+                                            groupValue: selectedAddressIndex,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                selectedAddressIndex = value!;
+                                              });
+                                            },
+                                          ),
+                                        ))
+                                    .toList(),
                               ),
-                        icon: Icons.place,
-                        onTap: () {}),
+                            );
+                          },
+                          error: (error, stackTrace) =>
+                              ErrorText(error: error.toString()),
+                          loading: () => const Loader(),
+                        ),
                   ],
                 ),
                 16.heightBox,
 
                 //TODO: Discount
 
-                Text("Discount"),
+                Text(
+                  "Discount Nite Chaile",
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
                 Row(
                   children: [
                     Expanded(
-                      child: CheckoutTextfield(controller: couponController, focusNode: couponFocusNode, textCapitalization: TextCapitalization.none, textInputType: TextInputType.text, hintText: "Enter Coupon Code"),
+                      child: CheckoutTextfield(
+                          controller: couponController,
+                          focusNode: couponFocusNode,
+                          readOnly: readOnly,
+                          textCapitalization: TextCapitalization.none,
+                          textInputType: TextInputType.text,
+                          hintText: "Enter Coupon Code"),
                     ),
                     8.widthBox,
-                    FilledButton(onPressed: () {}, child: Text("Apply"))
+                    readOnly ? Container(): FilledButton(
+                        onPressed: () {
+                          int tExpense = 0;
+                          for (CartModel cart in widget.carts) {
+
+                            ref.watch(getOffersProvider).when(
+                                data: (coupons) {
+                                  if (coupons != null) {
+                                    for (CouponModel coupon in coupons) {
+                                      // Verify Coupon code
+                                      if (coupon.couponCode ==
+                                          couponController.text) {
+                                        switch (coupon.couponType) {
+                                          case "moneyDiscount":
+                                            switch (coupon.applyTo) {
+                                              case "All Products":
+                                                //Do something
+                                                tExpense = tExpense +
+                                                    cart.totalExpense -
+                                                    (coupon.discountAmount! *
+                                                            cart.quantity)
+                                                        .toInt();
+                                                break;
+                                              case "Specific Product":
+                                                //Do Something
+                                                var p = products
+                                                    .where((element) =>
+                                                        element.productName ==
+                                                        coupon.productName)
+                                                    .first;
+                                                if (cart.productID ==
+                                                    p.productID) {
+                                                  tExpense = tExpense +
+                                                      cart.totalExpense -
+                                                      (coupon.discountAmount! *
+                                                          cart.quantity);
+                                                }
+                                                break;
+                                              case "Specific Category":
+                                                //DO Something
+
+                                                break;
+                                              case "Minimum Order Subtotal":
+                                                //Do Something
+                                                if (total >=
+                                                    coupon.minimumOrder!) {
+                                                  tExpense = tExpense +
+                                                      cart.totalExpense -
+                                                      (coupon.discountAmount! *
+                                                          cart.quantity);
+                                                }
+
+                                                break;
+                                            }
+                                            break;
+                                          case "percentDiscount":
+                                            switch (coupon.applyTo) {
+                                              case "All Products":
+                                                //Do Something
+                                                tExpense = tExpense +
+                                                    cart.totalExpense -
+                                                    (cart.totalExpense *
+                                                            (coupon.discountPercent! /
+                                                                100))
+                                                        .toInt();
+                                                break;
+                                              case "Specific Product":
+                                                //Do something
+                                                var p = products
+                                                    .where((element) =>
+                                                        element.productName ==
+                                                        coupon.productName)
+                                                    .first;
+                                                if (cart.productID ==
+                                                    p.productID) {
+                                                  tExpense = tExpense +
+                                                      cart.totalExpense -
+                                                      (cart.totalExpense *
+                                                              (coupon.discountPercent! /
+                                                                  100))
+                                                          .toInt();
+                                                }
+                                                break;
+                                              case "Specific Category":
+                                                //Do Something
+                                                break;
+                                              case "Minimum Order Subtotal":
+                                                //DO SOmething
+                                                if (total >=
+                                                    coupon.minimumOrder!) {
+                                                  tExpense = tExpense +
+                                                      cart.totalExpense -
+                                                      (cart.totalExpense *
+                                                              (coupon.discountPercent! /
+                                                                  100))
+                                                          .toInt();
+                                                }
+                                                break;
+                                            }
+                                            break;
+                                          case "freeShipping":
+                                            switch (coupon.applyTo) {
+                                              case "All Orders":
+                                                //DO something
+                                                deliveryCharge = 0;
+                                                break;
+                                              case "Minimum Order Subtotal":
+                                                //Do Something
+                                                if (total >=
+                                                    coupon.minimumOrder!) {
+                                                  deliveryCharge = 0;
+                                                }
+                                                break;
+                                            }
+                                            break;
+                                          case "salePrice":
+                                            switch (coupon.applyTo) {
+                                              case "All Products":
+                                                //Do Something
+                                                tExpense = tExpense +
+                                                    coupon.salePrice! *
+                                                        cart.quantity;
+                                                break;
+                                              case "Specific Product":
+                                                //Do Something
+                                                var p = products
+                                                    .where((element) =>
+                                                        element.productName ==
+                                                        coupon.productName)
+                                                    .first;
+                                                if (cart.productID ==
+                                                    p.productID) {
+                                                  tExpense = tExpense +
+                                                      (coupon.salePrice! *
+                                                          cart.quantity);
+                                                }
+                                                break;
+                                              case "Specific Category":
+                                                //Do Something
+                                                break;
+                                            }
+                                            break;
+                                          case "buyXGetYFree":
+                                            switch (coupon.applyTo) {
+                                              case "All Products":
+                                                //Do SOmething
+                                                if (cart.quantity >=
+                                                    coupon.buyQuantity!) {
+                                                  cart.quantity =
+                                                      cart.quantity +
+                                                          coupon.getQuantity!;
+                                                }
+                                                break;
+                                              case "Specific Product":
+                                                //Do SOmething
+                                                var p = products
+                                                    .where((element) =>
+                                                        element.productName ==
+                                                        coupon.productName)
+                                                    .first;
+                                                if (cart.productID ==
+                                                    p.productID) {
+                                                  if (cart.quantity >=
+                                                      coupon.buyQuantity!) {
+                                                    cart.quantity =
+                                                        cart.quantity +
+                                                            coupon.getQuantity!;
+                                                  }
+                                                }
+                                                break;
+                                              case "Specific Category":
+                                                //Do Something
+                                                break;
+                                            }
+                                            break;
+                                          default:
+                                        }
+                                      }
+                                    }
+                                  } else {
+                                    return 0;
+                                  }
+                                },
+                                error: (error, stackTrace) =>
+                                    ErrorText(error: error.toString()),
+                                loading: () => const Loader());
+                            discountedTotal = tExpense;
+                            setState(() {});
+                          }
+                        },
+                        child: const Text("Apply"))
                   ],
                 ),
                 16.heightBox,
 
                 //TODO: Calculator
-                Text("Total Payment"),
+                Text(
+                  "Total Payment",
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
                 Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16)),
@@ -458,35 +643,39 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Product Expense:"),
+                          const Text("Product Expense:"),
                           Text("৳ $total"),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Delivery Expense:"),
-                          Text("৳ $total"),
+                          const Text("Delivery Expense:"),
+                          Text("৳ $deliveryCharge"),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Discount:"),
-                          Text("- ৳ $total"),
+                          const Text("Discount:"),
+                          discountedTotal != 0
+                              ? Text("- ৳ ${total - discountedTotal}")
+                              : const Text("- ৳ 0"),
                         ],
                       ),
                     ],
-                  ).p(16),
+                  ),
                 )
               ],
-            ),
+            ).px(16),
           )),
           Container(
             height: 100,
             width: context.percentWidth * 100,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16)),
                 color: Theme.of(context).colorScheme.onBackground),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -510,17 +699,29 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                         .background,
                                   ),
                             ),
-                            TextSpan(
-                              text: total.toString(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .background),
-                            ),
+                            discountedTotal != 0
+                                ? TextSpan(
+                                    text: "${discountedTotal + deliveryCharge}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .background),
+                                  )
+                                : TextSpan(
+                                    text: "${total + deliveryCharge}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .background),
+                                  ),
                           ],
                         ),
                       ),
@@ -538,17 +739,29 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                         .background,
                                   ),
                             ),
-                            TextSpan(
-                              text: total.toString(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .background),
-                            ),
+                            discountedTotal != 0
+                                ? TextSpan(
+                                    text: "${discountedTotal + deliveryCharge}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .background),
+                                  )
+                                : TextSpan(
+                                    text: "${total + deliveryCharge}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .background),
+                                  ),
                           ],
                         ),
                       ),
@@ -567,7 +780,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                   ),
                             ),
                             TextSpan(
-                              text: total.toString(),
+                              text: "0",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
@@ -585,16 +798,15 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 ),
                 FilledButton(
                     onPressed: () {
-                      context.pushNamed(RouteConst.kPayment, pathParameters: {
-                        "orderID": dummyOrders.first.orderID
-                      });
+                      context.pushNamed(RouteConst.kPayment);
+                      readOnly = true;
                     },
-                    child: Text("Pay Now"))
+                    child: const Text("Pay Now"))
               ],
             ).px(16),
           ),
         ],
-      ).px(16),
+      ),
     );
   }
 }

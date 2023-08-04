@@ -1,16 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:tcean/features/order_tracking/widgets/order_item_card.dart';
-import 'package:tcean/models/order_model.dart';
-import 'package:tcean/models/product_model.dart';
+import 'package:tcean/features/order/widgets/order_item_card.dart';
+import 'package:tcean/models/cart_model.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class ItemCarousel extends StatefulWidget {
   const ItemCarousel({
     Key? key,
-    required this.order,
+    required this.carts,
   }) : super(key: key);
-  final Order order;
+  final List<CartModel> carts;
 
   @override
   _ItemCarouselState createState() => _ItemCarouselState();
@@ -34,10 +33,10 @@ class _ItemCarouselState extends State<ItemCarousel> {
                   _current = index;
                 });
               }),
-          itemCount: widget.order.carts.length,
+          itemCount: widget.carts.length,
           itemBuilder: (context, cartIndex, pageViewIndex) {
             return orderItemCard(
-                context: context, cart: widget.order.carts[cartIndex]);
+                context: context, cart: widget.carts[cartIndex]);
           },
         ),
         HeightBox(context.percentWidth * 2),
@@ -46,8 +45,8 @@ class _ItemCarouselState extends State<ItemCarousel> {
           width: double.infinity,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: widget.order.carts.map((e) {
-              int index = widget.order.carts.indexOf(e);
+            children: widget.carts.map((e) {
+              int index = widget.carts.indexOf(e);
               return AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
                 margin: EdgeInsets.only(right: context.percentWidth * 1),

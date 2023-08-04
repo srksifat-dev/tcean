@@ -15,27 +15,30 @@ class ProductsRepository {
   CollectionReference get _products =>
       _firestore.collection(FirebaseConstants.productsCollection);
 
-  // Stream<List<ProductModel>> getProductsData() {
-  //   return _products.snapshots().map((event) => event.docs
-  //       .map((e) => ProductModel.fromMap(e.data() as Map<String, dynamic>))
-  //       .toList());
-  // }
-
   Stream<List<ProductModel>> getProductsData() {
-    return _products.snapshots().map((event) {
-      List<ProductModel> products = [];
-      for (var doc in event.docs) {
-        products.add(ProductModel.fromMap(doc.data() as Map<String, dynamic>));
-      }
-      return products;
-    });
+    return _products.snapshots().map((event) => event.docs
+        .map((e) => ProductModel.fromMap(e.data() as Map<String, dynamic>))
+        .toList());
   }
 
-  Stream<ProductModel> getProduct(String productID) {
-    
+  Stream<ProductModel> getProductByID(String productID) {
+    return _products.doc(productID).snapshots().map(
+        (event) => ProductModel.fromMap(event.data() as Map<String, dynamic>));
+  }
+
+  Stream<ProductModel> getProductByName(String productName) {
     return _products
-        .doc(productID)
-        .snapshots().map((event) => ProductModel.fromMap(event.data() as Map<String,dynamic>));
-        
+        .where("productName", isEqualTo: productName)
+        .snapshots()
+        .map((event) => ProductModel.fromMap(event as Map<String, dynamic>));
+  }
+
+  Stream<List<ProductModel>> getProductsByCategoryName(String categoryName) {
+    return _products
+        .where("categories", arrayContains: categoryName)
+        .snapshots()
+        .map((event) => event.docs
+            .map((e) => ProductModel.fromMap(e.data() as Map<String, dynamic>))
+            .toList());
   }
 }

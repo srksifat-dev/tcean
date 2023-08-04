@@ -5,6 +5,7 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   dynamic_color
   firebase_core
+  isar_flutter_libs
   pasteboard
   smart_auth
   url_launcher_windows

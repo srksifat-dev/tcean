@@ -7,10 +7,17 @@ final getProductsProvider = StreamProvider<List<ProductModel>>((ref) {
   return productController.getProductsData();
 });
 
-// final getProductProvider = StreamProvider.family<ProductModel,String>((ref, productID) {
-//   final productController = ref.watch(productControllerProvider);
-//   return productController.getProduct(productID);
-// });
+final getProductProvider =
+    StreamProvider.family<ProductModel, String>((ref, productID) {
+  final productController = ref.watch(productControllerProvider);
+  return productController.getProductByID(productID);
+});
+
+final getProductByNameProvider =
+    StreamProvider.family<ProductModel, String>((ref, productName) {
+  final productController = ref.watch(productControllerProvider);
+  return productController.getProductByName(productName);
+});
 
 final productControllerProvider = Provider<ProductsController>((ref) {
   return ProductsController(
@@ -32,7 +39,15 @@ class ProductsController {
     return _productsRepository.getProductsData();
   }
 
-  Stream<ProductModel> getProduct(String productID) {
-    return _productsRepository.getProduct(productID);
+  Stream<ProductModel> getProductByID(String productID) {
+    return _productsRepository.getProductByID(productID);
+  }
+
+  Stream<ProductModel> getProductByName(String productName) {
+    return _productsRepository.getProductByName(productName);
+  }
+
+  Stream<List<ProductModel>> getProductsByCategoryName(String categoryName) {
+    return _productsRepository.getProductsByCategoryName(categoryName);
   }
 }
