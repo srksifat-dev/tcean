@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
+import 'package:go_router/go_router.dart' as go;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tcean/core/constants/route_const.dart';
 import 'package:tcean/features/cart/controller/cart_controller.dart';
 import 'package:tcean/models/cart_model.dart';
 import 'package:tcean/models/product_model.dart';
@@ -34,7 +36,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   int sizeIndex = 0;
   int quantity = 1;
 
-  quill.QuillController _controller = quill.QuillController.basic();
+  final quill.QuillController _controller = quill.QuillController.basic();
 
   @override
   void initState() {
@@ -336,14 +338,30 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                               ],
                             ).px(16),
                             SwipeButton(
-                                borderRadius: BorderRadius.circular(16),
-                                // activeThumbColor: AppColors.kTertiary,
-                                // inactiveThumbColor: AppColors.kSecondary,
-                                child: Text(
-                                  "Buy Now",
-                                  style: GoogleFonts.poppins()
-                                      .copyWith(fontWeight: FontWeight.bold),
-                                ))
+                              onSwipeEnd: () {
+                                List<CartModel> carts = [];
+                                CartModel cart = CartModel()
+                                  ..productID = widget.productID
+                                  ..quantity = quantity
+                                  ..totalExpense =
+                                      widget.product.price * quantity
+                                  ..color = kColors[colorIndex].colorName
+                                  ..size = kSizes[sizeIndex].size;
+                                carts.add(cart);
+                                go.GoRouter.of(context).push(
+                                  "/${RouteConst.kCart}/${RouteConst.kCheckout}",
+                                  extra: carts,
+                                );
+                              },
+                              borderRadius: BorderRadius.circular(16),
+                              // activeThumbColor: AppColors.kTertiary,
+                              // inactiveThumbColor: AppColors.kSecondary,
+                              child: Text(
+                                "Checkout",
+                                style: GoogleFonts.poppins()
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                            ),
                           ],
                         ),
                       ),

@@ -19,7 +19,6 @@ import 'package:tcean/features/explore/widgets/offer_slider.dart';
 import 'package:tcean/features/explore/widgets/trending.dart';
 import 'package:tcean/features/products/controller/products_controller.dart';
 import 'package:tcean/models/product_model.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/common/product_card.dart';
@@ -67,13 +66,13 @@ class ExploreScreen extends ConsumerWidget {
         appBar: mainAppBar(context: context),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
-            // context.goNamed(RouteConst.kCustomize);
-            if (!await launchUrl(
-              Uri.parse("https://wa.me/8801930132595"),
-              mode: LaunchMode.externalApplication,
-            )) {
-              throw Exception("can't launch for now");
-            }
+            context.goNamed(RouteConst.kCustomize);
+            // if (!await launchUrl(
+            //   Uri.parse("https://wa.me/8801930132595"),
+            //   mode: LaunchMode.externalApplication,
+            // )) {
+            //   throw Exception("can't launch for now");
+            // }
           },
           label: const Text("Custom Your 👕"),
         ),
@@ -86,7 +85,7 @@ class ExploreScreen extends ConsumerWidget {
                     height: context.percentHeight * 5,
                     child: DefaultTextStyle(
                       style: GoogleFonts.poppins().copyWith(
-                          fontSize: 30,
+                          fontSize: context.percentHeight * 3,
                           color:
                               Theme.of(context).colorScheme.onSurfaceVariant),
                       child: AnimatedTextKit(
@@ -116,7 +115,7 @@ class ExploreScreen extends ConsumerWidget {
               ),
               10.widthBox,
               SizedBox(
-                height: context.percentHeight * 7,
+                height: context.percentHeight * 8,
                 width: context.percentWidth * 100,
                 child: DefaultTextStyle(
                   style: Theme.of(context).textTheme.bodySmall!,
