@@ -17,7 +17,6 @@ import 'package:tcean/core/constants/route_const.dart';
 import 'package:tcean/models/product_model.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-
 class CartScreen extends ConsumerStatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
 
