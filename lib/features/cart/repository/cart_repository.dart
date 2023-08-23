@@ -1,25 +1,29 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:isar/isar.dart';
-import 'package:tcean/core/providers/isar_provider.dart';
+import 'package:tcean/core/failure.dart';
+import 'package:tcean/core/type_defs.dart';
 import 'package:tcean/models/cart_model.dart';
 
-// final cartRepositoryProvider = FutureProvider<CartRepository>((ref) {
-//   return CartRepository(db: ref.read(isarProvider.future));
-// });
+import '../../../core/providers/isar_provider.dart';
 
 final cartRepositoryProvider = Provider<CartRepository>((ref) {
-  return CartRepository(db: ref.watch(isarProvider.future));
+  return CartRepository(db: ref.read(isarProvider.future));
 });
+
+// final cartRepositoryProvider = Provider<CartRepository>((ref) {
+//   return CartRepository(db: ref.read(car));
+// });
 
 class CartRepository {
   final Future<Isar> _db;
   CartRepository({required Future<Isar> db}) : _db = db;
-
 // Create Cart
   Future<void> addCart({required CartModel cartModel}) async {
-    final isar = await _db;
-
-    return isar.writeTxnSync(() => isar.cartModels.putSync(cartModel));
+    var isar = await _db;
+      return isar.writeTxnSync(() => isar.cartModels.putSync(cartModel));
+    
   }
 
   // Read Cart

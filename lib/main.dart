@@ -4,13 +4,18 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:isar/isar.dart';
 import 'package:tcean/core/common/error_text.dart';
 import 'package:tcean/core/common/loader.dart';
 import 'package:tcean/features/auth/controller/auth_controller.dart';
+import 'package:tcean/models/cart_model.dart';
 import 'package:tcean/models/user_model.dart';
 import 'package:tcean/core/constants/route_const.dart';
 import 'package:tcean/router/router.dart';
@@ -22,6 +27,16 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // if (kIsWeb) {
+  //   await Firebase.initializeApp(
+  //     options: FirebaseOptions(
+  //       apiKey: "AIzaSyB1Ezhvfjrq4zx5kaWC8xa-y3nCcImLPVo",
+  //       appId: "1:978596249741:web:7e85738bcff926843aa2c4",
+  //       messagingSenderId: "978596249741",
+  //       projectId: "tcean-878ef",
+  //     ),
+  //   );
+  // }
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final observer = AppLifecycleObserver();
   WidgetsBinding.instance.addObserver(observer);
@@ -29,11 +44,16 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  await Hive.initFlutter();
+  await Hive.openBox("carts");
+  // Hive.registerAdapter(CartModelAdapter());
+  await Isar.initializeIsarCore();
   await Firebase.initializeApp();
   runApp(const ProviderScope(child: MyApp()));
 }
 
 UserModel? userModel;
+
 class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
@@ -42,8 +62,6 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
-  
-
   void getData(WidgetRef ref, User user) async {
     userModel = await ref
         .watch(authControllerProvider.notifier)
@@ -52,7 +70,6 @@ class _MyAppState extends ConsumerState<MyApp> {
 
     ref.read(userProvider.notifier).update((state) => userModel);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -95,9 +112,7 @@ class _MyAppState extends ConsumerState<MyApp> {
 
                         return null;
                       },
-                      routes: routes
-                    
-                      ),
+                      routes: routes),
                 );
               },
             );
