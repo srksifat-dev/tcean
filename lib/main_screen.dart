@@ -24,11 +24,20 @@ class MainScreen extends ConsumerWidget {
           //TODO: Implement Favorite Screen
           // NavigationDestination(icon: Icon(Icons.favorite), label: "Favorites"),
           ref.watch(getCartsProvider).when(
-                data: (data) => NavigationDestination(
+                data: (data) {
+                  if(data != null){
+                    return NavigationDestination(
                     icon: Badge(
                         label: AnimatedFlipCounter(value: data.length),
                         child: const Icon(Icons.shopping_bag)),
-                    label: "Cart"),
+                    label: "Cart");
+                  }
+                  return NavigationDestination(
+                    icon: Badge(
+                        label: AnimatedFlipCounter(value: 0),
+                        child: const Icon(Icons.shopping_bag)),
+                    label: "Cart");
+                },
                 error: (error, stackTrace) => NavigationDestination(
                     icon:
                         Badge.count(count: 0, child: const Icon(Icons.shopping_bag)),

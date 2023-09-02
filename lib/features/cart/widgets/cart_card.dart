@@ -63,6 +63,7 @@ Widget cartCard(
                 onPressed: () {
                   ref.watch(cartControllerProvider).removeQuantity(
                         cartID: cart.cartID,
+                        quantity: cart.quantity,
                         productPrice: productPrice,
                       );
                 },
@@ -75,6 +76,7 @@ Widget cartCard(
                 onPressed: () {
                   ref.watch(cartControllerProvider).addQuantity(
                         cartID: cart.cartID,
+                        quantity: cart.quantity,
                         productPrice: productPrice,
                       );
                 },

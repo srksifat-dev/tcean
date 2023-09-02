@@ -44,8 +44,6 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  await Hive.initFlutter();
-  await Hive.openBox("carts");
   // Hive.registerAdapter(CartModelAdapter());
   await Isar.initializeIsarCore();
   await Firebase.initializeApp();

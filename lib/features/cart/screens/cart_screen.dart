@@ -63,58 +63,57 @@ class _CartScreenState extends ConsumerState<CartScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: mainAppBar(context: context),
+        appBar: mainAppBar(context: context, ref: ref),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               child: ref.watch(getCartsProvider).when(
                     data: (data) {
-                      return data.isEmpty
-                          ? Lottie.asset("assets/lotties/empty_cart.json")
-                          : ListView.separated(
-                              itemBuilder: (context, index) {
-                                carts = data;
-                                var cart = data[index];
-                                var product = products
-                                    .where((element) =>
-                                        element.productID == cart.productID)
-                                    .first;
-
-                                return Slidable(
-                                    key: ValueKey(cart.cartID),
-                                    direction: Axis.horizontal,
-                                    closeOnScroll: true,
-                                    endActionPane: ActionPane(
-                                        motion: const ScrollMotion(),
-                                        extentRatio: 0.2,
-                                        children: [
-                                          SlidableAction(
-                                            onPressed: (context) {
-                                              ref.watch(
-                                                deleteCartProvider(cart.cartID),
-                                              );
-                                            },
-                                            backgroundColor: Theme.of(context)
-                                                .colorScheme
-                                                .error,
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                            foregroundColor: Theme.of(context)
-                                                .colorScheme
-                                                .onError,
-                                            icon: Icons.delete,
-                                          )
-                                        ]),
-                                    child: cartCard(
-                                        context: context,
-                                        cart: cart,
-                                        ref: ref,
-                                        productPrice: product.price));
-                              },
-                              separatorBuilder: (_, __) => 16.heightBox,
-                              itemCount: data.length,
-                            ).px(16);
+                      if (data != null) {
+                        return ListView.separated(
+                          itemBuilder: (context, index) {
+                            carts = data;
+                            var cart = data[index];
+                            var product = products
+                                .where((element) =>
+                                    element.productID == cart.productID)
+                                .first;
+                            return Slidable(
+                                key: ValueKey(cart.cartID),
+                                direction: Axis.horizontal,
+                                closeOnScroll: true,
+                                endActionPane: ActionPane(
+                                    motion: const ScrollMotion(),
+                                    extentRatio: 0.2,
+                                    children: [
+                                      SlidableAction(
+                                        onPressed: (context) {
+                                          ref.watch(
+                                            deleteCartProvider(cart.cartID),
+                                          );
+                                        },
+                                        backgroundColor:
+                                            Theme.of(context).colorScheme.error,
+                                        borderRadius: BorderRadius.circular(16),
+                                        foregroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .onError,
+                                        icon: Icons.delete,
+                                      )
+                                    ]),
+                                child: cartCard(
+                                    context: context,
+                                    cart: cart,
+                                    ref: ref,
+                                    productPrice: product.price));
+                          },
+                          separatorBuilder: (_, __) => 16.heightBox,
+                          itemCount: data.length,
+                        ).px(16);
+                      } else {
+                        return Lottie.asset("assets/lotties/empty_cart.json");
+                      }
                     },
                     error: (error, stackTrace) =>
                         ErrorText(error: error.toString()),
@@ -123,70 +122,74 @@ class _CartScreenState extends ConsumerState<CartScreen> {
             ),
             ref.watch(getCartsProvider).when(
                   data: (data) {
-                    var t = 0;
-                    for (CartModel cart in data) {
-                      t = t + cart.totalExpense;
-                    }
-                    total = t;
-                    return AnimatedContainer(
-                      height: data.isEmpty ? 0 : 80,
-                      width: context.percentWidth * 100,
-                      duration: const Duration(milliseconds: 300),
-                      decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(16),
-                              topRight: Radius.circular(16)),
-                          color: Theme.of(context).colorScheme.onBackground),
-                      child: Visibility(
-                        maintainState: true,
-                        maintainAnimation: true,
-                        visible: data.isEmpty ? false : true,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Total Product Expense: ",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .background,
-                                        ),
-                                  ),
-                                  AnimatedFlipCounter(
-                                      value: total,
-                                      textStyle: Theme.of(context)
+                    if (data != null) {
+                      var t = 0;
+                      for (CartModel cart in data) {
+                        t = t + cart.totalExpense;
+                      }
+                      total = t;
+                      return AnimatedContainer(
+                        height: data.isEmpty ? 0 : 80,
+                        width: context.percentWidth * 100,
+                        duration: const Duration(milliseconds: 300),
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(16),
+                                topRight: Radius.circular(16)),
+                            color: Theme.of(context).colorScheme.onBackground),
+                        child: Visibility(
+                          maintainState: true,
+                          maintainAnimation: true,
+                          visible: data.isEmpty ? false : true,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Total Product Expense: ",
+                                      style: Theme.of(context)
                                           .textTheme
-                                          .titleSmall!
+                                          .bodyMedium!
                                           .copyWith(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .background),
-                                      padding: const EdgeInsets.only(right: 1)),
-                                ],
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .background,
+                                          ),
+                                    ),
+                                    AnimatedFlipCounter(
+                                        value: total,
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall!
+                                            .copyWith(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .background),
+                                        padding:
+                                            const EdgeInsets.only(right: 1)),
+                                  ],
+                                ),
                               ),
-                            ),
-                            FilledButton(
-                                onPressed: () {
-                                  context.pushNamed(
-                                    RouteConst.kCheckout,
-                                    extra: carts,
-                                  );
-                                  ref
-                                      .read(cartControllerProvider)
-                                      .deleteAllCart();
-                                },
-                                child: const Text("Check Out"))
-                          ],
-                        ).px(16),
-                      ),
-                    );
+                              FilledButton(
+                                  onPressed: () {
+                                    context.pushNamed(
+                                      RouteConst.kCheckout,
+                                      extra: carts,
+                                    );
+                                    ref
+                                        .read(cartControllerProvider)
+                                        .deleteAllCart();
+                                  },
+                                  child: const Text("Check Out"))
+                            ],
+                          ).px(16),
+                        ),
+                      );
+                    }
+                    return Container();
                   },
                   error: (error, stackTrace) => Container(),
                   loading: () => Container(),

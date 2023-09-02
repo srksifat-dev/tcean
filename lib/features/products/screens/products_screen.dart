@@ -59,7 +59,7 @@ class _StoreScreenState extends ConsumerState<ProductsScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: mainAppBar(context: context),
+        appBar: mainAppBar(context: context,ref: ref),
         body: Column(
           children: [
             // //TODO: Category Section

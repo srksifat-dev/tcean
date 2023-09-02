@@ -75,13 +75,8 @@ class OrderRepository {
         .collection(FirebaseConstants.cartsCollection)
         .snapshots()
         .map((event) => event.docs
-            .map((e) => CartModel()
-              ..cartID = e["cartID"] as int
-              ..color = e["color"] as String
-              ..productID = e["productID"] as String
-              ..quantity = e["quantity"] as int
-              ..size = e["size"] as String
-              ..totalExpense = e["totalExpense"] as int)
+            .map((e) => CartModel(cartID: e["id"],color: e["cartID"],productID: e["productID"],quantity: e["quantity"],size: e["size"],totalExpense: e["totalExpense"],),
+              )
             .toList());
   }
 
@@ -90,6 +85,6 @@ class OrderRepository {
         .doc(orderID)
         .collection(FirebaseConstants.addressCollection)
         .snapshots()
-        .map((event) =>  AddressModel.fromMap(event as Map<String, dynamic>));
+        .map((event) => AddressModel.fromMap(event as Map<String, dynamic>));
   }
 }

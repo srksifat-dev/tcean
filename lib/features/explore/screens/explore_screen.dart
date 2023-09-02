@@ -63,7 +63,7 @@ class ExploreScreen extends ConsumerWidget {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: mainAppBar(context: context),
+        appBar: mainAppBar(context: context,ref: ref),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
             context.goNamed(RouteConst.kCustomize);

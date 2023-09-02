@@ -52,12 +52,13 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            ref.watch(addCartProvider(CartModel()
-              ..color = kColors[colorIndex].colorName
-              ..productID = widget.productID
-              ..quantity = quantity
-              ..size = kSizes[sizeIndex].size
-              ..totalExpense = widget.product.price * quantity));
+            ref.watch(addCartProvider(CartModel(
+                cartID: DateTime.now().toString().trim(),
+                color: kColors[colorIndex].colorName,
+                productID: widget.productID,
+                quantity: quantity,
+                size: kSizes[sizeIndex].size,
+                totalExpense: widget.product.price * quantity)));
           },
           child: const Icon(Icons.add_shopping_cart),
         ),
@@ -340,13 +341,14 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                             SwipeButton(
                               onSwipeEnd: () {
                                 List<CartModel> carts = [];
-                                CartModel cart = CartModel()
-                                  ..productID = widget.productID
-                                  ..quantity = quantity
-                                  ..totalExpense =
-                                      widget.product.price * quantity
-                                  ..color = kColors[colorIndex].colorName
-                                  ..size = kSizes[sizeIndex].size;
+                                CartModel cart = CartModel(
+                                    cartID: DateTime.now().toString().trim(),
+                                    color: kColors[colorIndex].colorName,
+                                    productID: widget.productID,
+                                    quantity: quantity,
+                                    size: kSizes[sizeIndex].size,
+                                    totalExpense:
+                                        widget.product.price * quantity);
                                 carts.add(cart);
                                 go.GoRouter.of(context).push(
                                   "/${RouteConst.kCart}/${RouteConst.kCheckout}",

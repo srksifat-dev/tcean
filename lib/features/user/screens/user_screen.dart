@@ -88,7 +88,7 @@ class _UserScreenState extends ConsumerState<UserScreen> {
               onWillPop: _onWillPop,
               child: Scaffold(
                 resizeToAvoidBottomInset: false,
-                appBar: mainAppBar(context: context),
+                appBar: mainAppBar(context: context,ref: ref),
                 body: data != null
                     ? SingleChildScrollView(
                         child: ref.watch(getUserDataProvider(data.uid)).when(
