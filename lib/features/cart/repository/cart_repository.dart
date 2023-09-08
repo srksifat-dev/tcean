@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:hive_flutter/adapters.dart';
-import 'package:isar/isar.dart';
 import 'package:tcean/core/constants/firebase_constants.dart';
 import 'package:tcean/core/failure.dart';
 import 'package:tcean/core/providers/firebase_providers.dart';

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -40,12 +41,21 @@ class AuthRepository {
 
   FutureEither<UserModel> signInWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      UserCredential userCredential;
+      if (kIsWeb) {
+        GoogleAuthProvider googleAuthProvider = GoogleAuthProvider();
+        googleAuthProvider
+            .addScope("https://www.googleapis.com/auth/contacts.readonly");
+        userCredential = await _auth.signInWithPopup(googleAuthProvider);
+      }else{
+        final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       final credential = GoogleAuthProvider.credential(
           accessToken: (await googleUser?.authentication)?.accessToken,
           idToken: (await googleUser?.authentication)?.idToken);
-      UserCredential userCredential =
-          await _auth.signInWithCredential(credential);
+          userCredential = await _auth.signInWithCredential(credential);
+          }
+      
+      
       // UserModel userModel;
       if (userCredential.additionalUserInfo!.isNewUser) {
         userModel = UserModel(

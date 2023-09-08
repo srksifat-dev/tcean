@@ -9,9 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/adapters.dart';
-import 'package:isar/isar.dart';
 import 'package:tcean/core/common/error_text.dart';
 import 'package:tcean/core/common/loader.dart';
 import 'package:tcean/features/auth/controller/auth_controller.dart';
@@ -27,25 +24,25 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // if (kIsWeb) {
-  //   await Firebase.initializeApp(
-  //     options: FirebaseOptions(
-  //       apiKey: "AIzaSyB1Ezhvfjrq4zx5kaWC8xa-y3nCcImLPVo",
-  //       appId: "1:978596249741:web:7e85738bcff926843aa2c4",
-  //       messagingSenderId: "978596249741",
-  //       projectId: "tcean-878ef",
-  //     ),
-  //   );
-  // }
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: "AIzaSyB1Ezhvfjrq4zx5kaWC8xa-y3nCcImLPVo",
+        appId: "1:978596249741:web:7e85738bcff926843aa2c4",
+        messagingSenderId: "978596249741",
+        projectId: "tcean-878ef",
+      ),
+    );
+  }else{
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  }
+  
   final observer = AppLifecycleObserver();
   WidgetsBinding.instance.addObserver(observer);
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  // Hive.registerAdapter(CartModelAdapter());
-  await Isar.initializeIsarCore();
   await Firebase.initializeApp();
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -90,7 +87,7 @@ class _MyAppState extends ConsumerState<MyApp> {
                   ),
                   themeMode: ThemeMode.system,
                   routerConfig: GoRouter(
-                      initialLocation: "/${RouteConst.kExplore}",
+                      initialLocation: "/",
                       redirect: (context, state) {
                         bool loggedIn = false;
                         if (data != null) {

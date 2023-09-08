@@ -28,7 +28,7 @@ List<RouteBase> routes = [
     branches: [
       StatefulShellBranch(routes: [
         GoRoute(
-          path: "/${RouteConst.kExplore}",
+          path: "/",
           name: RouteConst.kExplore,
           pageBuilder: (context, state) => CupertinoPage(
             child: ExploreScreen(),

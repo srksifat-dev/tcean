@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:isar/isar.dart';
 import 'package:tcean/features/cart/repository/cart_repository.dart';
 import 'package:tcean/models/cart_model.dart';
 
